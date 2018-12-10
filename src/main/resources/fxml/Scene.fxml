@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane id="BorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="585" minWidth="480" xmlns:fx="http://javafx.com/fxml" fx:controller="cc.paas.userinterface.FXMLController">   
+    <top>
+        <Label alignment="TOP_CENTER" id="Headline" maxWidth="Infinity" text="CC PAAS client application"></Label>
+    </top>
+    <center>
+        <VBox alignment="CENTER" maxWidth="Infinity" spacing="25">
+            <children>
+                <HBox alignment="BOTTOM_CENTER">
+                <VBox fx:id="dragTarget" minWidth="300"
+                      onDragOver="#handleDragOver" onDragDropped="#handleDragDropped">
+                    <children>
+                        <Label minHeight="16" minWidth="69" fx:id="label" text="Drop dictionary" />                
+                        <Label fx:id="successLabel" minHeight="16" minWidth="69" text="" />
+                    </children>
+                </VBox>
+                <Button alignment="BOTTOM_LEFT"
+                        text="Choose file" onAction="#handleButtonAction" fx:id="button" />
+                </HBox>
+                <HBox alignment="BOTTOM_CENTER" maxWidth="Infinity" spacing="5">
+                    <Button fx:id="UploadButton" text="Upload" onAction="#Upload" minHeight="50" minWidth="60"/>
+                    <ProgressBar fx:id="progressBar" minWidth="300" minHeight="50"/>
+                </HBox>
+                <Label fx:id="passwordLabel" minHeight="16" minWidth="69" text="" />
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <BorderPane id="upload">
+            <right>        
+                <HBox>
+                    <Button text="Help" minHeight="50" minWidth="60" onAction="#Help"/> 
+                    <Button text="Exit" minHeight="50" minWidth="60" onAction="#Exit"/> 
+                </HBox>
+            </right>
+        </BorderPane> 
+    </bottom>
+</BorderPane>
