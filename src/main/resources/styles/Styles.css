@@ -1,7 +1,13 @@
 .button {
     -fx-font-weight: bold;
 }
-#dragTarget {
+#dragTargetProbe {
+    -fx-border-color: black;
+    -fx-border-insets: 5;
+    -fx-border-width: 3;
+    -fx-border-style: dashed;
+}
+#dragTargetTrial {
     -fx-border-color: black;
     -fx-border-insets: 5;
     -fx-border-width: 3;

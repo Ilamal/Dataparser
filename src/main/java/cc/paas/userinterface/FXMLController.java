@@ -25,13 +25,17 @@ import javafx.stage.Stage;
 public class FXMLController implements Initializable {
 
     @FXML
-    private VBox dragTarget;
+    private VBox dragTargetProbe;
+    @FXML
+    private VBox dragTargetTrial;
     @FXML
     private Label successLabel;
     @FXML
-    private ProgressBar progressBar;
+    private Label successLabelTrial;
     @FXML
+    private ProgressBar progressBar;
     private File probeFile;
+    private File trialFile;
     private Stage primarystage;
 
     @FXML
@@ -42,18 +46,17 @@ public class FXMLController implements Initializable {
         File file = fileChooser.showOpenDialog(primarystage);
         successLabel.setText(file.toString() + "\nready to upload");
     }
-    
-    
 
     @FXML
     private void handleDragOver(DragEvent event) {
-        if (event.getGestureSource() != dragTarget
+        if (event.getGestureSource() != dragTargetProbe
                 && event.getDragboard().hasFiles()) {
             /* allow for both copying and moving, whatever user chooses */
             event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
         }
         event.consume();
     }
+
     // Need 2 for probe file and triallist file!!
     @FXML
     public void handleDragDroppedProbe(DragEvent event) {
@@ -71,50 +74,65 @@ public class FXMLController implements Initializable {
         event.consume();
     }
     
-    @FXML
-    public void onButtonClick(ActionEvent event){
-        try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("Listat.fxml"));
-            
-    } catch(Exception e) {
-       e.printStackTrace();
-       System.out.println("Ei toimi");
-      }
-        
+        @FXML
+    public void handleDragDroppedTrial(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        boolean success = false;
+        if (db.hasFiles()) {
+            successLabelTrial.setText(db.getFiles().toString() + "\nready to upload");
+            trialFile = db.getFiles().get(0);
+            success = true;
+        }
+        /* let the source know whether the string was successfully 
+                 * transferred and used */
+        event.setDropCompleted(success);
+        System.out.println("drop : " + success);
+        event.consume();
     }
     
-    
-    
+    @FXML
+    public void onButtonClick(ActionEvent event) {
+        try {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("Listat.fxml"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Ei toimi");
+        }
+    }
+
     @FXML
     public void Upload() {
         // UPLOAD CODE TODO
         // uploadedFile -> Send to server
-       //LoadAndParse LD = new LoadAndParse(loadedFile);
-       // ArrayList headers = LD.getAllHeaders();
-       // headers = showHeadersInScene(headers);
-       // LD.readData();
-       // LD.writeData();
-       
-       // Get progress somehow from LoadAndParse ??     
-       // progressBar.setProgress(progressBar.getProgress()+0.1);
+        //LoadAndParse LD = new LoadAndParse(loadedFile);
+        // ArrayList headers = LD.getAllHeaders();
+        // headers = showHeadersInScene(headers);
+        // LD.readData();
+        // LD.writeData();
+
+        // Get progress somehow from LoadAndParse ??     
+        // progressBar.setProgress(progressBar.getProgress()+0.1);
         probeFile = null;
         // trialFile = null;
     }
-    
+
     public void ProgressCounter() {
         // TODO
         // progressBar.setProgress(ProgressDataFromServer);
         // passwordLabel.setText("Password found : " + password);
     }
+
     @FXML
     public void Exit() {
         System.exit(0);
     }
+
     @FXML
     public void Help() {
         Alert alert = new Alert(AlertType.INFORMATION, "Upload a PCAP type dictionary file to crack password");
         alert.show();
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -123,7 +141,9 @@ public class FXMLController implements Initializable {
     void setStageAndSetupListeners(Stage stage) {
         this.primarystage = stage;
         // Set the percentage size of the drag zone
-        dragTarget.prefWidthProperty().bind(primarystage.widthProperty().multiply(0.3));
-        dragTarget.prefHeightProperty().bind(primarystage.heightProperty().multiply(0.3));
+        dragTargetProbe.prefWidthProperty().bind(primarystage.widthProperty().multiply(0.3));
+        dragTargetProbe.prefHeightProperty().bind(primarystage.heightProperty().multiply(0.3));
+        dragTargetTrial.prefWidthProperty().bind(primarystage.widthProperty().multiply(0.3));
+        dragTargetTrial.prefHeightProperty().bind(primarystage.heightProperty().multiply(0.3));
     }
 }

@@ -14,15 +14,24 @@
         <VBox alignment="CENTER" maxWidth="Infinity" spacing="25">
             <children>
                 <HBox alignment="BOTTOM_CENTER">
-                <VBox fx:id="dragTarget" minWidth="300"
-                      onDragOver="#handleDragOver" onDragDropped="#handleDragDropped">
+                <VBox fx:id="dragTargetProbe" minWidth="300"
+                      onDragOver="#handleDragOver" onDragDropped="#handleDragDroppedProbe">
                     <children>
-                        <Label minHeight="16" minWidth="69" fx:id="label" text="Drop dictionary" />                
+                        <Label minHeight="16" minWidth="69" fx:id="probeLabel" text="Drop probe file" />                
                         <Label fx:id="successLabel" minHeight="16" minWidth="69" text="" />
                     </children>
                 </VBox>
                 <Button alignment="BOTTOM_LEFT"
                         text="Choose file" onAction="#handleButtonAction" fx:id="button" />
+                <VBox fx:id="dragTargetTrial" minWidth="300"
+                      onDragOver="#handleDragOver" onDragDropped="#handleDragDroppedTrial">
+                    <children>
+                        <Label minHeight="16" minWidth="69" fx:id="trialLabel" text="Drop trial lists" />                
+                        <Label fx:id="successLabelTrial" minHeight="16" minWidth="69" text="" />
+                    </children>
+                </VBox>
+                <Button alignment="BOTTOM_LEFT"
+                        text="Choose file" onAction="#handleButtonAction" fx:id="trialButton" />
                 </HBox>
                 <HBox alignment="BOTTOM_CENTER" maxWidth="Infinity" spacing="5">
                     <!-- #onAction muutettu #onButtonClick testaamiseen -->

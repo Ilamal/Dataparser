@@ -21,7 +21,7 @@ public class MainApp extends Application {
         FXMLController controller = (FXMLController)loader.getController();
         controller.setStageAndSetupListeners(stage);
         
-        stage.setTitle("cc-paas");
+        stage.setTitle("DataParser");
         stage.setScene(scene);
         stage.show();
     }
