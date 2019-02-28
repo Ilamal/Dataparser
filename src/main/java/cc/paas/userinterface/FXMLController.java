@@ -1,6 +1,5 @@
 package cc.paas.userinterface;
 
-import com.sun.glass.ui.Window;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,14 +31,13 @@ public class FXMLController implements Initializable {
     @FXML
     private ProgressBar progressBar;
     @FXML
-    private Label passwordLabel;
-    private File loadedFile;
+    private File probeFile;
     private Stage primarystage;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PCAP files (*.pcap)", "*.pcap");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLSX files (*.xlsx)", "*.xlsx");
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showOpenDialog(primarystage);
         successLabel.setText(file.toString() + "\nready to upload");
@@ -56,14 +54,14 @@ public class FXMLController implements Initializable {
         }
         event.consume();
     }
-
+    // Need 2 for probe file and triallist file!!
     @FXML
-    public void handleDragDropped(DragEvent event) {
+    public void handleDragDroppedProbe(DragEvent event) {
         Dragboard db = event.getDragboard();
         boolean success = false;
         if (db.hasFiles()) {
             successLabel.setText(db.getFiles().toString() + "\nready to upload");
-            loadedFile = db.getFiles().get(0);
+            probeFile = db.getFiles().get(0);
             success = true;
         }
         /* let the source know whether the string was successfully 
@@ -92,11 +90,15 @@ public class FXMLController implements Initializable {
         // UPLOAD CODE TODO
         // uploadedFile -> Send to server
        //LoadAndParse LD = new LoadAndParse(loadedFile);
-       // LD.getAllHeaders();
-        
-             
-        progressBar.setProgress(progressBar.getProgress()+0.1);
-        loadedFile = null;
+       // ArrayList headers = LD.getAllHeaders();
+       // headers = showHeadersInScene(headers);
+       // LD.readData();
+       // LD.writeData();
+       
+       // Get progress somehow from LoadAndParse ??     
+       // progressBar.setProgress(progressBar.getProgress()+0.1);
+        probeFile = null;
+        // trialFile = null;
     }
     
     public void ProgressCounter() {
