@@ -1,0 +1,19 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane id="BorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="585" minWidth="480" xmlns:fx="http://javafx.com/fxml" fx:controller="cc.paas.userinterface.FXMLController">   
+   <center>
+        <HBox alignment="BOTTOM_CENTER">              
+                <Button alignment="BOTTOM_LEFT"
+                        text="MORO!" onAction="#handleButtonAction" fx:id="button" />
+                </HBox>
+    </center>
+</BorderPane>
+

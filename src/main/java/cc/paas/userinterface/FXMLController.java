@@ -6,7 +6,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -15,6 +18,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -40,6 +44,8 @@ public class FXMLController implements Initializable {
         File file = fileChooser.showOpenDialog(primarystage);
         successLabel.setText(file.toString() + "\nready to upload");
     }
+    
+    
 
     @FXML
     private void handleDragOver(DragEvent event) {
@@ -66,11 +72,29 @@ public class FXMLController implements Initializable {
         System.out.println("drop : " + success);
         event.consume();
     }
-
+    
+    @FXML
+    public void onButtonClick(ActionEvent event){
+        try {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("Listat.fxml"));
+            
+    } catch(Exception e) {
+       e.printStackTrace();
+       System.out.println("Ei toimi");
+      }
+        
+    }
+    
+    
+    
     @FXML
     public void Upload() {
         // UPLOAD CODE TODO
         // uploadedFile -> Send to server
+       //LoadAndParse LD = new LoadAndParse(loadedFile);
+       // LD.getAllHeaders();
+        
+             
         progressBar.setProgress(progressBar.getProgress()+0.1);
         loadedFile = null;
     }

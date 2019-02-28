@@ -1,0 +1,9 @@
+23.2.2019 Ilari & Mikko koodaus 16--> 18
+
+
+1. Uusi skene upload nappiin (Mikko)
+2. Listaus (hyödynnetään samaa mikä pääohjelmassa)
+
+parametrit mitä tiedostoja käsittelee.
+
+Class-muotoon muuttaminen
