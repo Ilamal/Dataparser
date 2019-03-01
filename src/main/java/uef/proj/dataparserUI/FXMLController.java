@@ -1,4 +1,4 @@
-package cc.paas.userinterface;
+package uef.proj.dataparserUI;
 
 import java.io.File;
 import java.net.URL;
@@ -49,7 +49,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleDragOver(DragEvent event) {
-        if (event.getGestureSource() != dragTargetProbe
+        if (event.getGestureSource() != dragTargetProbe || event.getGestureSource() != dragTargetTrial
                 && event.getDragboard().hasFiles()) {
             /* allow for both copying and moving, whatever user chooses */
             event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
@@ -74,7 +74,7 @@ public class FXMLController implements Initializable {
         event.consume();
     }
     
-        @FXML
+    @FXML
     public void handleDragDroppedTrial(DragEvent event) {
         Dragboard db = event.getDragboard();
         boolean success = false;
@@ -103,13 +103,14 @@ public class FXMLController implements Initializable {
     @FXML
     public void Upload() {
         // UPLOAD CODE TODO
-        // uploadedFile -> Send to server
-        //LoadAndParse LD = new LoadAndParse(loadedFile);
+        // LoadAndParse LD = new LoadAndParse(loadedFile);
         // ArrayList headers = LD.getAllHeaders();
         // headers = showHeadersInScene(headers);
         // LD.readData();
         // LD.writeData();
-
+        System.out.println(probeFile.exists());
+        
+        System.out.println(trialFile.exists());
         // Get progress somehow from LoadAndParse ??     
         // progressBar.setProgress(progressBar.getProgress()+0.1);
         probeFile = null;
@@ -129,7 +130,9 @@ public class FXMLController implements Initializable {
 
     @FXML
     public void Help() {
-        Alert alert = new Alert(AlertType.INFORMATION, "Upload a PCAP type dictionary file to crack password");
+        Alert alert = new Alert(AlertType.INFORMATION, "Drag and drop your statistics.xlsx file to the left and trials.xlsx to the right," +
+                "then press upload to start parsing the files. Choose the data you want and give those namings of your liking." +
+                "The application will give you a brand new xlsx file.");
         alert.show();
     }
 

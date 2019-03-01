@@ -1,4 +1,4 @@
-package cc.paas.userinterface;
+package uef.proj.dataparserUI;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;

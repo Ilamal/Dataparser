@@ -6,9 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane id="BorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="585" minWidth="480" xmlns:fx="http://javafx.com/fxml" fx:controller="cc.paas.userinterface.FXMLController">   
+<BorderPane id="BorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="585" minWidth="480" xmlns:fx="http://javafx.com/fxml" fx:controller="uef.proj.dataparserUI.FXMLController">   
     <top>
-        <Label alignment="TOP_CENTER" id="Headline" maxWidth="Infinity" text="CC PAAS client application"></Label>
+        <Label alignment="TOP_CENTER" id="Headline" maxWidth="Infinity" text="XLSX file parser"></Label>
     </top>
     <center>
         <VBox alignment="CENTER" maxWidth="Infinity" spacing="25">

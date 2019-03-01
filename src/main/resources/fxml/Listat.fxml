@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane id="BorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="585" minWidth="480" xmlns:fx="http://javafx.com/fxml" fx:controller="cc.paas.userinterface.FXMLController">   
+<BorderPane id="BorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="585" minWidth="480" xmlns:fx="http://javafx.com/fxml" fx:controller="uef.proj.dataparserUI.FXMLController">   
    <center>
         <HBox alignment="BOTTOM_CENTER">              
                 <Button alignment="BOTTOM_LEFT"
