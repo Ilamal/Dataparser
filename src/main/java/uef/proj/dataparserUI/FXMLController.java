@@ -18,6 +18,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -33,7 +34,7 @@ public class FXMLController implements Initializable {
     @FXML
     private Label successLabelTrial;
     @FXML
-    private ProgressBar progressBar;
+    private ProgressBar progressBar; // Is this needed? Need to impement some info from loadAndParse of progress or just have it say when one function is done etc.
     private File probeFile;
     private File trialFile;
     private Stage primarystage;
@@ -93,7 +94,13 @@ public class FXMLController implements Initializable {
     @FXML
     public void onButtonClick(ActionEvent event) {
         try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("Listat.fxml"));
+           // AnchorPane pane = FXMLLoader.load(getClass().getResource("Listat.fxml"));
+           FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Listat.fxml"));
+           Parent lista = (Parent)loader.load();
+           
+           Scene listaScene = new Scene(lista);
+           primarystage.setScene(listaScene);
+           primarystage.show();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Ei toimi");
@@ -108,9 +115,24 @@ public class FXMLController implements Initializable {
         // headers = showHeadersInScene(headers);
         // LD.readData();
         // LD.writeData();
-        System.out.println(probeFile.exists());
+     //   System.out.println(probeFile.exists());
         
-        System.out.println(trialFile.exists());
+    //    System.out.println(trialFile.exists());
+        
+        try {
+          // AnchorPane pane = 
+           //FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/scene.fxml"));
+           //Parent lista = (Parent)loader.load();
+           
+          // Scene listaScene = new Scene(lista);
+           primarystage.getScene().setRoot((Pane)FXMLLoader.load(getClass().getResource("/fxml/Listat.fxml")));
+          // primarystage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Ei toimi");
+        }
+        
+        
         // Get progress somehow from LoadAndParse ??     
         // progressBar.setProgress(progressBar.getProgress()+0.1);
         probeFile = null;

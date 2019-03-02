@@ -124,10 +124,6 @@
     -fx-stroke-type: inside;
 }
 
-.button{
-    -fx-skin:"org.aerofx.controls.skin.AeroButtonSkin";
-}
-
 .button, .toggle-button{
     -fx-alignment: center;
     -fx-background-color:
