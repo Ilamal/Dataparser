@@ -10,11 +10,21 @@
 <BorderPane id="Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="585" minWidth="480" xmlns:fx="http://javafx.com/fxml" fx:controller="uef.proj.dataparserUI.FXMLController">   
     <top></top>
     <center>
+        <GridPane fx:id="gridPane" >
+            
+            
+        <Button alignment="CENTER" text="NäytäListat" onAction="#showList" />
+                   
+            
+            
+            </GridPane>
+        
+    </center>
+    <bottom>
         <HBox alignment="BOTTOM_CENTER">              
                 <Button alignment="BOTTOM_LEFT"
                         text="MORO!" onAction="#handleButtonAction" fx:id="button" />
                 </HBox>
-    </center>
-    <bottom></bottom>
+    </bottom>
 </BorderPane>
 

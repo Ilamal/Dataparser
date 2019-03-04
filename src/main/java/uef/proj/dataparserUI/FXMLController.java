@@ -1,7 +1,9 @@
 package uef.proj.dataparserUI;
 
+import java.awt.Checkbox;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,12 +14,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -33,6 +37,11 @@ public class FXMLController implements Initializable {
     private Label successLabel;
     @FXML
     private Label successLabelTrial;
+    
+    //Headers to array to checkboxes testing 
+    @FXML
+    private GridPane gridPane;
+    private CheckBox[] headersCheckB;
     @FXML
     private ProgressBar progressBar; // Is this needed? Need to impement some info from loadAndParse of progress or just have it say when one function is done etc.
     private File probeFile;
@@ -106,6 +115,43 @@ public class FXMLController implements Initializable {
             System.out.println("Ei toimi");
         }
     }
+    
+    @FXML
+    //Testing ways to print ArrayList and make CheckBoxes. THIS IS TEMP SOLUTION
+   public void showList(ActionEvent e) {
+       
+       
+       LoadAndParse LD = new LoadAndParse(probeFile);
+       ArrayList headers = LD.getAllHeaders();
+       System.out.println(probeFile.exists());
+       System.out.println("hello");
+       
+       final int numHeaders = 8;
+       final int numHeadersPerRow = 1;
+       ArrayList<String> testArray = new ArrayList<String>();
+       testArray.add("hello there!");
+       testArray.add("Hello again!");
+       String[] stringArray = (String[]) testArray.toArray(new String[0]);
+       
+       
+      
+
+       
+       
+       
+       
+       //Nappia painamalla tulee esiin lista checkboxeja
+       
+       headersCheckB = new CheckBox[testArray.size()];
+       for (int i=0;i<numHeaders; i++) {
+           String temp = stringArray[i];
+           CheckBox CB = new CheckBox(temp);
+           headersCheckB[i] = CB;
+           gridPane.add(headersCheckB[i], i % numHeadersPerRow, i/numHeadersPerRow);
+       }
+       
+       
+   }
 
     @FXML
     public void Upload() {
