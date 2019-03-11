@@ -2,8 +2,11 @@ package uef.proj.dataparserUI;
 
 import java.awt.Checkbox;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -120,29 +123,33 @@ public class FXMLController implements Initializable {
     //Testing ways to print ArrayList and make CheckBoxes. THIS IS TEMP SOLUTION
    public void showList(ActionEvent e) {
        
+    
+       System.out.println("Testi näppäimelle!");
+       
        
        LoadAndParse LD = new LoadAndParse(probeFile);
-       ArrayList headers = LD.getAllHeaders();
-       System.out.println(probeFile.exists());
-       System.out.println("hello");
+       ArrayList<String> headers = new ArrayList<String>();
+       headers = LD.getAllHeaders();
        
-       final int numHeaders = 8;
-       final int numHeadersPerRow = 1;
-       ArrayList<String> testArray = new ArrayList<String>();
-       testArray.add("hello there!");
-       testArray.add("Hello again!");
-       String[] stringArray = (String[]) testArray.toArray(new String[0]);
-       
-       
+       //System.out.println(probeFile.exists());
+      // System.out.println("hello"); 
       
-
        
+       final int numHeaders = 100000;
+       final int numHeadersPerRow = 1;       
+       
+       //ArrayList<String> testArray = new ArrayList<String>();
+       //testArray.add("hello there!");
+      // testArray.add("Hello again!");
+      //testArray.add("Moro");
+      // testArray.add("TERVE TERVE");
+       String[] stringArray = headers.toArray(new String[0]);
        
        
        
        //Nappia painamalla tulee esiin lista checkboxeja
        
-       headersCheckB = new CheckBox[testArray.size()];
+       headersCheckB = new CheckBox[10000];
        for (int i=0;i<numHeaders; i++) {
            String temp = stringArray[i];
            CheckBox CB = new CheckBox(temp);

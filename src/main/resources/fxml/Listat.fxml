@@ -10,11 +10,9 @@
 <BorderPane id="Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="585" minWidth="480" xmlns:fx="http://javafx.com/fxml" fx:controller="uef.proj.dataparserUI.FXMLController">   
     <top></top>
     <center>
-        <GridPane fx:id="gridPane" >
+        <GridPane fx:id="gridPane" >           
             
-            
-        <Button alignment="CENTER" text="NäytäListat" onAction="#showList" />
-                   
+        <Button alignment="CENTER" text="NäytäListat" onAction="#showList" />             
             
             
             </GridPane>
