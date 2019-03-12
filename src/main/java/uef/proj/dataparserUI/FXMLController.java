@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +22,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -29,6 +35,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.xmlbeans.SystemProperties;
 
 public class FXMLController implements Initializable {
 
@@ -40,6 +47,19 @@ public class FXMLController implements Initializable {
     private Label successLabel;
     @FXML
     private Label successLabelTrial;
+    
+    //testataan tableViewin rakennusta
+    @FXML
+    private TableColumn<TableSetterGetter, String> name;
+    
+    @FXML
+    private TableColumn<TableSetterGetter, Integer> id;
+    @FXML
+    private TableColumn<TableSetterGetter, CheckBox> select;
+    @FXML
+    private TableView<TableSetterGetter> tableView;
+    ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
+            
     
     //Headers to array to checkboxes testing 
     @FXML
@@ -123,32 +143,48 @@ public class FXMLController implements Initializable {
     //Testing ways to print ArrayList and make CheckBoxes. THIS IS TEMP SOLUTION
    public void showList(ActionEvent e) {
        
-    
+     
        System.out.println("Testi näppäimelle!");
+       //tableView-testausta
        
+       for (int i=0;i<10;i++) {
+           CheckBox ch = new CheckBox("" + i);
+           list.add(new TableSetterGetter(i, "matti", ch));
+       }
        
+       tableView.setItems(list);
+       id.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, Integer>("id"));
+       name.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("name"));
+       select.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>(""));
+       
+      
+       
+       /*
        LoadAndParse LD = new LoadAndParse(probeFile);
-       ArrayList<String> headers = new ArrayList<String>();
-       headers = LD.getAllHeaders();
+       ArrayList<String> headers = new ArrayList();
+              
+       headers = LD.getAllHeaders();       
+     */
+               
        
        //System.out.println(probeFile.exists());
       // System.out.println("hello"); 
       
-       
+     /*  
        final int numHeaders = 100000;
        final int numHeadersPerRow = 1;       
        
-       //ArrayList<String> testArray = new ArrayList<String>();
-       //testArray.add("hello there!");
-      // testArray.add("Hello again!");
-      //testArray.add("Moro");
-      // testArray.add("TERVE TERVE");
-       String[] stringArray = headers.toArray(new String[0]);
+      ArrayList<String> testArray = new ArrayList<String>();
+      testArray.add("hello there!");
+      testArray.add("Hello again!");
+      testArray.add("Moro");
+      testArray.add("TERVE TERVE");
+      String[] stringArray = testArray.toArray(new String[0]);
        
        
        
        //Nappia painamalla tulee esiin lista checkboxeja
-       
+      
        headersCheckB = new CheckBox[10000];
        for (int i=0;i<numHeaders; i++) {
            String temp = stringArray[i];
@@ -156,7 +192,7 @@ public class FXMLController implements Initializable {
            headersCheckB[i] = CB;
            gridPane.add(headersCheckB[i], i % numHeadersPerRow, i/numHeadersPerRow);
        }
-       
+       */
        
    }
 

@@ -33,7 +33,7 @@ public class LoadAndParse {
          probeWb = WorkbookFactory.create(file);
          trialWb = WorkbookFactory.create(file);
         } catch (IOException ex) {
-            System.out.println(Arrays.toString(ex.getStackTrace()));
+            System.out.println(Arrays.toString(ex.getStackTrace()));            
         }
     }
     ArrayList getAllHeaders() {
@@ -58,7 +58,7 @@ public class LoadAndParse {
 
             a++;
         } while (tieto != null);
-        return headers;
+         return headers;
     }
     /*public static void main(String[] args) throws IOException {
         //Get the file from resources
