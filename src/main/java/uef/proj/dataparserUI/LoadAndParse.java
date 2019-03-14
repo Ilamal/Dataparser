@@ -30,17 +30,20 @@ public class LoadAndParse {
     Workbook trialWb;
     LoadAndParse(File file) {
         try {
+         System.out.println("load&parse tiedosto " + file);
          probeWb = WorkbookFactory.create(file);
          trialWb = WorkbookFactory.create(file);
+         
         } catch (IOException ex) {
             System.out.println(Arrays.toString(ex.getStackTrace()));            
         }
     }
     ArrayList getAllHeaders() {
-        ArrayList<String> headers = new ArrayList();
+       ArrayList<String> headers = new ArrayList();
         int a = 2;
         Cell tieto = null;
-         do {
+        System.out.println("do while alku");
+        do {
             String heading = "";
 
             for (int i = 0; i < 4; i++) {
@@ -51,10 +54,10 @@ public class LoadAndParse {
                     break;
                 } else {
                     tieto = row.getCell(a);
-                    heading += dataFormatter.formatCellValue(tieto);
-                    headers.add(heading);
+                    heading += dataFormatter.formatCellValue(tieto) + "\n";                    
                 }
             }
+        headers.add(heading);
 
             a++;
         } while (tieto != null);
