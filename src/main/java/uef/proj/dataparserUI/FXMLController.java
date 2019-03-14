@@ -64,7 +64,7 @@ public class FXMLController implements Initializable {
     //Headers to array to checkboxes testing 
     @FXML
     private GridPane gridPane;
-    private CheckBox[] headersCheckB;
+   // private CheckBox[] headersCheckB;
     @FXML
     private ProgressBar progressBar; // Is this needed? Need to impement some info from loadAndParse of progress or just have it say when one function is done etc.
     private File probeFile;
@@ -145,19 +145,33 @@ public class FXMLController implements Initializable {
        
      
        System.out.println("Testi näppäimelle!");
+      
+      
+       ArrayList<String> testArray = new ArrayList<String>();
+      testArray.add("hello there!");
+      testArray.add("Hello again!");
+      testArray.add("Moro");
+      testArray.add("TERVE TERVE");
+      String[] stringArray = testArray.toArray(new String[0]);   
+       
+       
+       
        //tableView-testausta
        
-       for (int i=0;i<10;i++) {
+       for (int i=0;i<stringArray.length;i++) {
            CheckBox ch = new CheckBox("" + i);
-           list.add(new TableSetterGetter(i, "matti", ch));
+           list.add(new TableSetterGetter(i, stringArray[i], ch));
        }
        
-       tableView.setItems(list);
+       tableView.setItems(list);  
+      
        id.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, Integer>("id"));
        name.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("name"));
-       select.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>(""));
+       select.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox"));
        
-      
+       //TODO: Sama otsikoille, otsikoinnin uudelleen nimeäminen
+       
+       
        
        /*
        LoadAndParse LD = new LoadAndParse(probeFile);
@@ -174,12 +188,7 @@ public class FXMLController implements Initializable {
        final int numHeaders = 100000;
        final int numHeadersPerRow = 1;       
        
-      ArrayList<String> testArray = new ArrayList<String>();
-      testArray.add("hello there!");
-      testArray.add("Hello again!");
-      testArray.add("Moro");
-      testArray.add("TERVE TERVE");
-      String[] stringArray = testArray.toArray(new String[0]);
+      
        
        
        
