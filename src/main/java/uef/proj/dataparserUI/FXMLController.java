@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -46,7 +47,7 @@ public class FXMLController implements Initializable {
     @FXML
     private Label successLabelTrial;
 
-    //Testataan tableViewin rakennusta
+    //tableViewin rakennus
     @FXML
     private TableColumn<TableSetterGetter, String> name;
     @FXML
@@ -61,13 +62,17 @@ public class FXMLController implements Initializable {
     @FXML
     private TableView<TableSetterGetter> tableView;
     
-ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
+    ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
 
     @FXML
     private ProgressBar progressBar; // Is this needed? Need to impement some info from loadAndParse of progress or just have it say when one function is done etc.
+    //Muokattavien tiedostojen muuttujat
     private File probeFile;
     private File trialFile;
+    
     private Stage primarystage;
+    
+    private LoadAndParse LD;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -137,14 +142,14 @@ ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
 
     @FXML
     public void showList(ActionEvent e) {
-        //TODO: Otsikoille mahdollisuus uudelleen nimeämiseen. Otsikoiden poisto.  
+        //TODO: Otsikoille mahdollisuus uudelleen nimeämiseen.  
 
-        LoadAndParse LD = new LoadAndParse(probeFile);
+        LD = new LoadAndParse(probeFile);
         ArrayList<String> headers;
 
         headers = LD.getAllHeaders();
 
-        //TableView-testausta
+        //TableViewin luominen
         for (int i = 0; i < headers.size(); i++) {
             CheckBox ch1 = new CheckBox();
             CheckBox ch2 = new CheckBox();
@@ -153,24 +158,20 @@ ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
             TextField tf2 = getNumberField();
             tf2.setText("5");
             list.add(new TableSetterGetter(headers.get(i), tf1, tf2, ch1, ch2));
-        }
-
+        }        
+        
         tableView.setItems(list);
-
+        
+        //Tekeekö nämä mitään?
         normal.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox"));
         name.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("name"));
         average.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox2"));
         start.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("startDay"));
-        end.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("endDay"));
-        
-        
-        
-        
+        end.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("endDay"));          
     }
 
     @FXML
     public void Upload() {
-
         try {
             if (probeFile.exists()) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Listat.fxml"));
@@ -189,13 +190,8 @@ ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
 
     }
     //Building way to save data from TableView
-    @FXML 
-    public void saveData() {
-        
-    }    
-    
     @FXML
-    public void getValues() {  
+    public void getValues() {                  
         ArrayList<HeaderInfo> li = new ArrayList();  
         
         for (TableSetterGetter x:tableView.getItems()){
@@ -207,19 +203,16 @@ ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
             hi.startDay = Integer.parseInt(x.startDay.getText());
             hi.endDay = Integer.parseInt(x.endDay.getText());
             
-            
-            li.add(hi);
+            if (hi.avg || hi.normal){
+                li.add(hi);
+            }          
         }
         
-       System.out.println(li.get(0).normal);
-       
-            
+       HashMap<Integer,HashMap<String, Double>> hm = LD.readData(li);       
+       LD.addData(li, hm);       
        
     }
-        
-   
-    
-    public void ProgressCounter() {
+   public void ProgressCounter() {
         // TODO
         // progressBar.setProgress(ProgressDataFromServer);
         // passwordLabel.setText("Password found : " + password);
