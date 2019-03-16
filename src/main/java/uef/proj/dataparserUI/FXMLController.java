@@ -21,6 +21,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -32,6 +33,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class FXMLController implements Initializable {
 
@@ -59,7 +61,7 @@ public class FXMLController implements Initializable {
     @FXML
     private TableView<TableSetterGetter> tableView;
     
-    ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
+ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
 
     @FXML
     private ProgressBar progressBar; // Is this needed? Need to impement some info from loadAndParse of progress or just have it say when one function is done etc.
@@ -180,7 +182,20 @@ public class FXMLController implements Initializable {
         trialFile = null;
 
     }
-
+    //Building way to save data from TableView
+    @FXML 
+    public void saveData() {
+        
+    }    
+    
+    @FXML
+    public void getValues() {  
+        
+       
+    }
+        
+   
+    
     public void ProgressCounter() {
         // TODO
         // progressBar.setProgress(ProgressDataFromServer);
