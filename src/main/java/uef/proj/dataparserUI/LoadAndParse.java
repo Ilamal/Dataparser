@@ -19,21 +19,23 @@ public class LoadAndParse {
     // Create a DataFormatter to format and get each cell's value as String
     private final DataFormatter dataFormatter = new DataFormatter();
     private final String AnimalId = "animalid";
-    
+
     private Workbook probeWb;
     private Workbook trialWb;
+
     LoadAndParse(File file) {
         try {
-         System.out.println("load&parse tiedosto " + file);
-         probeWb = WorkbookFactory.create(file);
-         trialWb = WorkbookFactory.create(file);
-         
+            System.out.println("load&parse tiedosto " + file);
+            probeWb = WorkbookFactory.create(file);
+            trialWb = WorkbookFactory.create(file);
+
         } catch (IOException ex) {
-            System.out.println(Arrays.toString(ex.getStackTrace()));            
+            System.out.println(Arrays.toString(ex.getStackTrace()));
         }
     }
+
     ArrayList getAllHeaders() {
-       ArrayList<String> headers = new ArrayList();
+        ArrayList<String> headers = new ArrayList();
         int a = 2;
         Cell tieto = null;
         do {
@@ -47,46 +49,26 @@ public class LoadAndParse {
                     break;
                 } else {
                     tieto = row.getCell(a);
-                    heading += dataFormatter.formatCellValue(tieto) + "\n";                    
+                    heading += dataFormatter.formatCellValue(tieto) + "\n";
                 }
             }
-        headers.add(heading);
+            headers.add(heading);
 
             a++;
         } while (tieto != null);
-         return headers;
+        return headers;
     }
 
-    public HashMap<Integer, HashMap<String, Double>> readData(Workbook wb) {
+    public HashMap<Integer, HashMap<String, Double>> readData(ArrayList<HeaderInfo> headingsInfo) {
         System.out.println("Aloitus");
         // Read the workbook and add necessary data to HashMap according to the headings list
         HashMap<Integer, HashMap<String, Double>> hashmap = new HashMap<>();
         // Read the headings
-        ArrayList<String> apu = new ArrayList();
-        int a = 2;
-        Cell tieto = null;
-        System.out.println("do while alku");
-        do {
-            String heading = "";
+        ArrayList<String> headings = new ArrayList();
+        headingsInfo.forEach(e -> headings.add(e.getHeading()));
 
-            for (int i = 0; i < 4; i++) {
-
-                Row row = wb.getSheetAt(0).getRow(i);
-                if (dataFormatter.formatCellValue(row.getCell(a)).equals("") && i == 0) {
-                    tieto = null;
-                    break;
-                } else {
-                    tieto = row.getCell(a);
-                    heading += dataFormatter.formatCellValue(tieto);
-                    apu.add(heading);
-                }
-            }
-
-            a++;
-        } while (tieto != null);
-        System.out.println("do while loppu");
         // Add other data
-        for (Row row : wb.getSheetAt(0)) {
+        for (Row row : probeWb.getSheetAt(0)) {
 
             HashMap<String, Double> temp = new HashMap<>();
             System.out.println("sattaa kusta... 1");
@@ -108,9 +90,9 @@ public class LoadAndParse {
                 //temp.put(heading, cellValue)
                 System.out.println(cellValue);
                 try {
-                    temp.put(apu.get(i - 2), Double.valueOf(cellValue));
+                    temp.put(headings.get(i - 2), Double.valueOf(cellValue));
                 } catch (NumberFormatException ex) {
-                    temp.put(apu.get(i - 2), null);
+                    temp.put(headings.get(i - 2), null);
                 }
 
             }
@@ -121,35 +103,61 @@ public class LoadAndParse {
         return hashmap;
     }
 
-    public void addData(List headings, HashMap<Integer, HashMap<String, Double>> data) {
+    public void addData(ArrayList<HeaderInfo> headingsInfo, HashMap<Integer, HashMap<String, Double>> data) {
         Workbook workbook = new XSSFWorkbook(); // new HSSFWorkbook() for generating `.xls` file
+        ArrayList<String> headings = new ArrayList();
+        headingsInfo.forEach(e -> headings.add(e.getHeading()));
         // Create a Sheet
         Sheet sheet = workbook.createSheet("Sheet1");
-        int j = 1;
+        int j = 0;
         // Create cells
-        for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
+        for (String head : headings) {
 
-            // Create a Row
-            int i = 0;
-            Row row = sheet.createRow(j);
-            j++;
-            // Fill the row
-            for (Map.Entry<String, Double> dataEntry : trialEntry.getValue().entrySet()) {
-                Cell cell = row.createCell(i);
-                if (dataEntry.getValue() == null) {
-                    cell.setCellValue("-");
-                } else {
-                    cell.setCellValue(dataEntry.getValue());
+            for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
+                j++;
+                if (headingsInfo.get(j).isNormal()) {
+                    // Create a Row
+                    int i = 1;
+                    Row row = sheet.createRow(j);
+
+                    // Fill the row
+                    // for (Map.Entry<String, Double> dataEntry : trialEntry.getValue().entrySet()) {
+                    Double dataEntry = trialEntry.getValue().get(head);
+                    Cell cell = row.createCell(i);
+                    if (dataEntry == null) {
+                        cell.setCellValue("-");
+                    } else {
+                        cell.setCellValue(dataEntry);
+                    }
+                    i++;
+                } else if (headingsInfo.get(j - 1).isAvg()) {
+                    j++;
+
+                    int i = 1;
+                    Row row = sheet.createRow(j);
+
+                    // Fill the row
+                    // for (Map.Entry<String, Double> dataEntry : trialEntry.getValue().entrySet()) {
+                    Double dataEntry = getAverage(data, trialEntry.getValue().get(AnimalId), head);
+                    Cell cell = row.createCell(i);
+                    if (dataEntry == null) {
+                        cell.setCellValue("-");
+                    } else {
+                        cell.setCellValue(dataEntry);
+                    }
+                    i++;
                 }
-                i++;
             }
+
         }
+
         // Add Headings
         Row row = sheet.createRow(0);
-        for (int i = 0; i < headings.size(); i++) {
+        Cell aniCell = row.createCell(0);
+        aniCell.setCellValue("AnID_1");
+        for (int i = 1; i < headings.size(); i++) {
             Cell cell = row.createCell(i);
-            cell.setCellValue(headings.get(i).toString());
-
+            cell.setCellValue(headings.get(i));
         }
 
         //    TODO     keskiarvot ja lyhennyksien/otsikoiden mukaan laitto, kaiken sijasta
@@ -175,5 +183,24 @@ public class LoadAndParse {
                 Logger.getLogger(LoadAndParse.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    private double getAverage(HashMap<Integer, HashMap<String, Double>> data, double id, String head) {
+        ArrayList<Double> values = new ArrayList<>();
+        for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
+            if (trialEntry.getValue().get(AnimalId).equals(id)) {
+                values.add(trialEntry.getValue().get(head));
+            }
+        }
+        return calculateAverage(values);
+    }
+
+    private static double calculateAverage(List<Double> marks) {
+        Double sum = 0.0;
+        if (!marks.isEmpty()) {
+            sum = marks.stream().map((mark) -> mark).reduce(sum, (accumulator, _item) -> accumulator + _item);
+            return sum / marks.size();
+        }
+        return sum;
     }
 }

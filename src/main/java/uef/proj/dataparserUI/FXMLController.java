@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -44,13 +47,18 @@ public class FXMLController implements Initializable {
     //Testataan tableViewin rakennusta
     @FXML
     private TableColumn<TableSetterGetter, String> name;
-
     @FXML
     private TableColumn<TableSetterGetter, CheckBox> normal;
     @FXML
     private TableColumn<TableSetterGetter, CheckBox> average;
     @FXML
+    private TableColumn<TableSetterGetter, TextField> start;
+    @FXML
+    private TableColumn<TableSetterGetter, TextField> end;
+    
+    @FXML
     private TableView<TableSetterGetter> tableView;
+    
     ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
 
     @FXML
@@ -138,7 +146,9 @@ public class FXMLController implements Initializable {
         for (int i = 0; i < headers.size(); i++) {
             CheckBox ch1 = new CheckBox();
             CheckBox ch2 = new CheckBox();
-            list.add(new TableSetterGetter(headers.get(i), ch1, ch2));
+            TextField tf1 = getNumberField();
+            TextField tf2 = getNumberField();
+            list.add(new TableSetterGetter(headers.get(i), tf1, tf2, ch1, ch2));
         }
 
         tableView.setItems(list);
@@ -146,7 +156,8 @@ public class FXMLController implements Initializable {
         normal.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox"));
         name.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("name"));
         average.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox2"));
-
+        start.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("startDay"));
+        end.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("endDay"));
     }
 
     @FXML
@@ -201,5 +212,19 @@ public class FXMLController implements Initializable {
         dragTargetProbe.prefHeightProperty().bind(primarystage.heightProperty().multiply(0.3));
         dragTargetTrial.prefWidthProperty().bind(primarystage.widthProperty().multiply(0.3));
         dragTargetTrial.prefHeightProperty().bind(primarystage.heightProperty().multiply(0.3));
+    }
+
+    private TextField getNumberField() {
+        final TextField textField = new TextField();
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                    String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    textField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+        return textField;
     }
 }

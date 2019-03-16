@@ -9,7 +9,9 @@ public class HeaderInfo {
     String alias;
     boolean normal;
     boolean avg;
-
+    int startDay;
+    int endDay;
+    
     public HeaderInfo() {
     }
 
@@ -18,6 +20,22 @@ public class HeaderInfo {
         this.alias = alias;
         this.normal = normal;
         this.avg = avg;
+    }
+
+    public int getStartDay() {
+        return startDay;
+    }
+
+    public void setStartDay(int startDay) {
+        this.startDay = startDay;
+    }
+
+    public int getEndDay() {
+        return endDay;
+    }
+
+    public void setEndDay(int endDay) {
+        this.endDay = endDay;
     }
 
     public String getHeading() {

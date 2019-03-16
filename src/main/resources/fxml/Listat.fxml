@@ -16,7 +16,8 @@
         <TableColumn prefWidth="195.0" text="Heading" fx:id="name" />
         <TableColumn prefWidth="75.0" text="Active" fx:id="normal" />
         <TableColumn prefWidth="75.0" text="Average" fx:id="average" />
-        
+        <TableColumn prefWidth="45.0" text="startDay" fx:id="start" />
+        <TableColumn prefWidth="45.0" text="endDay" fx:id="end" />
         
     </columns>
     </TableView>
