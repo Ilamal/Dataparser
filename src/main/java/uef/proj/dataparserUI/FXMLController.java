@@ -149,7 +149,9 @@ ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
             CheckBox ch1 = new CheckBox();
             CheckBox ch2 = new CheckBox();
             TextField tf1 = getNumberField();
+            tf1.setText("1");            
             TextField tf2 = getNumberField();
+            tf2.setText("5");
             list.add(new TableSetterGetter(headers.get(i), tf1, tf2, ch1, ch2));
         }
 
@@ -160,6 +162,10 @@ ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
         average.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox2"));
         start.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("startDay"));
         end.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("endDay"));
+        
+        
+        
+        
     }
 
     @FXML
@@ -190,7 +196,24 @@ ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
     
     @FXML
     public void getValues() {  
+        ArrayList<HeaderInfo> li = new ArrayList();  
         
+        for (TableSetterGetter x:tableView.getItems()){
+            HeaderInfo  hi = new HeaderInfo();
+            hi.heading = x.name;
+            hi.alias = x.name;
+            hi.avg = x.cb_average.isSelected();
+            hi.normal = x.cb_default.isSelected();
+            hi.startDay = Integer.parseInt(x.startDay.getText());
+            hi.endDay = Integer.parseInt(x.endDay.getText());
+            
+            
+            li.add(hi);
+        }
+        
+       System.out.println(li.get(0).normal);
+       
+            
        
     }
         

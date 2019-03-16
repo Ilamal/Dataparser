@@ -14,14 +14,14 @@
     <TableView fx:id="tableView" layoutX="35.0" layoutY="28.0" prefHeight="520.0" prefWidth="590.0">
     <columns>
         <TableColumn prefWidth="195.0" text="Heading" fx:id="name" />
-        <TableColumn prefWidth="75.0" text="Active" fx:id="normal" />
+        <TableColumn prefWidth="75.0" text="Default" fx:id="normal" />
         <TableColumn prefWidth="75.0" text="Average" fx:id="average" />
         <TableColumn prefWidth="45.0" text="startDay" fx:id="start" />
         <TableColumn prefWidth="45.0" text="endDay" fx:id="end" />
         
     </columns>
     </TableView>
-    <Button AnchorPane.leftAnchor="14.0" AnchorPane.bottomAnchor="14.0" text="Done" />
+    <Button AnchorPane.leftAnchor="14.0" AnchorPane.bottomAnchor="14.0" text="Done" onAction="#getValues" />
 </children>
 </AnchorPane>
 

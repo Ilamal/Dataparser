@@ -16,31 +16,31 @@ public class TableSetterGetter {
     TextField startDay;
     TextField endDay;
     String name;
-    CheckBox checkBox;
-    CheckBox checkBox2;
+    CheckBox cb_default;
+    CheckBox cb_average;
 
     public TableSetterGetter(String name, TextField startDay, TextField endDay, CheckBox checkBox, CheckBox checkBox2) {
         this.name = name;
         this.startDay = startDay;
         this.endDay = endDay;
-        this.checkBox = checkBox;
-        this.checkBox2 = checkBox2;
+        this.cb_default = checkBox;
+        this.cb_average = checkBox2;
     }
 
     public CheckBox getCheckBox() {
-        return checkBox;
+        return cb_default;
     }
 
     public void setCheckBox(CheckBox checkBox) {
-        this.checkBox = checkBox;
+        this.cb_default = checkBox;
     }
 
     public CheckBox getCheckBox2() {
-        return checkBox2;
+        return cb_average;
     }
 
     public void setCheckBox2(CheckBox checkBox2) {
-        this.checkBox2 = checkBox2;
+        this.cb_average = checkBox2;
     }
 
     public TextField getStartDay() {
