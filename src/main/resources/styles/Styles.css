@@ -184,7 +184,7 @@
 *                                           *
 *       CheckBox                            *
 *                                           *
-*********************************************/
+********************************************
 .check-box-focus-border{
     -fx-stroke: black;
     -fx-stroke-dash-array: 1;
@@ -192,7 +192,7 @@
     -fx-stroke-line-cap: butt;
     -fx-stroke-type: inside;
 }
-/* TODO: Style the mark by using a fx-shape */
+/* TODO: Style the mark by using a fx-shape 
 .check-box{
     -fx-skin:"org.aerofx.controls.skin.AeroCheckBoxSkin";
     -fx-label-padding: 0.0em 0.0em 0.0em 0.05em;
@@ -234,7 +234,7 @@
 .check-box:selected > .box{
     -fx-padding: 0.166667em 0.166667em 0.25em 0.25em;
 }
-
+*/
 .check-box:selected > .box > .mark{
     -fx-padding: 0.416667em 0.416667em 0.5em 0.5em;
     -fx-shape: "M 5.1806931,9.0173267 7.5232674,12.170792 11.307426,4.4673266 10.091089,3.9717821 7.2980199,9.6029703 6.1267328,7.9361386 z";

@@ -6,14 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -24,10 +20,8 @@ public class LoadAndParse {
     private final DataFormatter dataFormatter = new DataFormatter();
     private final String AnimalId = "animalid";
     
-   // String filepathProbe = LoadAndParse.class.getClassLoader().getResource("Statistics-Geronimo-pup-Probe.xlsx").getFile();
-   // String filepathTrialList = LoadAndParse.class.getClassLoader().getResource("Trial_list_Heikille.xlsx").getFile();
-    Workbook probeWb;
-    Workbook trialWb;
+    private Workbook probeWb;
+    private Workbook trialWb;
     LoadAndParse(File file) {
         try {
          System.out.println("load&parse tiedosto " + file);
@@ -42,7 +36,6 @@ public class LoadAndParse {
        ArrayList<String> headers = new ArrayList();
         int a = 2;
         Cell tieto = null;
-        System.out.println("do while alku");
         do {
             String heading = "";
 
@@ -63,46 +56,7 @@ public class LoadAndParse {
         } while (tieto != null);
          return headers;
     }
-    /*public static void main(String[] args) throws IOException {
-        //Get the file from resources
-        
 
-        //Create the Workbook to work with and print the number of sheets
-        
-        System.out.println("Workbook has " + probeWb.getNumberOfSheets() + " Sheets : ");
-
-        // Getting the Sheets at index zero
-        Sheet probeSheet = probeWb.getSheetAt(0);
-        Sheet trialSheet = trialWb.getSheetAt(0);
-
-        System.out.println("\n\nIterating over probe file using for-each loop\n");
-        for (Row row : probeSheet) {
-            for (Cell cell : row) {
-                String cellValue = dataFormatter.formatCellValue(cell);
-                System.out.print(cellValue + "\t");
-            }
-            System.out.println();
-        }
-
-        System.out.println("\n\nIterating over trial-lists file using for-each loop\n");
-        for (Row row : trialSheet) {
-            for (Cell cell : row) {
-                String cellValue = dataFormatter.formatCellValue(cell);
-                System.out.print(cellValue + "\t");
-            }
-            System.out.println();
-        }
-        System.out.println("\n\n--------- END OF TEST EXAMPLES");
-        //List for testing (in future needs to be somekind of standard from user choices averages etc..)
-        ArrayList<String> list = new ArrayList();
-        list.add("Distance to point");
-        addData(list, readData(probeWb));
-
-        // Close the workbooks
-        probeWb.close();
-        trialWb.close();
-    }
-*/
     public HashMap<Integer, HashMap<String, Double>> readData(Workbook wb) {
         System.out.println("Aloitus");
         // Read the workbook and add necessary data to HashMap according to the headings list

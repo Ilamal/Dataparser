@@ -15,11 +15,28 @@ public class TableSetterGetter {
     int id;
     String name;
     CheckBox checkBox;
+    CheckBox checkBox2;
 
-    public TableSetterGetter(int id, String name, CheckBox checkBox) {
-        this.id = id;
+    public TableSetterGetter(String name, CheckBox checkBox, CheckBox checkBox2) {
         this.name = name;
         this.checkBox = checkBox;
+        this.checkBox2 = checkBox2;
+    }
+
+    public CheckBox getCheckBox() {
+        return checkBox;
+    }
+
+    public void setCheckBox(CheckBox checkBox) {
+        this.checkBox = checkBox;
+    }
+
+    public CheckBox getCheckBox2() {
+        return checkBox2;
+    }
+
+    public void setCheckBox2(CheckBox checkBox2) {
+        this.checkBox2 = checkBox2;
     }
 
     public int getId() {
@@ -37,14 +54,5 @@ public class TableSetterGetter {
     public void setName(String name) {
         this.name = name;
     }
-
-    public CheckBox getCheckBox() {
-        return checkBox;
-    }
-
-    public void setCheckBox(CheckBox checkBox) {
-        this.checkBox = checkBox;
-    }
-    
     
 }

@@ -8,18 +8,19 @@
 
 
 
-<AnchorPane id="Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="288.0" prefWidth="293.0" xmlns:fx="http://javafx.com/fxml" fx:controller="uef.proj.dataparserUI.FXMLController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="288.0" prefWidth="293.0" xmlns:fx="http://javafx.com/fxml" fx:controller="uef.proj.dataparserUI.FXMLController">
 <children>
     <Button alignment="CENTER" text="NäytäListat" onAction="#showList" /> 
-    <TableView fx:id="tableView" layoutX="35.0" layoutY="28.0" prefHeight="400.0" prefWidth="450.0">
+    <TableView fx:id="tableView" layoutX="35.0" layoutY="28.0" prefHeight="520.0" prefWidth="590.0">
     <columns>
-        <TableColumn prefWidth="75.0" text="Otsikko" fx:id="name" />
-        <TableColumn prefWidth="75.0" text="Active" fx:id="select" />
-        <TableColumn prefWidth="75.0" text="ID" fx:id="id" />
+        <TableColumn prefWidth="195.0" text="Heading" fx:id="name" />
+        <TableColumn prefWidth="75.0" text="Active" fx:id="normal" />
+        <TableColumn prefWidth="75.0" text="Average" fx:id="average" />
         
         
     </columns>
     </TableView>
+    <Button AnchorPane.leftAnchor="14.0" AnchorPane.bottomAnchor="14.0" text="Done" />
 </children>
 </AnchorPane>
 

@@ -1,6 +1,7 @@
 package uef.proj.dataparserUI;
 
 import java.io.File;
+import java.io.IOException;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -24,7 +25,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -46,9 +46,9 @@ public class FXMLController implements Initializable {
     private TableColumn<TableSetterGetter, String> name;
 
     @FXML
-    private TableColumn<TableSetterGetter, Integer> id;
+    private TableColumn<TableSetterGetter, CheckBox> normal;
     @FXML
-    private TableColumn<TableSetterGetter, CheckBox> select;
+    private TableColumn<TableSetterGetter, CheckBox> average;
     @FXML
     private TableView<TableSetterGetter> tableView;
     ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
@@ -120,9 +120,8 @@ public class FXMLController implements Initializable {
             Scene listaScene = new Scene(lista);
             primarystage.setScene(listaScene);
             primarystage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Ei toimi");
+        } catch (IOException e) {
+            System.out.println("Ei toimi " + e.getMessage());
         }
     }
 
@@ -131,24 +130,22 @@ public class FXMLController implements Initializable {
         //TODO: Otsikoille mahdollisuus uudelleen nimeämiseen. Otsikoiden poisto.  
 
         LoadAndParse LD = new LoadAndParse(probeFile);
-        ArrayList<String> headers = new ArrayList();
+        ArrayList<String> headers;
 
         headers = LD.getAllHeaders();
-        System.out.println("Headers tyyppi " + headers.getClass());
-
-        String[] stringArray = headers.toArray(new String[0]);
 
         //TableView-testausta
-        for (int i = 0; i < stringArray.length; i++) {
-            CheckBox ch = new CheckBox("" + i);
-            list.add(new TableSetterGetter(i, headers.get(i), ch));
+        for (int i = 0; i < headers.size(); i++) {
+            CheckBox ch1 = new CheckBox();
+            CheckBox ch2 = new CheckBox();
+            list.add(new TableSetterGetter(headers.get(i), ch1, ch2));
         }
 
         tableView.setItems(list);
 
-        id.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, Integer>("id"));
+        normal.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox"));
         name.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("name"));
-        select.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox"));
+        average.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox2"));
 
     }
 
@@ -163,9 +160,9 @@ public class FXMLController implements Initializable {
                 controller.probeFile = probeFile;
             }
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Ei toimi");
+            System.out.println("Ei toimi " + e.getMessage());
         }
 
         probeFile = null;
