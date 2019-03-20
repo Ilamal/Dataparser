@@ -59,7 +59,7 @@ public class LoadAndParse {
         return headers;
     }
 
-    public HashMap<Integer, HashMap<String, Double>> readData(ArrayList<HeaderInfo> headingsInfo) {        
+    public HashMap<Integer, HashMap<String, Double>> readData(ArrayList<HeaderInfo> headingsInfo) {
         // Read the workbook and add necessary data to HashMap according to the headings list
         HashMap<Integer, HashMap<String, Double>> hashmap = new HashMap<>();
         // Read the headings
@@ -70,21 +70,18 @@ public class LoadAndParse {
         for (Row row : probeWb.getSheetAt(0)) {
 
             HashMap<String, Double> temp = new HashMap<>();
-            System.out.println("sattaa kusta... 1");
             if (dataFormatter.formatCellValue(row.getCell(0)).replace("Trial ", "").equals("")) {
                 continue;
             }
             int trialn = Integer.valueOf(dataFormatter.formatCellValue(row.getCell(0)).replace("Trial", "").replace(" ", ""));
-            
 
             temp.put(AnimalId, Double.valueOf(dataFormatter.formatCellValue(row.getCell(1))));
 
             hashmap.put(trialn, temp);
 
-            //     apu.forEach(e-> System.out.println(e));
-            //saattaa kusta
+            //TODO: HeadingsInfon käyttäminen 
             for (int i = 2; i < row.getLastCellNum(); i++) {
-                
+
                 Cell cell = row.getCell(i);
                 String cellValue = dataFormatter.formatCellValue(cell);
                 //temp.put(heading, cellValue)
@@ -97,14 +94,14 @@ public class LoadAndParse {
 
             }
         }
-        // TODO
-        // Heading stuff needs to be figured and commented stuff coded and trial-list readed for the correct date value to the temp map
+
         System.out.println("lopetus");
         return hashmap;
     }
+
     private ArrayList<Row> getRows(Sheet sheet, int amount) {
         ArrayList<Row> rows = new ArrayList<>();
-        for (int i=0;i<amount;i++) {
+        for (int i = 0; i < amount; i++) {
             rows.add(sheet.createRow(i));
         }
         return rows;
@@ -116,28 +113,27 @@ public class LoadAndParse {
         headingsInfo.forEach(e -> headings.add(e.getHeading()));
         // Create a Sheet
         Sheet sheet = workbook.createSheet("Sheet1");
-        
-        ArrayList<Row> rows = getRows(sheet, 50);       
-        
-        
+
+        ArrayList<Row> rows = getRows(sheet, 50);
+
         // Add Headings
         Row topRow = sheet.createRow(0);
         Cell aniCell = topRow.createCell(0);
         aniCell.setCellValue("AnID_1");
         for (int i = 1; i < headings.size(); i++) {
             Cell cell = topRow.createCell(i);
-            cell.setCellValue(headings.get(i-1));
+            cell.setCellValue(headings.get(i - 1));
         }
-        
-        int colIdx=1;
+
+        int colIdx = 1;
         // Create cells
-        for (String head : headings) {            
-            
+        for (String head : headings) {
+
             int rowIdx = 1;
             if (headingsInfo.get(colIdx - 1).isNormal()) {
 
-                for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {  
-                    
+                for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
+
                     Row row = rows.get(rowIdx);
 
                     // Fill the row
@@ -149,20 +145,17 @@ public class LoadAndParse {
                     } else {
                         cell.setCellValue(dataEntry.toString());
                     }
-                    rowIdx++;    
+                    row.createCell(0).setCellValue(trialEntry.getValue().get(AnimalId));
+                    rowIdx++;
                 }
                 colIdx++;
-                    // Create a Row
-                    
-                    
-                } else if (headingsInfo.get(colIdx - 1).isAvg()) {
-                    //Tässä oli j++ outoilu
-                 for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
+
+            } else if (headingsInfo.get(colIdx - 1).isAvg()) {
+                //Tässä oli j++ outoilu
+                for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
 
                     Row row = rows.get(rowIdx);
-
-                    // Fill the row
-                    // for (Map.Entry<String, Double> dataEntry : trialEntry.getValue().entrySet()) {
+                    //TODO: AnimalID 
                     Double dataEntry = getAverage(data, trialEntry.getValue().get(AnimalId), head);
                     Cell cell = row.createCell(colIdx);
                     if (dataEntry == null) {
@@ -170,16 +163,15 @@ public class LoadAndParse {
                     } else {
                         cell.setCellValue(dataEntry.toString());
                     }
-                    rowIdx++; 
-                        
+                    row.createCell(0).setCellValue(trialEntry.getValue().get(AnimalId));
+                    rowIdx++;
+
                 }
-                  colIdx++;       
-           
+                colIdx++;
+
             }
 
         }
-
-       
 
         //    TODO     keskiarvot ja lyhennyksien/otsikoiden mukaan laitto, kaiken sijasta
         createXlsx(workbook);
@@ -209,19 +201,18 @@ public class LoadAndParse {
     private double getAverage(HashMap<Integer, HashMap<String, Double>> data, double id, String head) {
         ArrayList<Double> values = new ArrayList<>();
         for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
-            if (trialEntry.getValue().get(AnimalId).equals(id) && trialEntry.getValue().get(AnimalId).equals(null) ) {
+            if (trialEntry.getValue().get(AnimalId).equals(id) && trialEntry.getValue().get(AnimalId).equals(null)) {
                 values.add(trialEntry.getValue().get(head));
             }
         }
-        
+
         return calculateAverage(values);
     }
 
     private static double calculateAverage(List<Double> marks) {
         Double sum = 0.0;
-        
-        
-        if ( marks != null && !marks.isEmpty()) {
+
+        if (marks != null && !marks.isEmpty()) {
             sum = marks.stream().map((mark) -> mark).reduce(sum, (accumulator, _item) -> accumulator + _item);
             return sum / marks.size();
         }

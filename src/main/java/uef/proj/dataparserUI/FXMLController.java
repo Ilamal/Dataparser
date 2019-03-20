@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -22,7 +23,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -30,14 +30,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 public class FXMLController implements Initializable {
-
+    
+    //Ensimmäisen scenen toiminnallisuutta
     @FXML
     private VBox dragTargetProbe;
     @FXML
@@ -57,15 +61,15 @@ public class FXMLController implements Initializable {
     @FXML
     private TableColumn<TableSetterGetter, TextField> start;
     @FXML
-    private TableColumn<TableSetterGetter, TextField> end;
-    
+    private TableColumn<TableSetterGetter, TextField> end;    
     @FXML
     private TableView<TableSetterGetter> tableView;
     
     ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
-
+    
     @FXML
     private ProgressBar progressBar; // Is this needed? Need to impement some info from loadAndParse of progress or just have it say when one function is done etc.
+   
     //Muokattavien tiedostojen muuttujat
     private File probeFile;
     private File trialFile;
@@ -73,16 +77,17 @@ public class FXMLController implements Initializable {
     private Stage primarystage;
     
     private LoadAndParse LD;
-
+    
     @FXML
     private void handleButtonAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLSX files (*.xlsx)", "*.xlsx");
         fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(primarystage);
-        successLabel.setText(file.toString() + "\nready to upload");
+        probeFile = fileChooser.showOpenDialog(primarystage);
+        successLabel.setText(probeFile.toString() + "\nready to upload");
+        
     }
-
+    
     @FXML
     private void handleDragOver(DragEvent event) {
         if (event.getGestureSource() != dragTargetProbe //|| event.getGestureSource() != dragTargetTrial
@@ -92,13 +97,14 @@ public class FXMLController implements Initializable {
         }
         event.consume();
     }
-
+    
     @FXML
     public void handleDragDroppedProbe(DragEvent event) {
         Dragboard db = event.getDragboard();
         boolean success = false;
         if (db.hasFiles()) {
             successLabel.setText(db.getFiles().toString() + "\nready to upload");
+            dragTargetProbe.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
             probeFile = db.getFiles().get(0);
             success = true;
         }
@@ -108,7 +114,7 @@ public class FXMLController implements Initializable {
         System.out.println("drop : " + success);
         event.consume();
     }
-
+    
     @FXML
     public void handleDragDroppedTrial(DragEvent event) {
         Dragboard db = event.getDragboard();
@@ -124,14 +130,14 @@ public class FXMLController implements Initializable {
         System.out.println("drop : " + success);
         event.consume();
     }
-
+    
     @FXML
     public void onButtonClick(ActionEvent event) {
         try {
             // AnchorPane pane = FXMLLoader.load(getClass().getResource("Listat.fxml"));
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Listat.fxml"));
             Parent lista = (Parent) loader.load();
-
+            
             Scene listaScene = new Scene(lista);
             primarystage.setScene(listaScene);
             primarystage.show();
@@ -139,17 +145,19 @@ public class FXMLController implements Initializable {
             System.out.println("Ei toimi " + e.getMessage());
         }
     }
-
+    
     @FXML
     public void showList(ActionEvent e) {
-        //TODO: Otsikoille mahdollisuus uudelleen nimeämiseen.  
-
+        //TODO: Otsikoille mahdollisuus uudelleen nimeämiseen. 
+        //TODO: All default / All average-painikkeet.        
+        
         LD = new LoadAndParse(probeFile);
         ArrayList<String> headers;
-
+        
         headers = LD.getAllHeaders();
 
         //TableViewin luominen
+        //TODO: Alku- ja loppupäivät trial listin päivien perusteella
         for (int i = 0; i < headers.size(); i++) {
             CheckBox ch1 = new CheckBox();
             CheckBox ch2 = new CheckBox();
@@ -161,15 +169,15 @@ public class FXMLController implements Initializable {
         }        
         
         tableView.setItems(list);
-        
+
         //Tekeekö nämä mitään?
         normal.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox"));
         name.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("name"));
         average.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox2"));
         start.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("startDay"));
-        end.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("endDay"));          
+        end.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("endDay"));        
     }
-
+    
     @FXML
     public void Upload() {
         try {
@@ -179,23 +187,24 @@ public class FXMLController implements Initializable {
                 FXMLController controller = (FXMLController) loader.getController();
                 controller.probeFile = probeFile;
             }
-
+            
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Ei toimi " + e.getMessage());
         }
-
+        
         probeFile = null;
         trialFile = null;
-
+        
     }
+
     //Building way to save data from TableView
     @FXML
-    public void getValues() {                  
-        ArrayList<HeaderInfo> li = new ArrayList();  
+    public void getValues() {        
+        ArrayList<HeaderInfo> li = new ArrayList();        
         
-        for (TableSetterGetter x:tableView.getItems()){
-            HeaderInfo  hi = new HeaderInfo();
+        for (TableSetterGetter x : tableView.getItems()) {
+            HeaderInfo hi = new HeaderInfo();
             hi.heading = x.name;
             hi.alias = x.name;
             hi.avg = x.cb_average.isSelected();
@@ -203,26 +212,26 @@ public class FXMLController implements Initializable {
             hi.startDay = Integer.parseInt(x.startDay.getText());
             hi.endDay = Integer.parseInt(x.endDay.getText());
             
-            if (hi.avg || hi.normal){
+            if (hi.avg || hi.normal) {
                 li.add(hi);
-            }          
+            }            
         }
         
-       HashMap<Integer,HashMap<String, Double>> hm = LD.readData(li);       
-       LD.addData(li, hm);       
-       
+        HashMap<Integer, HashMap<String, Double>> hm = LD.readData(li);        
+        LD.addData(li, hm);        
+        
     }
-   public void ProgressCounter() {
-        // TODO
+
+    public void ProgressCounter() {
         // progressBar.setProgress(ProgressDataFromServer);
         // passwordLabel.setText("Password found : " + password);
     }
-
+    
     @FXML
     public void Exit() {
         System.exit(0);
     }
-
+    
     @FXML
     public void Help() {
         Alert alert = new Alert(AlertType.INFORMATION, "Drag and drop your statistics.xlsx file to the left and trials.xlsx to the right,"
@@ -230,12 +239,12 @@ public class FXMLController implements Initializable {
                 + "The application will give you a brand new xlsx file.");
         alert.show();
     }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
     }
-
+    
     void setStageAndSetupListeners(Stage stage) {
         this.primarystage = stage;
         // Set the percentage size of the drag zone
@@ -244,7 +253,7 @@ public class FXMLController implements Initializable {
         dragTargetTrial.prefWidthProperty().bind(primarystage.widthProperty().multiply(0.3));
         dragTargetTrial.prefHeightProperty().bind(primarystage.heightProperty().multiply(0.3));
     }
-
+    
     private TextField getNumberField() {
         final TextField textField = new TextField();
         textField.textProperty().addListener(new ChangeListener<String>() {
