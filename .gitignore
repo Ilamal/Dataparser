@@ -1,2 +1,4 @@
 /target/
 nb*
+*.xlsx
+*.xlx
