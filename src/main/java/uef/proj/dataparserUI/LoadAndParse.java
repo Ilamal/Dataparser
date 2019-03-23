@@ -201,7 +201,7 @@ public class LoadAndParse {
     private double getAverage(HashMap<Integer, HashMap<String, Double>> data, double id, String head) {
         ArrayList<Double> values = new ArrayList<>();
         for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
-            if (trialEntry.getValue().get(AnimalId).equals(id) && trialEntry.getValue().get(AnimalId).equals(null)) {
+            if (trialEntry.getValue().get(AnimalId).equals(id) && trialEntry.getValue().get(head) != null) {
                 values.add(trialEntry.getValue().get(head));
             }
         }
