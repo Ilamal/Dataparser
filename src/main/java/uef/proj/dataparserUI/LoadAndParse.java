@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -187,6 +188,7 @@ public class LoadAndParse {
         } catch (IOException ex) {
             Logger.getLogger(LoadAndParse.class
                     .getName()).log(Level.SEVERE, null, ex);
+            alertError(ex, "Error creating/editing the file! Is your computer using the file?");
         } finally {
             try {
                 // Closing the stream and workbook
@@ -194,6 +196,7 @@ public class LoadAndParse {
                 fileOut.close();
             } catch (IOException | NullPointerException ex) {
                 Logger.getLogger(LoadAndParse.class.getName()).log(Level.SEVERE, null, ex);
+                alertError(ex, "Error closing the file stream!");
             }
         }
     }
@@ -217,5 +220,9 @@ public class LoadAndParse {
             return sum / marks.size();
         }
         return sum;
+    }
+    private static void alertError(Exception err, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message + " (Full stack below...) \n" +err.getMessage());
+        alert.show();
     }
 }
