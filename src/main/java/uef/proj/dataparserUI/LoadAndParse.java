@@ -111,7 +111,14 @@ public class LoadAndParse {
     public void addData(ArrayList<HeaderInfo> headingsInfo, HashMap<Integer, HashMap<String, Double>> data) {
         Workbook workbook = new XSSFWorkbook(); // new HSSFWorkbook() for generating `.xls` file
         ArrayList<String> headings = new ArrayList();
-        headingsInfo.forEach(e -> headings.add(e.getHeading()));
+        ArrayList temp = new ArrayList();
+        headingsInfo.forEach(e -> {
+            if(e.normal || e.avg) {
+                temp.add(e);
+                headings.add(e.heading);
+            }
+        });
+        headingsInfo = temp;
         // Create a Sheet
         Sheet sheet = workbook.createSheet("Sheet1");
 
@@ -121,7 +128,7 @@ public class LoadAndParse {
         Row topRow = sheet.createRow(0);
         Cell aniCell = topRow.createCell(0);
         aniCell.setCellValue("AnID_1");
-        for (int i = 1; i < headings.size(); i++) {
+        for (int i = 1; i <= headings.size(); i++) {
             Cell cell = topRow.createCell(i);
             cell.setCellValue(headings.get(i - 1));
         }
@@ -222,7 +229,7 @@ public class LoadAndParse {
         return sum;
     }
     private static void alertError(Exception err, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message + " (Full stack below...) \n" +err.getMessage());
+        Alert alert = new Alert(Alert.AlertType.ERROR, message + " (Full stack below...) \n\n" +err.getMessage());
         alert.show();
     }
 }

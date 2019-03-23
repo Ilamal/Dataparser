@@ -212,9 +212,9 @@ public class FXMLController implements Initializable {
             hi.startDay = Integer.parseInt(x.startDay.getText());
             hi.endDay = Integer.parseInt(x.endDay.getText());
             
-            if (hi.avg || hi.normal) {
+          //  if (hi.avg || hi.normal) {
                 li.add(hi);
-            }            
+           // }            
         }
         
         HashMap<Integer, HashMap<String, Double>> hm = LD.readData(li);        
