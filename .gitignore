@@ -1,2 +1,6 @@
 /target/
 nb*
+.idea
+
+*.xlsx
+*.xlx

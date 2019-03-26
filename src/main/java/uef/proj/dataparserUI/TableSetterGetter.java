@@ -6,28 +6,57 @@
 package uef.proj.dataparserUI;
 
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 
 /**
  *
  * @author mikkonyg
  */
 public class TableSetterGetter {
-    int id;
+    TextField startDay;
+    TextField endDay;
     String name;
-    CheckBox checkBox;
+    CheckBox cb_default;
+    CheckBox cb_average;
 
-    public TableSetterGetter(int id, String name, CheckBox checkBox) {
-        this.id = id;
+    public TableSetterGetter(String name, TextField startDay, TextField endDay, CheckBox checkBox, CheckBox checkBox2) {
         this.name = name;
-        this.checkBox = checkBox;
+        this.startDay = startDay;
+        this.endDay = endDay;
+        this.cb_default = checkBox;
+        this.cb_average = checkBox2;
     }
 
-    public int getId() {
-        return id;
+    public CheckBox getCheckBox() {
+        return cb_default;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCheckBox(CheckBox checkBox) {
+        this.cb_default = checkBox;
+    }
+
+    public CheckBox getCheckBox2() {
+        return cb_average;
+    }
+
+    public void setCheckBox2(CheckBox checkBox2) {
+        this.cb_average = checkBox2;
+    }
+
+    public TextField getStartDay() {
+        return startDay;
+    }
+
+    public void setStartDay(TextField startDay) {
+        this.startDay = startDay;
+    }
+
+    public TextField getEndDay() {
+        return endDay;
+    }
+
+    public void setEndDay(TextField endDay) {
+        this.endDay = endDay;
     }
 
     public String getName() {
@@ -37,14 +66,5 @@ public class TableSetterGetter {
     public void setName(String name) {
         this.name = name;
     }
-
-    public CheckBox getCheckBox() {
-        return checkBox;
-    }
-
-    public void setCheckBox(CheckBox checkBox) {
-        this.checkBox = checkBox;
-    }
-    
     
 }

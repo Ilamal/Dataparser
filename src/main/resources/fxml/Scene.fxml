@@ -17,7 +17,7 @@
                 <VBox fx:id="dragTargetProbe" minWidth="300"
                       onDragOver="#handleDragOver" onDragDropped="#handleDragDroppedProbe">
                     <children>
-                        <Label minHeight="16" minWidth="69" fx:id="probeLabel" text="Drop probe file" />                
+                        <Label minHeight="16" minWidth="69" fx:id="probeLabel" text="Drop statistics file" />                
                         <Label fx:id="successLabel" minHeight="16" minWidth="69" text="" />
                     </children>
                 </VBox>
