@@ -152,6 +152,7 @@ public class FXMLController implements Initializable {
         //TODO: All default / All average-painikkeet.        
         
         LD = new LoadAndParse(probeFile, trialFile);
+        LD.readDateFromTrialList();
         ArrayList<String> headers;
         
         headers = LD.getAllHeaders();
@@ -169,7 +170,8 @@ public class FXMLController implements Initializable {
         }        
         
         tableView.setItems(list);
-
+        
+        
         //Tekeekö nämä mitään?
         normal.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox"));
         name.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("name"));

@@ -37,6 +37,7 @@ public class LoadAndParse {
     }
 
     ArrayList getAllHeaders() {
+        
         ArrayList<String> headers = new ArrayList();
         int a = 2;
         Cell tieto = null;
@@ -58,6 +59,7 @@ public class LoadAndParse {
 
             a++;
         } while (tieto != null);
+       
         return headers;
     }
 
@@ -101,16 +103,41 @@ public class LoadAndParse {
         return hashmap;
     }
     HashMap readDateFromTrialList() {
-        HashMap<Integer, Integer> dates = new HashMap<>();
         // Luetaan trialList tiedosto
         //for(???)
-        Row row = trialListWb.getSheetAt(0).getRow(0);
-        //dates.put(Integer trial, Integer date);
-        // Laitetaan dates hashmapiin tiedot päivistä <TrialNumber, Date>
+        HashMap<Integer, Integer> dates = new HashMap<>();
 
+        /*
+        Row row = trialListWb.getSheetAt(0).getRow(3); 
+        dates.put(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(0)).replace("Trial", "").replace(" ", "")), Integer.valueOf(dataFormatter.formatCellValue(row.getCell(5))));
+         System.out.println("Moro, päästiin metodiin!!!");
+         System.out.println(dates.keySet());
+         System.out.println(dates.values());
+        */
+        
+        // poikki jos solu tyhjä
+        for (int j = 1; j < 500; j++) {
+            Row row = trialListWb.getSheetAt(0).getRow(j);
+            //for (Row row : trialListWb.getSheetAt(0)) {
+            System.out.println("meneekö");
+            System.out.println("RowLastCellNum" + row.getLastCellNum());
+                        
+            for (int i = 1; i < row.getLastCellNum(); i++) {
+                System.out.println("");
+                //Laitetaan dates hashmapiin tiedot päivistä <TrialNumber, Date>
+               int luku =  Integer.valueOf(dataFormatter.formatCellValue(row.getCell(0)).replace("Trial", "").replace(" ", ""));
+               int lukuB =  Integer.valueOf(dataFormatter.formatCellValue(row.getCell(5)));
+                dates.put(luku,lukuB);
+
+            }
+        }
+        
+        System.out.println("Moro, päästiin metodiin!!!");
+        System.out.println(dates.keySet());
+        System.out.println(dates.values());
+        
         //Palautetaan
         return dates;
-        
     }
     private ArrayList<Row> getRows(Sheet sheet, int amount) {
         ArrayList<Row> rows = new ArrayList<>();
