@@ -9,19 +9,23 @@
 
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="288.0" prefWidth="293.0" xmlns:fx="http://javafx.com/fxml" fx:controller="uef.proj.dataparserUI.FXMLController">
-<children>
-    <Button alignment="CENTER" text="NäytäListat" onAction="#showList" /> 
-    <TableView fx:id="tableView" layoutX="35.0" layoutY="28.0" prefHeight="520.0" prefWidth="590.0">
-    <columns>
-        <TableColumn prefWidth="195.0" text="Heading" fx:id="name" />
-        <TableColumn prefWidth="75.0" text="Default" fx:id="normal" />
-        <TableColumn prefWidth="75.0" text="Average" fx:id="average" />
-        <TableColumn prefWidth="45.0" text="startDay" fx:id="start" />
-        <TableColumn prefWidth="45.0" text="endDay" fx:id="end" />
+    <children> 
+
+        <Button AnchorPane.topAnchor="1.0" AnchorPane.leftAnchor="14.0" text="NäytäListat" onAction="#showList" />
+        <Button AnchorPane.topAnchor="8.0" AnchorPane.leftAnchor="250.0" text="Select Default"/>
+        <!-- <Button alignment="CENTER_RIGHT" text="Select Average" /> -->
+        <TableView fx:id="tableView" layoutX="35.0" layoutY="28.0" prefHeight="520.0" prefWidth="590.0">
+            <columns>
+                <TableColumn prefWidth="195.0" text="Heading" fx:id="name" />
+                <TableColumn prefWidth="125.0" text="Alias" fx:id="alias" />
+                <TableColumn prefWidth="75.0" text="Default" fx:id="normal" />
+                <TableColumn prefWidth="75.0" text="Average" fx:id="average" />
+                <TableColumn prefWidth="45.0" text="startDay" fx:id="start" />
+                <TableColumn prefWidth="45.0" text="endDay" fx:id="end" />
         
-    </columns>
-    </TableView>
-    <Button AnchorPane.leftAnchor="14.0" AnchorPane.bottomAnchor="14.0" text="Done" onAction="#getValues" />
-</children>
+            </columns>
+        </TableView>
+        <Button AnchorPane.leftAnchor="14.0" AnchorPane.bottomAnchor="14.0" text="Done" onAction="#getValues" />
+    </children>
 </AnchorPane>
 
