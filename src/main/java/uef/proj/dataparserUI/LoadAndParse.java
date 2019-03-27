@@ -21,17 +21,18 @@ public class LoadAndParse {
     private final DataFormatter dataFormatter = new DataFormatter();
     private final String AnimalId = "animalid";
 
-    private Workbook probeWb;
-    private Workbook trialWb;
+    private Workbook statisticsWb; // DATA
+    private Workbook trialListWb; // DATES
 
-    LoadAndParse(File file) {
+    LoadAndParse(File probeFile, File trialListFile) {
         try {
-            System.out.println("load&parse tiedosto " + file);
-            probeWb = WorkbookFactory.create(file);
-            trialWb = WorkbookFactory.create(file);
+            System.out.println("load&parse tiedosto " + probeFile + " " + trialListFile);
+            statisticsWb = WorkbookFactory.create(probeFile);
+            trialListWb = WorkbookFactory.create(trialListFile);
 
-        } catch (IOException ex) {
+        } catch (IOException | NullPointerException ex) {
             System.out.println(Arrays.toString(ex.getStackTrace()));
+            alertError(ex, "Problem with given files...");
         }
     }
 
@@ -44,7 +45,7 @@ public class LoadAndParse {
 
             for (int i = 0; i < 4; i++) {
 
-                Row row = probeWb.getSheetAt(0).getRow(i);
+                Row row = statisticsWb.getSheetAt(0).getRow(i);
                 if (dataFormatter.formatCellValue(row.getCell(a)).equals("") && i == 0) {
                     tieto = null;
                     break;
@@ -66,9 +67,9 @@ public class LoadAndParse {
         // Read the headings
         ArrayList<String> headings = new ArrayList();
         headingsInfo.forEach(e -> headings.add(e.getHeading()));
-
+        
         // Add other data
-        for (Row row : probeWb.getSheetAt(0)) {
+        for (Row row : statisticsWb.getSheetAt(0)) {
 
             HashMap<String, Double> temp = new HashMap<>();
             if (dataFormatter.formatCellValue(row.getCell(0)).replace("Trial ", "").equals("")) {
@@ -79,7 +80,7 @@ public class LoadAndParse {
             temp.put(AnimalId, Double.valueOf(dataFormatter.formatCellValue(row.getCell(1))));
 
             hashmap.put(trialn, temp);
-
+            // DATES FROM TRIALLISTS
             //TODO: HeadingsInfon käyttäminen 
             for (int i = 2; i < row.getLastCellNum(); i++) {
 
@@ -99,7 +100,18 @@ public class LoadAndParse {
         System.out.println("lopetus");
         return hashmap;
     }
+    HashMap readDateFromTrialList() {
+        HashMap<Integer, Integer> dates = new HashMap<>();
+        // Luetaan trialList tiedosto
+        //for(???)
+        Row row = trialListWb.getSheetAt(0).getRow(0);
+        //dates.put(Integer trial, Integer date);
+        // Laitetaan dates hashmapiin tiedot päivistä <TrialNumber, Date>
 
+        //Palautetaan
+        return dates;
+        
+    }
     private ArrayList<Row> getRows(Sheet sheet, int amount) {
         ArrayList<Row> rows = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
@@ -143,7 +155,6 @@ public class LoadAndParse {
                 for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
 
                     Row row = rows.get(rowIdx);
-
                     // Fill the row
                     // for (Map.Entry<String, Double> dataEntry : trialEntry.getValue().entrySet()) {
                     Double dataEntry = trialEntry.getValue().get(head);

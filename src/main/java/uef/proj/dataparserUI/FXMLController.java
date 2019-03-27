@@ -151,7 +151,7 @@ public class FXMLController implements Initializable {
         //TODO: Otsikoille mahdollisuus uudelleen nimeämiseen. 
         //TODO: All default / All average-painikkeet.        
         
-        LD = new LoadAndParse(probeFile);
+        LD = new LoadAndParse(probeFile, trialFile);
         ArrayList<String> headers;
         
         headers = LD.getAllHeaders();
@@ -186,6 +186,7 @@ public class FXMLController implements Initializable {
                 primarystage.getScene().setRoot((Pane) loader.load());
                 FXMLController controller = (FXMLController) loader.getController();
                 controller.probeFile = probeFile;
+                controller.trialFile = trialFile;
             }
             
         } catch (IOException e) {
