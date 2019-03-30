@@ -113,7 +113,7 @@ public class LoadAndParse {
         ArrayList<String> headings = new ArrayList();
         ArrayList temp = new ArrayList();
         headingsInfo.forEach(e -> {
-            if(e.normal || e.avg) {
+            if (e.normal || e.avg) {
                 temp.add(e);
                 headings.add(e.heading);
             }
@@ -136,10 +136,10 @@ public class LoadAndParse {
         int colIdx = 1;
         // Create cells
         for (String head : headings) {
-
+            HeaderInfo headInfo = headingsInfo.get(colIdx - 1);
             int rowIdx = 1;
-            if (headingsInfo.get(colIdx - 1).isNormal()) {
-
+            if (headInfo.isNormal()) {
+                topRow.createCell(colIdx).setCellValue(headInfo.getHeading());
                 for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
 
                     Row row = rows.get(rowIdx);
@@ -156,10 +156,14 @@ public class LoadAndParse {
                     row.createCell(0).setCellValue(trialEntry.getValue().get(AnimalId));
                     rowIdx++;
                 }
-                colIdx++;
 
-            } else if (headingsInfo.get(colIdx - 1).isAvg()) {
-                //Tässä oli j++ outoilu
+                colIdx++;
+                if (headInfo.isAvg()) {
+                    rowIdx = 1;
+                }
+            }
+            if (headInfo.isAvg()) {
+                topRow.createCell(colIdx).setCellValue(headInfo.getHeading());
                 for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
 
                     Row row = rows.get(rowIdx);
@@ -228,8 +232,9 @@ public class LoadAndParse {
         }
         return sum;
     }
+
     private static void alertError(Exception err, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message + " (Full stack below...) \n\n" +err.getMessage());
+        Alert alert = new Alert(Alert.AlertType.ERROR, message + " (Full stack below...) \n\n" + err.getMessage());
         alert.show();
     }
 }
