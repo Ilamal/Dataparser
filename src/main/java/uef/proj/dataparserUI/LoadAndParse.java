@@ -114,27 +114,26 @@ public class LoadAndParse {
          System.out.println(dates.keySet());
          System.out.println(dates.values());
         */
-        
+        System.out.println("kekkistä");
         // poikki jos solu tyhjä
-        for (int j = 1; j < 500; j++) {
-            Row row = trialListWb.getSheetAt(0).getRow(j);
-            //for (Row row : trialListWb.getSheetAt(0)) {
-            System.out.println("meneekö");
-            System.out.println("RowLastCellNum" + row.getLastCellNum());
-                        
-            for (int i = 1; i < row.getLastCellNum(); i++) {
-                System.out.println("");
+        int idx = 1;
+        Row row = trialListWb.getSheetAt(0).getRow(idx);
+        while (row != null) {
+            //!(dataFormatter.formatCellValue(row.getCell(0))).equals("")
+           // System.out.println("meneekö" + idx);
+                    
+                //System.out.println("");
                 //Laitetaan dates hashmapiin tiedot päivistä <TrialNumber, Date>
-               int luku =  Integer.valueOf(dataFormatter.formatCellValue(row.getCell(0)).replace("Trial", "").replace(" ", ""));
-               int lukuB =  Integer.valueOf(dataFormatter.formatCellValue(row.getCell(5)));
-                dates.put(luku,lukuB);
-
-            }
-        }
+               int trialNumber =  Integer.valueOf(dataFormatter.formatCellValue(row.getCell(0)).replaceAll("\\D", ""));
+               int trialDay =  Integer.valueOf(dataFormatter.formatCellValue(row.getCell(5)));               
+               dates.put(trialNumber,trialDay);
+               System.out.println("meneekö" + idx);
+               row = trialListWb.getSheetAt(0).getRow(++idx);
+        }     
         
         System.out.println("Moro, päästiin metodiin!!!");
-        System.out.println(dates.keySet());
-        System.out.println(dates.values());
+        System.out.println(dates.get(301));
+        System.out.println(dates.get(300));
         
         //Palautetaan
         return dates;
