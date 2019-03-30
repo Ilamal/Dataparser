@@ -16,11 +16,13 @@ public class TableSetterGetter {
     TextField startDay;
     TextField endDay;
     String name;
+    String alias; 
     CheckBox cb_default;
     CheckBox cb_average;
 
-    public TableSetterGetter(String name, TextField startDay, TextField endDay, CheckBox checkBox, CheckBox checkBox2) {
+    public TableSetterGetter(String name,String alias, TextField startDay, TextField endDay, CheckBox checkBox, CheckBox checkBox2) {
         this.name = name;
+        this.alias = alias;
         this.startDay = startDay;
         this.endDay = endDay;
         this.cb_default = checkBox;
@@ -65,6 +67,13 @@ public class TableSetterGetter {
 
     public void setName(String name) {
         this.name = name;
+    }
+      public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
     
 }
