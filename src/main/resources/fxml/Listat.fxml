@@ -15,10 +15,10 @@
         <Button  fx:id="btn_setAverage" AnchorPane.topAnchor="5.0" AnchorPane.rightAnchor="225.0" text="All Averages" onAction="#selectAll"  />   
      
 
-        <TableView  fx:id="tableView" layoutX="35.0" layoutY="28.0" prefHeight="520.0" prefWidth="590.0">
+        <TableView fx:id="tableView" layoutX="35.0" layoutY="28.0" prefHeight="520.0" prefWidth="590.0">
             <columns>
                 <TableColumn prefWidth="195.0" text="Heading" fx:id="name" />
-                <TableColumn prefWidth="125.0" text="Alias" fx:id="alias" />
+                <TableColumn prefWidth="125.0" text="Alias" fx:id="alias" onEditCommit="#onEditChanged"/>
                 <TableColumn prefWidth="75.0" text="Default" fx:id="normal" />
                 <TableColumn prefWidth="75.0" text="Average" fx:id="average" />
                 <TableColumn prefWidth="60.0" text="startDay" fx:id="start" />

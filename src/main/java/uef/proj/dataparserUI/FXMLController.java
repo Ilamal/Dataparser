@@ -29,6 +29,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -57,6 +58,8 @@ public class FXMLController implements Initializable {
     @FXML
     private TableColumn<TableSetterGetter, String> name;
     @FXML
+    private TableColumn<TableSetterGetter, String> alias;
+    @FXML
     private TableColumn<TableSetterGetter, CheckBox> normal;
     @FXML
     private TableColumn<TableSetterGetter, CheckBox> average;
@@ -74,7 +77,10 @@ public class FXMLController implements Initializable {
 
     @FXML
     private Button btn_setAverage;
-
+    @FXML
+    private Boolean buttonClickAverage;
+    @FXML
+    private Boolean buttonClickDefault;
     @FXML
     private ProgressBar progressBar; // Is this needed? Need to impement some info from loadAndParse of progress or just have it say when one function is done etc.
 
@@ -163,48 +169,71 @@ public class FXMLController implements Initializable {
         headers = LD.getAllHeaders();
 
         //TableViewin luominen
-        //TODO: Alku- ja loppupäivät trial listin päivien perusteella
+        
         for (int i = 0; i < headers.size(); i++) {
+            String nimi = headers.get(i);
+            String alias = headers.get(i);
             CheckBox ch1 = new CheckBox();
             CheckBox ch2 = new CheckBox();
             TextField tf1 = getNumberField();
             tf1.setText("1");
             TextField tf2 = getNumberField();
             tf2.setText("5");
-            list.add(new TableSetterGetter(headers.get(i), tf1, tf2, ch1, ch2));
+            list.add(new TableSetterGetter(nimi, alias, tf1, tf2, ch1, ch2));
         }
 
         tableView.setItems(list);
+        tableView.setEditable(true);
 
-        //Tekeekö nämä mitään?
+        //Laitetaan arvot TableViewin 
         normal.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox"));
         name.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("name"));
+        alias.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("alias"));
         average.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox2"));
         start.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("startDay"));
         end.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("endDay"));
+        
+        alias.setCellFactory(TextFieldTableCell.forTableColumn());
+        
+        
+    }
+    
+    @FXML
+    public void onEditChanged(TableColumn.CellEditEvent<TableSetterGetter,String> CellEditEvent){
+        TableSetterGetter tsg = tableView.getSelectionModel().getSelectedItem();
+        tsg.setAlias(CellEditEvent.getNewValue());                
     }
 
     @FXML
-    public void selectAll(ActionEvent event) {        
-         //CheckBoxien täyttäminen täyttäminen
+    public void selectAll(ActionEvent event) {
+        //CheckBoxien täyttäminen 
         
-        if (event.getSource() == btn_setDefault) {
+        if (event.getSource() == btn_setDefault && buttonClickDefault == false) {
             for (TableSetterGetter x : tableView.getItems()) {
+                System.out.println("");
                 x.cb_default.setSelected(true);
-                x.cb_average.setSelected(false);
+                buttonClickDefault = true;
             }
-        }
-
-        if (event.getSource() == btn_setAverage) {
+        } else if (event.getSource() == btn_setDefault && buttonClickDefault == true) {
             for (TableSetterGetter x : tableView.getItems()) {
-                x.cb_average.setSelected(true);
-                x.cb_default.setSelected(false);
-                
+                    x.cb_default.setSelected(false);
+                    buttonClickDefault = false;
+                }   
+        }
+        if (event.getSource() == btn_setAverage && buttonClickAverage == false) {
+                for (TableSetterGetter x : tableView.getItems()) {
+                    x.cb_average.setSelected(true);
+                    buttonClickAverage = true;
+
+                }
+        } else if (event.getSource() == btn_setAverage && buttonClickAverage == true) {
+            for (TableSetterGetter x : tableView.getItems()) {
+                    x.cb_average.setSelected(false);
+                    buttonClickAverage = false;
             }
         }
-
     }
-    
+
     @FXML
     public void Upload() {
         try {
@@ -232,8 +261,8 @@ public class FXMLController implements Initializable {
 
         for (TableSetterGetter x : tableView.getItems()) {
             HeaderInfo hi = new HeaderInfo();
-            hi.heading = x.name;
-            hi.alias = x.name;
+            hi.heading = x.alias;
+            hi.alias = x.alias; // Ei käytössä
             hi.avg = x.cb_average.isSelected();
             hi.normal = x.cb_default.isSelected();
             hi.startDay = Integer.parseInt(x.startDay.getText());
@@ -248,6 +277,9 @@ public class FXMLController implements Initializable {
         LD.addData(li, hm);
 
     }
+    
+    
+    
 
     public void ProgressCounter() {
         // progressBar.setProgress(ProgressDataFromServer);
@@ -269,6 +301,8 @@ public class FXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        buttonClickAverage = false;
+        buttonClickDefault = false;
 
     }
 
