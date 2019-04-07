@@ -62,6 +62,38 @@ public class LoadAndParse {
        
         return headers;
     }
+    ArrayList shortHeadings(ArrayList<HeaderInfo> headingsInfo) {
+         /* Returns the shortened versions of the headings. The shortened heading includes (HEAD(AVG)_XY:)
+        1. HEAD - shortens the text part of the heading to 4-6 characters.
+        2. (AVG) - included if a user selects the average option to be shown.
+        3. X - Day.
+        4. Y - Swim number.
+        */
+        ArrayList<String> shortHeadings = new ArrayList();
+        //Creation of the HEAD part.
+        headingsInfo.forEach(e -> shortHeadings.add(e.getHeading()));  
+        for (String s : shortHeadings) {
+            String firstWord = s.substring(0, 5);
+            
+            //Check if average selected -> Add AVG if needed:
+             if (true) {
+                //shortHeadings.get(e) += "AVG"; //korjaa e
+            }
+             
+            //Add char _ between the HEAD(AVG) part and the XY part:
+            //shortHeadings.get(e) += "_"; //korjaa e
+            
+            //Add trial day:
+            //Miten tähän päivät? Jokin tarkistus että mitä päiviä/monta trialia per päivä millekkin otsikolle löytyy? Kuulostaa aika raskaalta.
+            //shortHeadings.get(?) += Integer.toString(?);
+            
+            //Add swim number:
+            //shortHeadings.get(e) += Integer.toString(?);
+        }
+        
+        return shortHeadings;
+        
+    }
 
     public HashMap<Integer, HashMap<String, Double>> readData(ArrayList<HeaderInfo> headingsInfo) {
         // Read the workbook and add necessary data to HashMap according to the headings list
@@ -114,7 +146,7 @@ public class LoadAndParse {
          System.out.println(dates.keySet());
          System.out.println(dates.values());
         */
-        System.out.println("kekkistä");
+        
         // poikki jos solu tyhjä
         int idx = 1;
         Row row = trialListWb.getSheetAt(0).getRow(idx);
@@ -127,13 +159,13 @@ public class LoadAndParse {
                int trialNumber =  Integer.valueOf(dataFormatter.formatCellValue(row.getCell(0)).replaceAll("\\D", ""));
                int trialDay =  Integer.valueOf(dataFormatter.formatCellValue(row.getCell(5)));               
                dates.put(trialNumber,trialDay);
-               System.out.println("meneekö" + idx);
                row = trialListWb.getSheetAt(0).getRow(++idx);
         }     
         
-        System.out.println("Moro, päästiin metodiin!!!");
-        System.out.println(dates.get(301));
-        System.out.println(dates.get(300));
+        // TESTIT - VOIKO POISTAA?
+        //System.out.println("Moro, päästiin metodiin!!!");
+        //System.out.println(dates.get(301));
+        //System.out.println(dates.get(300));
         
         //Palautetaan
         return dates;
