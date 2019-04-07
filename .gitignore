@@ -4,3 +4,5 @@ nb*
 
 *.xlsx
 *.xlx
+.gitignore
+pom
