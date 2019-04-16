@@ -3,6 +3,7 @@
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -16,8 +17,12 @@
                 <HBox alignment="BOTTOM_CENTER">
                 <VBox fx:id="dragTargetProbe" minWidth="300"
                       onDragOver="#handleDragOver" onDragDropped="#handleDragDroppedProbe">
-                    <children>
-                        <Label minHeight="16" minWidth="69" fx:id="probeLabel" text="Drop statistics file" />                
+                    <children>                    
+                        <Label minHeight="150" fx:id="probeLabel"  text="Drop statistics file">
+                            <font>
+                                <Font size="25.0" />
+                            </font>
+                        </Label>              
                         <Label fx:id="successLabel" minHeight="16" minWidth="69" text="" />
                     </children>
                 </VBox>
@@ -26,17 +31,23 @@
                 <VBox fx:id="dragTargetTrial" minWidth="300"
                       onDragOver="#handleDragOver" onDragDropped="#handleDragDroppedTrial">
                     <children>
-                        <Label minHeight="16" minWidth="69" fx:id="trialLabel" text="Drop trial lists" />                
+                        <Label minHeight="150" minWidth="69" fx:id="trialLabel" text="Drop trial lists">
+                             <font>
+                                <Font size="25.0" />
+                             </font>
+                        </Label>                
                         <Label fx:id="successLabelTrial" minHeight="16" minWidth="69" text="" />
                     </children>
                 </VBox>
                 <Button alignment="BOTTOM_LEFT"
                         text="Choose file" onAction="#handleButtonAction" fx:id="trialButton" />
                 </HBox>
-                <HBox alignment="BOTTOM_CENTER" maxWidth="Infinity" spacing="5">
-                    <!-- #onAction muutettu #onButtonClick testaamiseen -->
+                <HBox alignment="BOTTOM_LEFT" maxWidth="Infinity" spacing="5">                    
                     <Button fx:id="UploadButton" text="Upload" onAction="#Upload" minHeight="50" minWidth="60"/>
-                    <ProgressBar fx:id="progressBar" minWidth="300" minHeight="50"/>
+                    <!--ProgressBar hidden for testing  -->
+                   <!-- <ProgressBar fx:id="progressBar" minWidth="300" minHeight="50"/> -->
+                   <Button fx:id="clearButton" text="Clear" minHeight="50" minWidth="60"/>
+                                      
                 </HBox>
                 <Label fx:id="passwordLabel" minHeight="16" minWidth="69" text="" />
             </children>

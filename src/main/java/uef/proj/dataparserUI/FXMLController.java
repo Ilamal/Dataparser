@@ -62,11 +62,7 @@ public class FXMLController implements Initializable {
     @FXML
     private TableColumn<TableSetterGetter, CheckBox> normal;
     @FXML
-    private TableColumn<TableSetterGetter, CheckBox> average;
-    @FXML
-    private TableColumn<TableSetterGetter, TextField> start;
-    @FXML
-    private TableColumn<TableSetterGetter, TextField> end;
+    private TableColumn<TableSetterGetter, CheckBox> average;   
     @FXML
     private TableView<TableSetterGetter> tableView;
 
@@ -74,7 +70,6 @@ public class FXMLController implements Initializable {
 
     @FXML
     private Button btn_setDefault;
-
     @FXML
     private Button btn_setAverage;
     @FXML
@@ -160,9 +155,8 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    public void showList(ActionEvent e) {
-        //TODO: Otsikoille mahdollisuus uudelleen nimeämiseen. 
-        //TODO: All default / All average-painikkeet.        
+    public void showList(ActionEvent e) {        
+             
         
         LD = new LoadAndParse(probeFile, trialFile);
         LD.readDateFromTrialList();
@@ -170,32 +164,33 @@ public class FXMLController implements Initializable {
 
         headers = LD.getAllHeaders();
 
-        //TableViewin luominen
-        
+        //Create TableView        
         for (int i = 0; i < headers.size(); i++) {
             String nimi = headers.get(i);
             String alias = headers.get(i);
             CheckBox ch1 = new CheckBox();
             CheckBox ch2 = new CheckBox();
-            TextField tf1 = getNumberField();
-            tf1.setText("1");
-            TextField tf2 = getNumberField();
-            tf2.setText("5");
-            list.add(new TableSetterGetter(nimi, alias, tf1, tf2, ch1, ch2));
+            
+            list.add(new TableSetterGetter(nimi, alias, ch1, ch2));
         }
 
         tableView.setItems(list);
         tableView.setEditable(true);
+        
 
-        //Laitetaan arvot TableViewin 
+        //Set values to TableView
         normal.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox"));
         name.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("name"));
-        alias.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("alias"));
-        average.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox2"));
-        start.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("startDay"));
-        end.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, TextField>("endDay"));
+        //alias.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("alias"));
+        average.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox2"));         
         
-        alias.setCellFactory(TextFieldTableCell.forTableColumn());
+        alias.setCellFactory(TextFieldTableCell.forTableColumn());       
+        
+        //TableView sorting disable
+        normal.setSortable(false);
+        name.setSortable(false);
+        alias.setSortable(false);
+        average.setSortable(false);
         
         
     }
@@ -267,9 +262,7 @@ public class FXMLController implements Initializable {
             hi.heading = x.alias;
             hi.alias = x.alias; // Ei käytössä
             hi.avg = x.cb_average.isSelected();
-            hi.normal = x.cb_default.isSelected();
-            hi.startDay = Integer.parseInt(x.startDay.getText());
-            hi.endDay = Integer.parseInt(x.endDay.getText());
+            hi.normal = x.cb_default.isSelected();            
 
             //  if (hi.avg || hi.normal) {
             li.add(hi);
@@ -279,9 +272,7 @@ public class FXMLController implements Initializable {
         HashMap<Integer, HashMap<String, Double>> hm = LD.readData(li);
         LD.addData(li, hm);
 
-    }
-    
-    
+    }      
     
 
     public void ProgressCounter() {
@@ -317,7 +308,8 @@ public class FXMLController implements Initializable {
         dragTargetTrial.prefWidthProperty().bind(primarystage.widthProperty().multiply(0.3));
         dragTargetTrial.prefHeightProperty().bind(primarystage.heightProperty().multiply(0.3));
     }
-
+    // Väliaikasesti kommentteihin asiakastapaamisen toiveiden mukaisesti.
+    /*
     private TextField getNumberField() {
         final TextField textField = new TextField();
         textField.textProperty().addListener(new ChangeListener<String>() {
@@ -331,4 +323,5 @@ public class FXMLController implements Initializable {
         });
         return textField;
     }
+*/
 }

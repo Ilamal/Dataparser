@@ -19,10 +19,8 @@
             <columns>
                 <TableColumn prefWidth="195.0" text="Heading" fx:id="name" />
                 <TableColumn prefWidth="125.0" text="Alias" fx:id="alias" onEditCommit="#onEditChanged"/>
-                <TableColumn prefWidth="75.0" text="Default" fx:id="normal" />
-                <TableColumn prefWidth="75.0" text="Average" fx:id="average" />
-                <TableColumn prefWidth="60.0" text="startDay" fx:id="start" />
-                <TableColumn prefWidth="60.0" text="endDay" fx:id="end" />        
+                <TableColumn prefWidth="90.0" text="Default" fx:id="normal" />
+                <TableColumn prefWidth="90.0" text="Average" fx:id="average" />                      
             </columns>
         </TableView>
         

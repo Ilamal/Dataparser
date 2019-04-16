@@ -12,19 +12,15 @@ import javafx.scene.control.TextField;
  *
  * @author mikkonyg
  */
-public class TableSetterGetter {
-    TextField startDay;
-    TextField endDay;
+public class TableSetterGetter {  
     String name;
     String alias; 
     CheckBox cb_default;
     CheckBox cb_average;
 
-    public TableSetterGetter(String name,String alias, TextField startDay, TextField endDay, CheckBox checkBox, CheckBox checkBox2) {
+    public TableSetterGetter(String name,String alias, CheckBox checkBox, CheckBox checkBox2) {
         this.name = name;
-        this.alias = alias;
-        this.startDay = startDay;
-        this.endDay = endDay;
+        this.alias = alias;       
         this.cb_default = checkBox;
         this.cb_average = checkBox2;
     }
@@ -43,24 +39,7 @@ public class TableSetterGetter {
 
     public void setCheckBox2(CheckBox checkBox2) {
         this.cb_average = checkBox2;
-    }
-
-    public TextField getStartDay() {
-        return startDay;
-    }
-
-    public void setStartDay(TextField startDay) {
-        this.startDay = startDay;
-    }
-
-    public TextField getEndDay() {
-        return endDay;
-    }
-
-    public void setEndDay(TextField endDay) {
-        this.endDay = endDay;
-    }
-
+    }   
     public String getName() {
         return name;
     }

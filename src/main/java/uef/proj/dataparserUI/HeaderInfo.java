@@ -8,9 +8,7 @@ public class HeaderInfo {
     String heading;
     String alias;
     boolean normal;
-    boolean avg;
-    int startDay;
-    int endDay;
+    boolean avg;   
     
     public HeaderInfo() {
     }
@@ -20,23 +18,7 @@ public class HeaderInfo {
         this.alias = alias;
         this.normal = normal;
         this.avg = avg;
-    }
-
-    public int getStartDay() {
-        return startDay;
-    }
-
-    public void setStartDay(int startDay) {
-        this.startDay = startDay;
-    }
-
-    public int getEndDay() {
-        return endDay;
-    }
-
-    public void setEndDay(int endDay) {
-        this.endDay = endDay;
-    }
+    }    
 
     public String getHeading() {
         return heading;
@@ -48,7 +30,7 @@ public class HeaderInfo {
 
     public String getAlias() {
         return alias;
-    }
+    } 
 
     public void setAlias(String alias) {
         this.alias = alias;
