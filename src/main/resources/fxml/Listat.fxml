@@ -10,7 +10,7 @@
 
 <AnchorPane id="AnchorPane"  prefHeight="300.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml" fx:controller="uef.proj.dataparserUI.FXMLController">
     <children> 
-        <Button AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" text="NäytäListat" onAction="#showList" />
+       <Button AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" text="NäytäListat" onAction="#showList" />
         <Button  fx:id="btn_setDefault"  AnchorPane.topAnchor="5.0" AnchorPane.rightAnchor="290.0" prefWidth="75.0"  text="All defaults" onAction="#selectAll"/>
         <Button  fx:id="btn_setAverage" AnchorPane.topAnchor="5.0" AnchorPane.rightAnchor="225.0" text="All Averages" onAction="#selectAll"  />   
      
