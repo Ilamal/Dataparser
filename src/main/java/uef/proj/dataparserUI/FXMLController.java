@@ -254,7 +254,8 @@ public class FXMLController implements Initializable {
 
     }
     @FXML
-    public void saveTemplate() {
+    public void saveTemplate() {        
+       
         ArrayList<Template> lis = new ArrayList();
 
         for (TableSetterGetter x : tableView.getItems()) {
@@ -268,19 +269,28 @@ public class FXMLController implements Initializable {
         directory.mkdir();
         // If you require it to make the entire directory path including parents,
         // use directory.mkdirs(); here instead.
-       }
-
-    
+        }    
         
         ObjectOutputStream objectOut = null;
-        try {
-        objectOut = new ObjectOutputStream(new FileOutputStream("Templates/user-template.dat"));
+        try {   
+            
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DAT files (.dat)", ".dat");
+        fileChooser.getExtensionFilters().add(extFilter);         
+       
+        fileChooser.setInitialDirectory(new File("Templates"));
+        objectOut = new ObjectOutputStream(new FileOutputStream(fileChooser.showSaveDialog(null).getAbsolutePath()));
+        
         for(int i=0;i<lis.size();i++) {
             objectOut.writeObject((Object)lis.get(i));
         }
         } catch(IOException ex) {
             System.out.println("IOex");
-        } finally {
+        }
+        catch(NullPointerException ex){
+            new LoadAndParse(probeFile,trialFile).alertError(ex, "Did you close without saving template?");
+        }
+        finally {
         try {
             objectOut.close();
         } catch (IOException | NullPointerException ex) {
@@ -288,11 +298,14 @@ public class FXMLController implements Initializable {
         }
         
         }
+        
     }
     //Building way to save data from TableView
     @FXML
     public void getValues() {
-        ArrayList<HeaderInfo> li = new ArrayList();
+        ArrayList<HeaderInfo> li = new ArrayList();        
+        
+        
 
         for (TableSetterGetter x : tableView.getItems()) {
             HeaderInfo hi = new HeaderInfo();
@@ -308,7 +321,7 @@ public class FXMLController implements Initializable {
 
         HashMap<Integer, HashMap<String, Double>> hm = LD.readData(li);
         LD.addData(li, hm);
-
+      
     }
 
     @FXML
