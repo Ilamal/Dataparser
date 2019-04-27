@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -263,20 +264,28 @@ public class LoadAndParse {
         // Write the output to a file
         FileOutputStream fileOut = null;
         try {
-            fileOut = new FileOutputStream("generated-statistics-file.xlsx");
+            
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLSX files (.xlsx)", ".xlsx");
+        fileChooser.getExtensionFilters().add(extFilter);
+        
+            fileOut = new FileOutputStream(fileChooser.showSaveDialog(null).getAbsolutePath());
             wb.write(fileOut);
         } catch (IOException ex) {
             Logger.getLogger(LoadAndParse.class
                     .getName()).log(Level.SEVERE, null, ex);
             alertError(ex, "Error creating/editing the file! Is your computer using the file?");
-        } finally {
+        }
+        catch(NullPointerException ex){
+             alertError(ex, "Did you close without saving template?");
+        }    
+        finally {
             try {
-                // Closing the stream and workbook
-                wb.close();
+                // Closing the stream and workbook                
                 fileOut.close();
+                wb.close();
             } catch (IOException | NullPointerException ex) {
-                Logger.getLogger(LoadAndParse.class.getName()).log(Level.SEVERE, null, ex);
-                alertError(ex, "Error closing the file stream!");
+                Logger.getLogger(LoadAndParse.class.getName()).log(Level.SEVERE, null, ex);                
             }
         }
     }
@@ -302,7 +311,7 @@ public class LoadAndParse {
         return sum;
     }
 
-    private static void alertError(Exception err, String message) {
+    public static void alertError(Exception err, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message + " (Full stack below...) \n\n" + err.getMessage());
         alert.show();
     }

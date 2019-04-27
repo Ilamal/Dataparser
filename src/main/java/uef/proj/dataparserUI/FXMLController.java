@@ -17,11 +17,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -32,18 +30,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.poi.ss.usermodel.Cell;
@@ -51,7 +44,7 @@ import org.apache.poi.ss.usermodel.Row;
 
 public class FXMLController implements Initializable {
 
-    //Ensimmäisen scenen toiminnallisuutta
+    //Intitialize first scene (Scene.fxml)
     @FXML
     private VBox dragTargetProbe;
     @FXML
@@ -60,8 +53,10 @@ public class FXMLController implements Initializable {
     private Label successLabel;
     @FXML
     private Label successLabelTrial;
+    @FXML
+    private Stage primarystage;
 
-    //tableViewin rakennus
+    //Initialize TableView 
     @FXML
     private TableColumn<TableSetterGetter, String> name;
     @FXML
@@ -69,7 +64,7 @@ public class FXMLController implements Initializable {
     @FXML
     private TableColumn<TableSetterGetter, CheckBox> normal;
     @FXML
-    private TableColumn<TableSetterGetter, CheckBox> average;   
+    private TableColumn<TableSetterGetter, CheckBox> average;
     @FXML
     private TableView<TableSetterGetter> tableView;
 
@@ -83,17 +78,15 @@ public class FXMLController implements Initializable {
     private Boolean buttonClickAverage;
     @FXML
     private Boolean buttonClickDefault;
-    @FXML
-    private ProgressBar progressBar; // Is this needed? Need to impement some info from loadAndParse of progress or just have it say when one function is done etc.
-
-    //Muokattavien tiedostojen muuttujat
+   
+    //Variables for user files 
     private File probeFile;
     private File trialFile;
 
-    private Stage primarystage;
-
+    // Variable for using other class    
     private LoadAndParse LD;
 
+    //Methods for action handling (button click, file drag)
     @FXML
     private void handleButtonAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -161,57 +154,58 @@ public class FXMLController implements Initializable {
         }
     }
 
+    //Creates and fills TableView with data from input files. Makes header names editable and unsortable
     @FXML
-    public void showList(ActionEvent e) {        
-             
-        
+    public void showList(ActionEvent e) {
+
+        //Create new instance of LoadAndParse
         LD = new LoadAndParse(probeFile, trialFile);
         LD.readDateFromTrialList();
         ArrayList<String> headers;
 
         headers = LD.getAllHeaders();
 
-        //Create TableView        
+        //Create TableView and fill it
         for (int i = 0; i < headers.size(); i++) {
             String nimi = headers.get(i);
             String alias = headers.get(i);
             CheckBox ch1 = new CheckBox();
             CheckBox ch2 = new CheckBox();
-            
+
             list.add(new TableSetterGetter(nimi, alias, ch1, ch2));
         }
 
+        //TableView headers editable
         tableView.setItems(list);
         tableView.setEditable(true);
-        
 
         //Set values to TableView
         normal.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox"));
         name.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("name"));
+        average.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox2"));
         //alias.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("alias"));
-        average.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox2"));         
-        
-        alias.setCellFactory(TextFieldTableCell.forTableColumn());       
-        
-        //TableView sorting disable
+
+        alias.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        //TableView headers unsortable
         normal.setSortable(false);
         name.setSortable(false);
         alias.setSortable(false);
         average.setSortable(false);
-        
-        
-    }
-    
-    @FXML
-    public void onEditChanged(TableColumn.CellEditEvent<TableSetterGetter,String> CellEditEvent){
-        TableSetterGetter tsg = tableView.getSelectionModel().getSelectedItem();
-        tsg.setAlias(CellEditEvent.getNewValue());                
+
     }
 
+    //Edited header ("alias") shows instantly after edit
+    @FXML
+    public void onEditChanged(TableColumn.CellEditEvent<TableSetterGetter, String> CellEditEvent) {
+        TableSetterGetter tsg = tableView.getSelectionModel().getSelectedItem();
+        tsg.setAlias(CellEditEvent.getNewValue());
+    }
+
+    //Functionality for buttons "Default" and "Average" (Check/Uncheck all checkboxes)
     @FXML
     public void selectAll(ActionEvent event) {
-        //CheckBoxien täyttäminen 
-        
+
         if (event.getSource() == btn_setDefault && buttonClickDefault == false) {
             for (TableSetterGetter x : tableView.getItems()) {
                 System.out.println("");
@@ -220,24 +214,25 @@ public class FXMLController implements Initializable {
             }
         } else if (event.getSource() == btn_setDefault && buttonClickDefault == true) {
             for (TableSetterGetter x : tableView.getItems()) {
-                    x.cb_default.setSelected(false);
-                    buttonClickDefault = false;
-                }   
+                x.cb_default.setSelected(false);
+                buttonClickDefault = false;
+            }
         }
         if (event.getSource() == btn_setAverage && buttonClickAverage == false) {
-                for (TableSetterGetter x : tableView.getItems()) {
-                    x.cb_average.setSelected(true);
-                    buttonClickAverage = true;
+            for (TableSetterGetter x : tableView.getItems()) {
+                x.cb_average.setSelected(true);
+                buttonClickAverage = true;
 
-                }
+            }
         } else if (event.getSource() == btn_setAverage && buttonClickAverage == true) {
             for (TableSetterGetter x : tableView.getItems()) {
-                    x.cb_average.setSelected(false);
-                    buttonClickAverage = false;
+                x.cb_average.setSelected(false);
+                buttonClickAverage = false;
             }
         }
     }
 
+    //Functionality for changing scene from first (Scene.fxml) to second (Listat.fxml)
     @FXML
     public void Upload() {
         try {
@@ -259,7 +254,8 @@ public class FXMLController implements Initializable {
 
     }
     @FXML
-    public void saveTemplate() {
+    public void saveTemplate() {        
+       
         ArrayList<Template> lis = new ArrayList();
 
         for (TableSetterGetter x : tableView.getItems()) {
@@ -273,19 +269,28 @@ public class FXMLController implements Initializable {
         directory.mkdir();
         // If you require it to make the entire directory path including parents,
         // use directory.mkdirs(); here instead.
-       }
-
-    
+        }    
         
         ObjectOutputStream objectOut = null;
-        try {
-        objectOut = new ObjectOutputStream(new FileOutputStream("Templates/user-template.dat"));
+        try {   
+            
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DAT files (.dat)", ".dat");
+        fileChooser.getExtensionFilters().add(extFilter);         
+       
+        fileChooser.setInitialDirectory(new File("Templates"));
+        objectOut = new ObjectOutputStream(new FileOutputStream(fileChooser.showSaveDialog(null).getAbsolutePath()));
+        
         for(int i=0;i<lis.size();i++) {
             objectOut.writeObject((Object)lis.get(i));
         }
         } catch(IOException ex) {
             System.out.println("IOex");
-        } finally {
+        }
+        catch(NullPointerException ex){
+            new LoadAndParse(probeFile,trialFile).alertError(ex, "Did you close without saving template?");
+        }
+        finally {
         try {
             objectOut.close();
         } catch (IOException | NullPointerException ex) {
@@ -293,18 +298,21 @@ public class FXMLController implements Initializable {
         }
         
         }
+        
     }
     //Building way to save data from TableView
     @FXML
     public void getValues() {
-        ArrayList<HeaderInfo> li = new ArrayList();
+        ArrayList<HeaderInfo> li = new ArrayList();        
+        
+        
 
         for (TableSetterGetter x : tableView.getItems()) {
             HeaderInfo hi = new HeaderInfo();
             hi.heading = x.alias;
             hi.alias = x.alias; // Ei käytössä
             hi.avg = x.cb_average.isSelected();
-            hi.normal = x.cb_default.isSelected();            
+            hi.normal = x.cb_default.isSelected();
 
             //  if (hi.avg || hi.normal) {
             li.add(hi);
@@ -313,13 +321,7 @@ public class FXMLController implements Initializable {
 
         HashMap<Integer, HashMap<String, Double>> hm = LD.readData(li);
         LD.addData(li, hm);
-
-    }      
-    
-
-    public void ProgressCounter() {
-        // progressBar.setProgress(ProgressDataFromServer);
-        // passwordLabel.setText("Password found : " + password);
+      
     }
 
     @FXML
@@ -327,6 +329,7 @@ public class FXMLController implements Initializable {
         System.exit(0);
     }
 
+    //Content for "Help" button 
     @FXML
     public void Help() {
         Alert alert = new Alert(AlertType.INFORMATION, "Drag and drop your statistics.xlsx file to the left and trials.xlsx to the right,"
@@ -350,6 +353,7 @@ public class FXMLController implements Initializable {
         dragTargetTrial.prefWidthProperty().bind(primarystage.widthProperty().multiply(0.3));
         dragTargetTrial.prefHeightProperty().bind(primarystage.heightProperty().multiply(0.3));
     }
+
     // Väliaikasesti kommentteihin asiakastapaamisen toiveiden mukaisesti.
     /*
     private TextField getNumberField() {
@@ -365,5 +369,5 @@ public class FXMLController implements Initializable {
         });
         return textField;
     }
-*/
+     */
 }

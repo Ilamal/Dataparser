@@ -1,7 +1,9 @@
 /target/
+/Templates/
 nb*
 .idea
 
+*.dat
 *.xlsx
 *.xlx
 .gitignore
