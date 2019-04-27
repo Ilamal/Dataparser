@@ -1,12 +1,19 @@
 package uef.proj.dataparserUI;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,6 +39,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 
 public class FXMLController implements Initializable {
 
@@ -244,8 +253,43 @@ public class FXMLController implements Initializable {
         trialFile = null;
 
     }
+    @FXML
+    public void saveTemplate() {
+        ArrayList<Template> lis = new ArrayList();
 
-    //A way to save data from TableView
+        for (TableSetterGetter x : tableView.getItems()) {
+            Template template = new Template();
+            template.heading = x.alias;
+            template.alias = x.alias;
+            lis.add(template);
+        }
+           File directory = new File("Templates");
+        if (! directory.exists()){
+        directory.mkdir();
+        // If you require it to make the entire directory path including parents,
+        // use directory.mkdirs(); here instead.
+       }
+
+    
+        
+        ObjectOutputStream objectOut = null;
+        try {
+        objectOut = new ObjectOutputStream(new FileOutputStream("Templates/user-template.dat"));
+        for(int i=0;i<lis.size();i++) {
+            objectOut.writeObject((Object)lis.get(i));
+        }
+        } catch(IOException ex) {
+            System.out.println("IOex");
+        } finally {
+        try {
+            objectOut.close();
+        } catch (IOException | NullPointerException ex) {
+            Logger.getLogger(LoadAndParse.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        }
+    }
+    //Building way to save data from TableView
     @FXML
     public void getValues() {
         ArrayList<HeaderInfo> li = new ArrayList();

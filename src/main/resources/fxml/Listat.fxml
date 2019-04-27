@@ -25,6 +25,7 @@
         </TableView>
         
         <Button AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" text="Done" onAction="#getValues" />
+        <Button AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" text="Save Template" onAction="#saveTemplate" />
     </children>
 </AnchorPane>
 
