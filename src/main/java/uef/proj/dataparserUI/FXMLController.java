@@ -186,6 +186,8 @@ public class FXMLController implements Initializable {
         //alias.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("alias"));
 
         alias.setCellFactory(TextFieldTableCell.forTableColumn());
+        
+        //TableView headers unsortable
         normal.setSortable(false);
         name.setSortable(false);
         alias.setSortable(false);
