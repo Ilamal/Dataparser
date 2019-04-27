@@ -78,7 +78,7 @@ public class FXMLController implements Initializable {
     private Boolean buttonClickAverage;
     @FXML
     private Boolean buttonClickDefault;
-   
+
     //Variables for user files 
     private File probeFile;
     private File trialFile;
@@ -186,8 +186,6 @@ public class FXMLController implements Initializable {
         //alias.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("alias"));
 
         alias.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        //TableView headers unsortable
         normal.setSortable(false);
         name.setSortable(false);
         alias.setSortable(false);
@@ -253,59 +251,55 @@ public class FXMLController implements Initializable {
         trialFile = null;
 
     }
-    @FXML
-    public void saveTemplate() {        
-       
-        ArrayList<Template> lis = new ArrayList();
 
+    @FXML
+    public void saveTemplate() {
+
+        ArrayList<Template> lis = new ArrayList();
+        //Add the data from table
         for (TableSetterGetter x : tableView.getItems()) {
             Template template = new Template();
             template.heading = x.alias;
             template.alias = x.alias;
             lis.add(template);
         }
-           File directory = new File("Templates");
-        if (! directory.exists()){
-        directory.mkdir();
-        // If you require it to make the entire directory path including parents,
-        // use directory.mkdirs(); here instead.
-        }    
-        
+        File directory = new File("Templates");
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+
         ObjectOutputStream objectOut = null;
-        try {   
-            
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DAT files (.dat)", ".dat");
-        fileChooser.getExtensionFilters().add(extFilter);         
-       
-        fileChooser.setInitialDirectory(new File("Templates"));
-        objectOut = new ObjectOutputStream(new FileOutputStream(fileChooser.showSaveDialog(null).getAbsolutePath()));
-        
-        for(int i=0;i<lis.size();i++) {
-            objectOut.writeObject((Object)lis.get(i));
-        }
-        } catch(IOException ex) {
-            System.out.println("IOex");
-        }
-        catch(NullPointerException ex){
-            new LoadAndParse(probeFile,trialFile).alertError(ex, "Did you close without saving template?");
-        }
-        finally {
         try {
-            objectOut.close();
-        } catch (IOException | NullPointerException ex) {
-            Logger.getLogger(LoadAndParse.class.getName()).log(Level.SEVERE, null, ex);
+
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DAT files (.dat)", ".dat");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            fileChooser.setInitialDirectory(new File("Templates"));
+            objectOut = new ObjectOutputStream(new FileOutputStream(fileChooser.showSaveDialog(null).getAbsolutePath()));
+
+            for (int i = 0; i < lis.size(); i++) {
+                objectOut.writeObject((Object) lis.get(i));
+            }
+        } catch (IOException ex) {
+            System.out.println("IOex");
+        } catch (NullPointerException ex) {
+            new LoadAndParse(probeFile, trialFile).alertError(ex, "Did you close without saving template?");
+        } finally {
+            try {
+                objectOut.close();
+            } catch (IOException | NullPointerException ex) {
+                Logger.getLogger(LoadAndParse.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
-        
-        }
-        
+
     }
+
     //Building way to save data from TableView
     @FXML
     public void getValues() {
-        ArrayList<HeaderInfo> li = new ArrayList();        
-        
-        
+        ArrayList<HeaderInfo> li = new ArrayList();
 
         for (TableSetterGetter x : tableView.getItems()) {
             HeaderInfo hi = new HeaderInfo();
@@ -321,7 +315,6 @@ public class FXMLController implements Initializable {
 
         HashMap<Integer, HashMap<String, Double>> hm = LD.readData(li);
         LD.addData(li, hm);
-      
     }
 
     @FXML
