@@ -88,7 +88,7 @@ public class LoadAndParse {
             // DATES FROM TRIALLISTS
             Double day = new Double(dates.get(trialn));
             temp.put("Date", day);
-             
+
             for (int i = 2; i < row.getLastCellNum(); i++) {
 
                 Cell cell = row.getCell(i);
@@ -168,16 +168,16 @@ public class LoadAndParse {
                 int swim = 1;
                 HashMap<Double, List<Integer>> dones = getAnimDones(allAnims);
                 int donesLength = calculateAllArrs(dones);
-                while(true) { // same heading different days
+                while (true) { // same heading different days
 
                     if (donesLength == calculateAllArrs(dones)) {
                         swim = 1;
                         day = findNextDay(data, day, head);
+                        rowIdx = 1;
                         if (day == null) // All end
                         {
                             break;
                         }
-                        rowIdx = 1;
                     } else {
                         swim++;
                         colIdx++;
@@ -212,7 +212,7 @@ public class LoadAndParse {
             if (headInfo.isAvg()) {
                 Double day = findNextDay(data, 0.0, head);
                 while (day != null) {
-                topRow.createCell(colIdx).setCellValue(headInfo.getHeading()+"_"+day.intValue());
+                    topRow.createCell(colIdx).setCellValue(headInfo.getHeading() + "_" + day.intValue());
                     for (Double anim : allAnims) {
                         // Loop the anim averages for the day
                         Row row = rows.get(rowIdx);
@@ -228,7 +228,7 @@ public class LoadAndParse {
                     // Change the day
                     day = findNextDay(data, day, head);
                     colIdx++;
-                    rowIdx=1;
+                    rowIdx = 1;
                 }
             }
 
