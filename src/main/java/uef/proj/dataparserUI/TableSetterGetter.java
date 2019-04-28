@@ -6,7 +6,6 @@
 package uef.proj.dataparserUI;
 
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
 
 /**
  *

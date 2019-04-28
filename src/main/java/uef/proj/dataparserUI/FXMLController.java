@@ -1,23 +1,18 @@
 package uef.proj.dataparserUI;
 
-import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,7 +26,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -43,12 +37,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
+
 
 public class FXMLController implements Initializable {
 
-    //Intitialize first scene (Scene.fxml)
+    //Intitialize first scene (StartScene.fxml)
     @FXML
     private VBox dragTargetProbe;
     @FXML
@@ -88,7 +81,6 @@ public class FXMLController implements Initializable {
     private File trialFile;
     private Template savedTemplate;
     private ArrayList<Template> read;
-    
 
     // Variable for using other class    
     private LoadAndParse LD;
@@ -117,8 +109,8 @@ public class FXMLController implements Initializable {
     @FXML
     public void handleDragDroppedProbe(DragEvent event) {
         Dragboard db = event.getDragboard();
-        boolean success = false; 
-       if (db.hasFiles()) {
+        boolean success = false;
+        if (db.hasFiles()) {
             successLabel.setText(db.getFiles().toString() + "\nReady to upload");
             successLabel.setWrapText(true);
             successLabel.prefHeight(300);
@@ -130,7 +122,7 @@ public class FXMLController implements Initializable {
         event.setDropCompleted(success);
         System.out.println("drop : " + success);
         event.consume();
-    }  
+    }
 
     @FXML
     public void handleDragDroppedTrial(DragEvent event) {
@@ -149,25 +141,25 @@ public class FXMLController implements Initializable {
         System.out.println("drop : " + success);
         event.consume();
     }
-    
-      //Functionality for "Clear"-button
-    @FXML 
-    public void clearDraggedFiles (){
+
+    //Functionality for "Clear"-button
+    @FXML
+    public void clearDraggedFiles() {
         System.out.println("Nappi toimii!");
         probeFile = null;
         trialFile = null;
-        
+
         successLabel.setText("");
         successLabelTrial.setText("");
-        
+
         System.out.println(probeFile);
     }
 
     @FXML
     public void onButtonClick(ActionEvent event) {
         try {
-            // AnchorPane pane = FXMLLoader.load(getClass().getResource("Listat.fxml"));
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Listat.fxml"));
+            // AnchorPane pane = FXMLLoader.load(getClass().getResource("TableScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/TableScreen.fxml"));
             Parent lista = (Parent) loader.load();
 
             Scene listaScene = new Scene(lista);
@@ -210,7 +202,7 @@ public class FXMLController implements Initializable {
         alias.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("alias"));
 
         alias.setCellFactory(TextFieldTableCell.forTableColumn());
-        
+
         //TableView headers unsortable
         normal.setSortable(false);
         name.setSortable(false);
@@ -256,12 +248,12 @@ public class FXMLController implements Initializable {
         }
     }
 
-    //Functionality for changing scene from first (Scene.fxml) to second (Listat.fxml)
+    //Functionality for changing scene from first (StartScreen.fxml) to second (TableScreen.fxml)
     @FXML
     public void Upload() {
         try {
             if (probeFile.exists()) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Listat.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/TableScreen.fxml"));
                 primarystage.getScene().setRoot((Pane) loader.load());
                 FXMLController controller = (FXMLController) loader.getController();
                 controller.probeFile = probeFile;
@@ -287,7 +279,7 @@ public class FXMLController implements Initializable {
             Template template = new Template();
             template.heading = x.alias;
             template.alias = x.alias;
-            // Onko nämä oikein? avg ja normal
+        // Onko nämä oikein? avg ja normal
             template.avg = x.cb_average.isSelected();
             template.normal = x.cb_default.isSelected();
             lis.add(template);
@@ -324,11 +316,9 @@ public class FXMLController implements Initializable {
         }
 
     }
-    
-    public void openTemplate() throws IOException  {
-        
-        
-       
+
+    public void openTemplate() throws IOException {
+
         ObjectInputStream objectIn = null;
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DAT files (*.dat)", "*.dat");
@@ -336,9 +326,9 @@ public class FXMLController implements Initializable {
 
         objectIn = new ObjectInputStream(new FileInputStream(fileChooser.showOpenDialog(null).getAbsolutePath()));
         int i = 0;
-        while(true){
+        while (true) {
             Object o = null;
-                     
+
             try {
                 o = objectIn.readObject();
                 read.add((Template) o);
@@ -348,31 +338,23 @@ public class FXMLController implements Initializable {
                 i++;
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            catch (NullPointerException ex) {
+            } catch (NullPointerException ex) {
                 Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (EOFException ex) {
+                break;
             }
-            catch (EOFException ex) {
-                break;               
-            }
-             
-            }
-           
-       }
-    
-    
+
+        }
+
+    }
+
     public void generateStatisticsFile() {
-    
-        
-        
+
         /*
         HashMap<Integer, HashMap<String, Double>> hm = LD.readData(read);
         LD.addData(read, hm);
-        */
-}
-       
-        
-      
+         */
+    }
 
     //Building way to save data from TableView
     @FXML
