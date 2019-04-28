@@ -2,8 +2,11 @@ package uef.proj.dataparserUI;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.net.URL;
@@ -82,6 +85,8 @@ public class FXMLController implements Initializable {
     //Variables for user files 
     private File probeFile;
     private File trialFile;
+    private Template savedTemplate;
+    
 
     // Variable for using other class    
     private LoadAndParse LD;
@@ -296,6 +301,59 @@ public class FXMLController implements Initializable {
 
         }
 
+    }
+    
+    public void openTemplate()  {
+        
+        
+        ArrayList<Template> read = new ArrayList<>();
+        ObjectInputStream objectIn = null;
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DAT files (*.dat)", "*.dat");
+        fileChooser.getExtensionFilters().add(extFilter);
+        //fileChooser.showOpenDialog(primarystage);
+        
+        try {
+           objectIn = new ObjectInputStream(new FileInputStream(fileChooser.showOpenDialog(null).getAbsolutePath()));
+           Object o = objectIn.readObject();
+           read = (ArrayList<Template>) o;
+           System.out.println(read);
+             
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          catch (IOException ex) {
+            System.out.println("IOex");
+        } catch (NullPointerException ex) {
+            new LoadAndParse(probeFile, trialFile).alertError(ex, "Did you close without saving template?");
+        } finally {
+            try {
+                objectIn.close();
+            } catch (IOException | NullPointerException ex) {
+                Logger.getLogger(LoadAndParse.class.getName()).log(Level.SEVERE, null, ex);
+            }  
+             
+        }
+             
+             
+            /*
+             while(objectIn.available() > 0){
+           System.out.println(" meneekö");
+             try {
+                 o = objectIn.readObject();
+                  read.add((Template) o);
+             } catch (ClassNotFoundException ex) {
+                 Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+             }
+          
+           
+       }*/
+       
+        
+      
+       
+        
+        
     }
 
     //Building way to save data from TableView

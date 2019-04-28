@@ -42,11 +42,12 @@
                 <Button alignment="BOTTOM_LEFT"
                         text="Choose file" onAction="#handleButtonAction" fx:id="trialButton" />
                 </HBox>
-                <HBox alignment="BOTTOM_LEFT" maxWidth="Infinity" spacing="5">                    
+                <HBox alignment="BOTTOM_LEFT" maxWidth="Infinity" spacing="100">                    
                     <Button fx:id="UploadButton" text="Upload" onAction="#Upload" minHeight="50" minWidth="60"/>
                     <!--ProgressBar hidden for testing  -->
                    <!-- <ProgressBar fx:id="progressBar" minWidth="300" minHeight="50"/> -->
                    <Button fx:id="clearButton" text="Clear" minHeight="50" minWidth="60"/>
+                   <Button fx:id="OpenTemplateButton" text="Open Template" onAction="#openTemplate" minHeight="50" minWidth="60"/>
                                       
                 </HBox>
                 <Label fx:id="passwordLabel" minHeight="16" minWidth="69" text="" />
