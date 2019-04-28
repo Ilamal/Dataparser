@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
@@ -273,7 +273,7 @@ public class LoadAndParse {
     }
 
     private Set getAllAnimals(HashMap<Integer, HashMap<String, Double>> data) {
-        Set ret = new TreeSet();
+        Set ret = new LinkedHashSet();
 
         for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
             ret.add(trialEntry.getValue().get(AnimalId));
