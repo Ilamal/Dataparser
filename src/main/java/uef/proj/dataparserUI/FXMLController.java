@@ -180,7 +180,7 @@ public class FXMLController implements Initializable {
         //Create TableView and fill it
         for (int i = 0; i < headers.size(); i++) {
             String nimi = headers.get(i);
-            String alias = headers.get(i);
+            String alias = "";
             CheckBox ch1 = new CheckBox();
             CheckBox ch2 = new CheckBox();
 
@@ -195,7 +195,7 @@ public class FXMLController implements Initializable {
         normal.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox"));
         name.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("name"));
         average.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox2"));
-        //alias.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("alias"));
+        alias.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("alias"));
 
         alias.setCellFactory(TextFieldTableCell.forTableColumn());
         
