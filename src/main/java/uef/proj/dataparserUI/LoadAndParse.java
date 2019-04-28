@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
@@ -17,8 +17,6 @@ import javafx.stage.FileChooser;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-
 
 public class LoadAndParse {
 
@@ -74,7 +72,7 @@ public class LoadAndParse {
         // Read the headings
         ArrayList<String> headings = new ArrayList();
         headingsInfo.forEach(e -> headings.add(e.getHeading()));
-
+        HashMap<Integer, Integer> dates = readDateFromTrialList();
         // Add other data
         for (Row row : statisticsWb.getSheetAt(0)) {
 
@@ -88,15 +86,13 @@ public class LoadAndParse {
 
             hashmap.put(trialn, temp);
             // DATES FROM TRIALLISTS
-            Double day = new Double((Integer) readDateFromTrialList().get(trialn));
+            Double day = new Double(dates.get(trialn));
             temp.put("Date", day);
              
             for (int i = 2; i < row.getLastCellNum(); i++) {
 
                 Cell cell = row.getCell(i);
                 String cellValue = dataFormatter.formatCellValue(cell);
-                //temp.put(heading, cellValue)
-                // System.out.println(cellValue);
                 try {
                     temp.put(headings.get(i - 2), Double.valueOf(cellValue.replace(",", ".")));
                 } catch (NumberFormatException ex) {
@@ -112,36 +108,17 @@ public class LoadAndParse {
 
     HashMap readDateFromTrialList() {
         // Luetaan trialList tiedosto
-        //for(???)
         HashMap<Integer, Integer> dates = new HashMap<>();
 
-        /*
-        Row row = trialListWb.getSheetAt(0).getRow(3); 
-        dates.put(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(0)).replace("Trial", "").replace(" ", "")), Integer.valueOf(dataFormatter.formatCellValue(row.getCell(5))));
-         System.out.println("Moro, päästiin metodiin!!!");
-         System.out.println(dates.keySet());
-         System.out.println(dates.values());
-         */
-        // poikki jos solu tyhjä
         int idx = 1;
         Row row = trialListWb.getSheetAt(0).getRow(idx);
         while (row != null) {
-            //!(dataFormatter.formatCellValue(row.getCell(0))).equals("")
-            // System.out.println("meneekö" + idx);
-
-            //System.out.println("");
-            //Laitetaan dates hashmapiin tiedot päivistä <TrialNumber, Date>
             int trialNumber = Integer.valueOf(dataFormatter.formatCellValue(row.getCell(0)).replaceAll("\\D", ""));
             int trialDay = Integer.valueOf(dataFormatter.formatCellValue(row.getCell(5)));
             dates.put(trialNumber, trialDay);
             row = trialListWb.getSheetAt(0).getRow(++idx);
         }
 
-        // TESTIT - VOIKO POISTAA?
-        //System.out.println("Moro, päästiin metodiin!!!");
-        //System.out.println(dates.get(301));
-        //System.out.println(dates.get(300));
-        //Palautetaan
         return dates;
     }
 
@@ -167,18 +144,14 @@ public class LoadAndParse {
         // Create a Sheet
         Sheet sheet = workbook.createSheet("Sheet1");
 
-        Set getAnims = getAllAnimals(data);
-        Object[] allAnims = getAnims.toArray();
-        ArrayList<Row> rows = getRows(sheet, 50);
+        Set<Double> getAnims = getAllAnimals(data);
+        Double[] allAnims = getAnims.toArray(new Double[0]);
+        ArrayList<Row> rows = getRows(sheet, 500);
 
         // Add Headings
         Row topRow = sheet.createRow(0);
         Cell aniCell = topRow.createCell(0);
         aniCell.setCellValue("AnID_1");
-        for (int i = 1; i <= headings.size(); i++) {
-            Cell cell = topRow.createCell(i);
-            cell.setCellValue(headings.get(i - 1));
-        }
         int it = 1;
         // Add animalnumbers
         for (Object ani : allAnims) {
@@ -188,61 +161,101 @@ public class LoadAndParse {
         int colIdx = 1;
         // Create cells
         for (String head : headings) {
-            HeaderInfo headInfo = headingsInfo.get(colIdx - 1);
+            HeaderInfo headInfo = headingsInfo.get(headings.indexOf(head));
             int rowIdx = 1;
             if (headInfo.isNormal()) {
-                topRow.createCell(colIdx).setCellValue(headInfo.getHeading());
-                for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
+                Double day = 0.0;
+                int swim = 1;
+                HashMap<Double, List<Integer>> dones = getAnimDones(allAnims);
+                int donesLength = calculateAllArrs(dones);
+                do { // same heading different days
 
-                    Row row = rows.get(rowIdx);
-
-                    Double dataEntry = trialEntry.getValue().get(head);
-                    Cell cell = row.createCell(colIdx);
-                    if (dataEntry == null) {
-                        cell.setCellValue("-");
+                    if (donesLength == calculateAllArrs(dones)) {
+                        swim = 1;
+                        day = findNextDay(data, day, head);
+                        if (day == null) // All end
+                        {
+                            break;
+                        }
+                        rowIdx = 1;
                     } else {
-                        cell.setCellValue(dataEntry.toString());
+                        swim++;
+                        colIdx++;
+                        rowIdx = 1;
                     }
-                    rowIdx++;
-                }
 
-                colIdx++;
-                if (headInfo.isAvg()) {
-                    rowIdx = 1;
-                }
+                    donesLength = calculateAllArrs(dones);
+                    for (Double anim : allAnims) {
+                        // Write heading
+                        topRow.createCell(colIdx).setCellValue(headInfo.getHeading() + "_" + day.intValue() + "_" + swim);
+                        // Find animal + date + heading and insert there
+                        Row row = rows.get(rowIdx);
+                        Map.Entry<Integer, HashMap<String, Double>> trial = findValue(data, head, anim, day, dones.get(anim));
+
+                        if (trial != null) {
+                            Double dataEntry = trial.getValue().get(head);
+                            dones.get(anim).add(trial.getKey());
+                            Cell cell = row.createCell(colIdx);
+                            if (dataEntry != null) {
+                                cell.setCellValue(dataEntry.toString());
+                            } else {
+                                cell.setCellValue("-");
+                            }
+                        } else {
+                            Cell cell = row.createCell(colIdx);
+                            cell.setCellValue("-");
+                        }
+                        rowIdx++;
+                    }
+                } while (findNextDay(data, day, head) != null);
             }
             if (headInfo.isAvg()) {
-                topRow.createCell(colIdx).setCellValue(headInfo.getHeading());
-                ArrayList<Double> dones = new ArrayList<>();
-                for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
-                    if (dones.contains(trialEntry.getValue().get(AnimalId))) {
-                        break;
-                    } else {
-                        dones.add(trialEntry.getValue().get(AnimalId));
+                Double day = findNextDay(data, 0.0, head);
+                while (day != null) {
+                topRow.createCell(colIdx).setCellValue(headInfo.getHeading()+"_"+day.intValue());
+                    for (Double anim : allAnims) {
+                        // Loop the anim averages for the day
+                        Row row = rows.get(rowIdx);
+                        Double dataEntry = getAverage(data, anim, day, head);
+                        Cell cell = row.createCell(colIdx);
+                        if (dataEntry == null) {
+                            cell.setCellValue("-");
+                        } else {
+                            cell.setCellValue(dataEntry.toString());
+                        }
+                        rowIdx++;
                     }
-                    Row row = rows.get(rowIdx);
-                    //TODO: AnimalID 
-                    Double dataEntry = getAverage(data, trialEntry.getValue().get(AnimalId), trialEntry.getValue().get("Date"), head);
-                    Cell cell = row.createCell(colIdx);
-                    if (dataEntry == null) {
-                        cell.setCellValue("-");
-                    } else {
-                        cell.setCellValue(dataEntry.toString());
-                    }
-                    row.createCell(0).setCellValue(trialEntry.getValue().get(AnimalId));
-                    rowIdx++;
+                    // Change the day
+                    day = findNextDay(data, day, head);
+                    colIdx++;
+                    rowIdx=1;
                 }
-                colIdx++;
             }
 
         }
-        //    TODO     keskiarvot ja lyhennyksien/otsikoiden mukaan laitto, kaiken sijasta
         createXlsx(workbook);
-        //TODO      
+    }
+
+    private Double findNextDay(HashMap<Integer, HashMap<String, Double>> data, Double prevDay, String head) {
+        Double large = 999999.9;
+        Double nextDay = large;
+        for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
+            if (trialEntry.getValue().containsKey(head)) {
+                Double day = trialEntry.getValue().get("Date");
+                if (day > prevDay && day < nextDay) {
+                    nextDay = day;
+                }
+            }
+        }
+        if (nextDay < large) {
+            return nextDay;
+        } else {
+            return null;
+        }
     }
 
     private Set getAllAnimals(HashMap<Integer, HashMap<String, Double>> data) {
-        Set ret = new TreeSet();
+        Set ret = new LinkedHashSet();
 
         for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
             ret.add(trialEntry.getValue().get(AnimalId));
@@ -250,14 +263,30 @@ public class LoadAndParse {
         return ret;
     }
 
-    private Double findValue(HashMap<Integer, HashMap<String, Double>> data, String head, double animal, double day) {
+    private Map.Entry<Integer, HashMap<String, Double>> findValue(HashMap<Integer, HashMap<String, Double>> data, String head, double animal, double day, List dones) {
 
         for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
-            if (trialEntry.getValue().get(AnimalId).equals(animal) && trialEntry.getValue().get("Date").equals(day)) {
-                return trialEntry.getValue().get(head);
+            if (trialEntry.getValue().get(AnimalId).equals(animal) && trialEntry.getValue().get("Date").equals(day) && trialEntry.getValue().containsKey(head)) {
+                if (!dones.contains(trialEntry.getKey())) {
+                    return trialEntry;
+                }
             }
         }
         return null;
+    }
+
+    private HashMap<Double, List<Integer>> getAnimDones(Double[] anims) {
+        HashMap<Double, List<Integer>> dones = new HashMap();
+        for (Double anim : anims) {
+            dones.put(anim, new ArrayList<>());
+        }
+        return dones;
+    }
+
+    private int calculateAllArrs(HashMap<Double, List<Integer>> arrs) {
+        int ret = 0;
+        ret = arrs.entrySet().stream().map((trialEntry) -> trialEntry.getValue().size()).reduce(ret, Integer::sum);
+        return ret;
     }
 
     private void createXlsx(Workbook wb) {
@@ -289,15 +318,18 @@ public class LoadAndParse {
         }
     }
 
-    private double getAverage(HashMap<Integer, HashMap<String, Double>> data, double id, double day, String head) {
+    private Double getAverage(HashMap<Integer, HashMap<String, Double>> data, double id, double day, String head) {
         ArrayList<Double> values = new ArrayList<>();
         for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
             if (trialEntry.getValue().get(AnimalId).equals(id) && trialEntry.getValue().get("Date").equals(day) && trialEntry.getValue().get(head) != null) {
                 values.add(trialEntry.getValue().get(head));
             }
         }
-
-        return calculateAverage(values);
+        if (values.size() > 0) {
+            return calculateAverage(values);
+        } else {
+            return null;
+        }
     }
 
     private static double calculateAverage(List<Double> marks) {
