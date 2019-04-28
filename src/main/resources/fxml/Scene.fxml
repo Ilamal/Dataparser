@@ -15,7 +15,7 @@
         <VBox alignment="CENTER" maxWidth="Infinity" spacing="25">
             <children>
                 <HBox alignment="BOTTOM_CENTER">
-                <VBox fx:id="dragTargetProbe" minWidth="300"
+                <VBox fx:id="dragTargetProbe" minHeight="300" minWidth="300 "
                       onDragOver="#handleDragOver" onDragDropped="#handleDragDroppedProbe">
                     <children>                    
                         <Label minHeight="150" fx:id="probeLabel"  text="Drop statistics file">
@@ -23,12 +23,16 @@
                                 <Font size="25.0" />
                             </font>
                         </Label>              
-                        <Label fx:id="successLabel" minHeight="16" minWidth="69" text="" />
+                        <Label fx:id="successLabel" minHeight="16" minWidth="69" text="">
+                            <font>
+                                <Font name="System Bold" />
+                            </font>
+                        </Label>              
                     </children>
                 </VBox>
                 <Button alignment="BOTTOM_LEFT"
-                        text="Choose file" onAction="#handleButtonAction" fx:id="button" />
-                <VBox fx:id="dragTargetTrial" minWidth="300"
+                        text="Choose file" onAction="#handleButtonAction" fx:id="button" minHeight="35" />
+                <VBox fx:id="dragTargetTrial" minHeight="300" minWidth="300"
                       onDragOver="#handleDragOver" onDragDropped="#handleDragDroppedTrial">
                     <children>
                         <Label minHeight="150" minWidth="69" fx:id="trialLabel" text="Drop trial lists">
@@ -40,13 +44,11 @@
                     </children>
                 </VBox>
                 <Button alignment="BOTTOM_LEFT"
-                        text="Choose file" onAction="#handleButtonAction" fx:id="trialButton" />
+                        text="Choose file" onAction="#handleButtonAction" fx:id="trialButton" minHeight="35" />
                 </HBox>
-                <HBox alignment="BOTTOM_LEFT" maxWidth="Infinity" spacing="5">                    
-                    <Button fx:id="UploadButton" text="Upload" onAction="#Upload" minHeight="50" minWidth="60"/>
-                    <!--ProgressBar hidden for testing  -->
-                   <!-- <ProgressBar fx:id="progressBar" minWidth="300" minHeight="50"/> -->
-                   <Button fx:id="clearButton" text="Clear" minHeight="50" minWidth="60" onAction="#clearDraggedFiles"/>
+                <HBox alignment="BOTTOM_CENTER" maxWidth="Infinity" spacing="5">                    
+                    <Button fx:id="UploadButton" text="Upload" onAction="#Upload" minHeight="50" minWidth="200"/>                    
+                   <Button fx:id="clearButton" text="Clear" onAction="#clearDraggedFiles" minHeight="50" minWidth="200" />
                                       
                 </HBox>
                 <Label fx:id="passwordLabel" minHeight="16" minWidth="69" text="" />
@@ -57,8 +59,8 @@
         <BorderPane id="upload">
             <right>        
                 <HBox>
-                    <Button text="Help" minHeight="50" minWidth="60" onAction="#Help"/> 
-                    <Button text="Exit" minHeight="50" minWidth="60" onAction="#Exit"/> 
+                    <Button text="Help" minHeight="50" minWidth="150" onAction="#Help"/> 
+                    <Button text="Exit" minHeight="50" minWidth="150" onAction="#Exit"/> 
                 </HBox>
             </right>
         </BorderPane> 

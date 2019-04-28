@@ -112,7 +112,9 @@ public class FXMLController implements Initializable {
         Dragboard db = event.getDragboard();
         boolean success = false; 
        if (db.hasFiles()) {
-            successLabel.setText(db.getFiles().toString() + "\nready to upload");
+            successLabel.setText(db.getFiles().toString() + "\nReady to upload");
+            successLabel.setWrapText(true);
+            successLabel.prefHeight(300);
             probeFile = db.getFiles().get(0);
             success = true;
         }
@@ -121,8 +123,27 @@ public class FXMLController implements Initializable {
         event.setDropCompleted(success);
         System.out.println("drop : " + success);
         event.consume();
+    }  
+
+    @FXML
+    public void handleDragDroppedTrial(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        boolean success = false;
+        if (db.hasFiles()) {
+            successLabelTrial.setText(db.getFiles().toString() + "\nReady to upload");
+            successLabelTrial.setWrapText(true);
+            successLabelTrial.prefHeight(300);
+            trialFile = db.getFiles().get(0);
+            success = true;
+        }
+        /* let the source know whether the string was successfully 
+                 * transferred and used */
+        event.setDropCompleted(success);
+        System.out.println("drop : " + success);
+        event.consume();
     }
-    //Functionality for "Clear"-button
+    
+      //Functionality for "Clear"-button
     @FXML 
     public void clearDraggedFiles (){
         System.out.println("Nappi toimii!");
@@ -133,22 +154,6 @@ public class FXMLController implements Initializable {
         successLabelTrial.setText("");
         
         System.out.println(probeFile);
-    }
-
-    @FXML
-    public void handleDragDroppedTrial(DragEvent event) {
-        Dragboard db = event.getDragboard();
-        boolean success = false;
-        if (db.hasFiles()) {
-            successLabelTrial.setText(db.getFiles().toString() + "\nready to upload");
-            trialFile = db.getFiles().get(0);
-            success = true;
-        }
-        /* let the source know whether the string was successfully 
-                 * transferred and used */
-        event.setDropCompleted(success);
-        System.out.println("drop : " + success);
-        event.consume();
     }
 
     @FXML
