@@ -110,8 +110,8 @@ public class FXMLController implements Initializable {
     @FXML
     public void handleDragDroppedProbe(DragEvent event) {
         Dragboard db = event.getDragboard();
-        boolean success = false;
-        if (db.hasFiles()) {
+        boolean success = false; 
+       if (db.hasFiles()) {
             successLabel.setText(db.getFiles().toString() + "\nready to upload");
             probeFile = db.getFiles().get(0);
             success = true;
@@ -121,6 +121,18 @@ public class FXMLController implements Initializable {
         event.setDropCompleted(success);
         System.out.println("drop : " + success);
         event.consume();
+    }
+    //Functionality for "Clear"-button
+    @FXML 
+    public void clearDraggedFiles (){
+        System.out.println("Nappi toimii!");
+        probeFile = null;
+        trialFile = null;
+        
+        successLabel.setText("");
+        successLabelTrial.setText("");
+        
+        System.out.println(probeFile);
     }
 
     @FXML
