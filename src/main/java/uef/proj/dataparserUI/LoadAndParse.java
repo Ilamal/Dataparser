@@ -187,7 +187,7 @@ public class LoadAndParse {
                     donesLength = calculateAllArrs(dones);
                     for (Double anim : allAnims) {
                         // Write heading
-                        topRow.createCell(colIdx).setCellValue(headInfo.getHeading() + "_" + day.intValue() + "_" + swim);
+                        topRow.createCell(colIdx).setCellValue(headInfo.getAlias() + "_" + day.intValue() + "_" + swim);
                         // Find animal + date + heading and insert there
                         Row row = rows.get(rowIdx);
                         Map.Entry<Integer, HashMap<String, Double>> trial = findValue(data, head, anim, day, dones.get(anim));
@@ -212,7 +212,7 @@ public class LoadAndParse {
             if (headInfo.isAvg()) {
                 Double day = findNextDay(data, 0.0, head);
                 while (day != null) {
-                    topRow.createCell(colIdx).setCellValue(headInfo.getHeading() + "_" + day.intValue());
+                topRow.createCell(colIdx).setCellValue(headInfo.getAlias()+"_"+day.intValue());
                     for (Double anim : allAnims) {
                         // Loop the anim averages for the day
                         Row row = rows.get(rowIdx);

@@ -381,7 +381,7 @@ public class FXMLController implements Initializable {
 
         for (TableSetterGetter x : tableView.getItems()) {
             HeaderInfo hi = new HeaderInfo();
-            hi.heading = x.alias;
+            hi.heading = x.name;
             hi.alias = x.alias; // Ei käytössä
             hi.avg = x.cb_average.isSelected();
             hi.normal = x.cb_default.isSelected();
