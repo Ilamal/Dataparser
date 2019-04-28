@@ -48,6 +48,8 @@
                    <!-- <ProgressBar fx:id="progressBar" minWidth="300" minHeight="50"/> -->
                    <Button fx:id="clearButton" text="Clear" minHeight="50" minWidth="60"/>
                    <Button fx:id="OpenTemplateButton" text="Open Template" onAction="#openTemplate" minHeight="50" minWidth="60"/>
+                    <Button fx:id="GenerateFileButton" text="Generate" onAction="#generateStatisticsFile" minHeight="50" minWidth="60"/>
+                   
                                       
                 </HBox>
                 <Label fx:id="passwordLabel" minHeight="16" minWidth="69" text="" />

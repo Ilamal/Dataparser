@@ -1,6 +1,7 @@
 package uef.proj.dataparserUI;
 
 import java.io.BufferedWriter;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -86,6 +87,7 @@ public class FXMLController implements Initializable {
     private File probeFile;
     private File trialFile;
     private Template savedTemplate;
+    private ArrayList<Template> read;
     
 
     // Variable for using other class    
@@ -268,6 +270,9 @@ public class FXMLController implements Initializable {
             Template template = new Template();
             template.heading = x.alias;
             template.alias = x.alias;
+            // Onko nämä oikein? avg ja normal
+            template.avg = x.cb_average.isSelected();
+            template.normal = x.cb_default.isSelected();
             lis.add(template);
         }
         File directory = new File("Templates");
@@ -303,58 +308,54 @@ public class FXMLController implements Initializable {
 
     }
     
-    public void openTemplate()  {
+    public void openTemplate() throws IOException  {
         
         
-        ArrayList<Template> read = new ArrayList<>();
+       
         ObjectInputStream objectIn = null;
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DAT files (*.dat)", "*.dat");
         fileChooser.getExtensionFilters().add(extFilter);
-        //fileChooser.showOpenDialog(primarystage);
-        
-        try {
-           objectIn = new ObjectInputStream(new FileInputStream(fileChooser.showOpenDialog(null).getAbsolutePath()));
-           Object o = objectIn.readObject();
-           read = (ArrayList<Template>) o;
-           System.out.println(read);
-             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-          catch (IOException ex) {
-            System.out.println("IOex");
-        } catch (NullPointerException ex) {
-            new LoadAndParse(probeFile, trialFile).alertError(ex, "Did you close without saving template?");
-        } finally {
+
+        objectIn = new ObjectInputStream(new FileInputStream(fileChooser.showOpenDialog(null).getAbsolutePath()));
+        int i = 0;
+        while(true){
+            Object o = null;
+                     
             try {
-                objectIn.close();
-            } catch (IOException | NullPointerException ex) {
-                Logger.getLogger(LoadAndParse.class.getName()).log(Level.SEVERE, null, ex);
-            }  
+                o = objectIn.readObject();
+                read.add((Template) o);
+                //System.out.println(read.get(i).getAlias());
+                // System.out.println(read.get(i).getHeading());
+                //System.out.println(read.get(i).avg);
+                i++;
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            catch (NullPointerException ex) {
+                Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            catch (EOFException ex) {
+                break;               
+            }
              
-        }
-             
-             
-            /*
-             while(objectIn.available() > 0){
-           System.out.println(" meneekö");
-             try {
-                 o = objectIn.readObject();
-                  read.add((Template) o);
-             } catch (ClassNotFoundException ex) {
-                 Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-             }
-          
+            }
            
-       }*/
+       }
+    
+    
+    public void generateStatisticsFile() {
+    
+        
+        
+        /*
+        HashMap<Integer, HashMap<String, Double>> hm = LD.readData(read);
+        LD.addData(read, hm);
+        */
+}
        
         
       
-       
-        
-        
-    }
 
     //Building way to save data from TableView
     @FXML
