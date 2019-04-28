@@ -168,7 +168,7 @@ public class LoadAndParse {
                 int swim = 1;
                 HashMap<Double, List<Integer>> dones = getAnimDones(allAnims);
                 int donesLength = calculateAllArrs(dones);
-                do { // same heading different days
+                while(true) { // same heading different days
 
                     if (donesLength == calculateAllArrs(dones)) {
                         swim = 1;
@@ -207,7 +207,7 @@ public class LoadAndParse {
                         }
                         rowIdx++;
                     }
-                } while (findNextDay(data, day, head) != null);
+                }
             }
             if (headInfo.isAvg()) {
                 Double day = findNextDay(data, 0.0, head);
