@@ -282,13 +282,11 @@ public class FXMLController implements Initializable {
      * @param e
      */
     @FXML
-    public void showList(ActionEvent e) {
-
+    public void showList() {
         //Create new instance of LoadAndParse
         LD = new LoadAndParse(probeFile, trialFile);
-        LD.readDateFromTrialList();
-        ArrayList<String> headers;
 
+        ArrayList<String> headers;
         headers = LD.getAllHeaders();
 
         //Create TableView and fill it
@@ -382,6 +380,8 @@ public class FXMLController implements Initializable {
                 FXMLController controller = (FXMLController) loader.getController();
                 controller.probeFile = probeFile;
                 controller.trialFile = trialFile;
+                
+                 controller.showList();
             }
 
         } catch (IOException e) {
@@ -389,8 +389,10 @@ public class FXMLController implements Initializable {
             System.out.println("Ei toimi " + e.getMessage());
         }
 
-        probeFile = null;
-        trialFile = null;
+        //probeFile = null;
+        //trialFile = null;
+        
+       
 
     }
 
