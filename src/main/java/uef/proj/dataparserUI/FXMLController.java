@@ -152,12 +152,7 @@ public class FXMLController implements Initializable {
     /**
      *
      */
-    private Template savedTemplate;
-
-    /**
-     *
-     */
-    private ArrayList<Template> read;
+    private ArrayList<HeaderInfo> read;
 
     // Variable for using other class    
 
@@ -292,10 +287,20 @@ public class FXMLController implements Initializable {
         //Create TableView and fill it
         for (int i = 0; i < headers.size(); i++) {
             String nimi = headers.get(i);
-            String alias = "";
-            CheckBox ch1 = new CheckBox();
-            CheckBox ch2 = new CheckBox();
-
+            String alias;            
+            CheckBox ch1;
+            CheckBox ch2;
+            if(read.size()>0) {
+                alias = read.get(i).alias;
+                ch1 = new CheckBox();
+                ch1.setSelected(read.get(i).normal);
+                ch2 = new CheckBox();
+                ch2.setSelected(read.get(i).avg);
+            } else {
+                alias = "";
+                ch1 = new CheckBox();
+                ch2 = new CheckBox();
+            }            
             list.add(new TableSetterGetter(nimi, alias, ch1, ch2));
         }
 
@@ -381,7 +386,8 @@ public class FXMLController implements Initializable {
                 controller.probeFile = probeFile;
                 controller.trialFile = trialFile;
                 
-                 controller.showList();
+                controller.read = read;
+                controller.showList();                
             }
 
         } catch (IOException e) {
@@ -403,10 +409,10 @@ public class FXMLController implements Initializable {
     @FXML
     public void saveTemplate() {
 
-        ArrayList<Template> lis = new ArrayList();
+        ArrayList<HeaderInfo> lis = new ArrayList();
         //Add the data from table
         for (TableSetterGetter x : tableView.getItems()) {
-            Template template = new Template();
+            HeaderInfo template = new HeaderInfo();
             template.heading = x.alias;
             template.alias = x.alias;
         // Onko nämä oikein? avg ja normal
@@ -432,8 +438,8 @@ public class FXMLController implements Initializable {
             for (int i = 0; i < lis.size(); i++) {
                 objectOut.writeObject((Object) lis.get(i));
             }
-        } catch (IOException ex) {
-            System.out.println("IOex");
+        } catch (IOException ex) {         
+            new LoadAndParse(probeFile, trialFile).alertError(ex, "Something went wrong with saving the template...");
         } catch (NullPointerException ex) {
             new LoadAndParse(probeFile, trialFile).alertError(ex, "Did you close without saving template?");
         } finally {
@@ -453,7 +459,6 @@ public class FXMLController implements Initializable {
      * 
      * @throws IOException
      */
-    @FXML
     public void openTemplate() throws IOException {
 
         ObjectInputStream objectIn = null;
@@ -462,26 +467,23 @@ public class FXMLController implements Initializable {
         fileChooser.getExtensionFilters().add(extFilter);
 
         objectIn = new ObjectInputStream(new FileInputStream(fileChooser.showOpenDialog(null).getAbsolutePath()));
-        while (true) {
-            Object o = null;
-            try {
-                o = objectIn.readObject();
-                read.add((Template) o);
+        read = new ArrayList();
+        Object o = null;
+        try {
+        while ((o = objectIn.readObject())!=null) {            
+            
+                
+                System.out.println(o.getClass());
+                read.add((HeaderInfo) o);
+                }
                 //System.out.println(read.get(i).getAlias());
                 // System.out.println(read.get(i).getHeading());
                 //System.out.println(read.get(i).avg);
+            } catch (ClassNotFoundException ex) {             
+                new LoadAndParse(probeFile, trialFile).alertError(ex, "The template file was incorrect probably...");
+            } catch (NullPointerException | EOFException ex) {
                 
-                System.out.println("Template load done!");
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NullPointerException ex) {
-                Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (EOFException ex) {
-                break;
             }
-
-        }
-
     }
 
     /**
