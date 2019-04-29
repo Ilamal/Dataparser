@@ -1,8 +1,8 @@
 package uef.proj.dataparserUI;
 
 /**
- *
- * @author Ilamal
+ * @author UEF Projektityö 2019 - Tony Heikkilä, Ilari Malinen, Mikko Nygård, Toni Takkinen
+ * @version 1.0
  */
 public class HeaderInfo {
 
@@ -34,8 +34,8 @@ public class HeaderInfo {
 
     /**
      *
-     * @param heading
-     * @param alias
+     * @param heading the string value of heading
+     * @param alias the string value of alias heading, which can be customized by user in tableview
      * @param normal
      * @param avg
      */
