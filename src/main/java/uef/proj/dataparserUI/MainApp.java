@@ -15,7 +15,11 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        stage.setTitle("DataParser");
+        
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartScreen.fxml"));
+        
         Parent root = (Parent)loader.load();
         
         Scene scene = new Scene(root);
@@ -24,7 +28,7 @@ public class MainApp extends Application {
         FXMLController controller = (FXMLController)loader.getController();
         controller.setStageAndSetupListeners(stage);
         
-        stage.setTitle("DataParser");
+        
         stage.setScene(scene);
         stage.show();
     }

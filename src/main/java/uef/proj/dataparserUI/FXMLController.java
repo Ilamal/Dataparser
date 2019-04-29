@@ -255,26 +255,6 @@ public class FXMLController implements Initializable {
 
         System.out.println(probeFile);
     }
-
-    /**
-     *
-     * @param event
-     */
-    @FXML
-    public void onButtonClick(ActionEvent event) {
-        try {
-            // AnchorPane pane = FXMLLoader.load(getClass().getResource("TableScreen.fxml"));
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/TableScreen.fxml"));
-            Parent lista = (Parent) loader.load();
-
-            Scene listaScene = new Scene(lista);
-            primarystage.setScene(listaScene);
-            primarystage.show();
-        } catch (IOException e) {
-            System.out.println("Ei toimi " + e.getMessage());
-        }
-    }
-
     
 
     /**
@@ -283,6 +263,9 @@ public class FXMLController implements Initializable {
      */
     @FXML
     public void showList() {
+        
+        System.out.println("Nyt olemme alussa showList-funktiota: " + primarystage);
+        
         //Create new instance of LoadAndParse
         LD = new LoadAndParse(probeFile, trialFile);
 
@@ -316,6 +299,8 @@ public class FXMLController implements Initializable {
         name.setSortable(false);
         alias.setSortable(false);
         average.setSortable(false);
+        
+        
 
     }
 
@@ -375,13 +360,17 @@ public class FXMLController implements Initializable {
     public void Upload() {
         try {
             if (probeFile.exists()) {
+                System.out.println("Nyt olemme alussa Upload-funktiota: " + primarystage);
+                
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/TableScreen.fxml"));
                 primarystage.getScene().setRoot((Pane) loader.load());
                 FXMLController controller = (FXMLController) loader.getController();
                 controller.probeFile = probeFile;
                 controller.trialFile = trialFile;
                 
-                 controller.showList();
+                controller.showList();
+                 
+                System.out.println("Nyt olemme lopussa Upload-funktiota: " + primarystage); 
             }
 
         } catch (IOException e) {
@@ -389,12 +378,44 @@ public class FXMLController implements Initializable {
             System.out.println("Ei toimi " + e.getMessage());
         }
 
-        //probeFile = null;
-        //trialFile = null;
-        
-       
+        probeFile = null;
+        trialFile = null;     
 
     }
+    
+    @FXML
+    public void returnScene() {   
+        
+        
+        
+        
+        /*
+        try {         
+       
+
+        System.out.println("Nyt olemme try loopissa returnScene-funktiota" + primarystage);  
+
+        
+        primarystage.getScene().setRoot((Pane) loader.load());
+        
+        } 
+        catch (IOException e){
+            
+        }
+        
+        */
+        
+       
+        
+        System.out.println("Nyt olemme lopussa returnScene-funktiota" + primarystage);
+          
+      }
+     
+      
+      
+        
+        
+    
 
     /**
      *saveTemplate opens files, makes directory if it does not exist and writes template object to that directory. 
@@ -526,7 +547,7 @@ public class FXMLController implements Initializable {
     @FXML
     public void Exit() {
         System.exit(0);
-    }
+    }  
 
     //Content for "Help" button 
 
