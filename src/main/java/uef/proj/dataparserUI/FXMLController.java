@@ -38,54 +38,140 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-
+/**
+ *
+ * @author Tony
+ */
 public class FXMLController implements Initializable {
 
     //Intitialize first scene (StartScene.fxml)
+
+    /**
+     *
+     */
     @FXML
     private VBox dragTargetProbe;
+
+    /**
+     *
+     */
     @FXML
     private VBox dragTargetTrial;
+
+    /**
+     *
+     */
     @FXML
     private Label successLabel;
+
+    /**
+     *
+     */
     @FXML
     private Label successLabelTrial;
+
+    /**
+     *
+     */
     @FXML
     private Stage primarystage;
 
     //Initialize TableView 
+
+    /**
+     *
+     */
     @FXML
     private TableColumn<TableSetterGetter, String> name;
+
+    /**
+     *
+     */
     @FXML
     private TableColumn<TableSetterGetter, String> alias;
+
+    /**
+     *
+     */
     @FXML
     private TableColumn<TableSetterGetter, CheckBox> normal;
+
+    /**
+     *
+     */
     @FXML
     private TableColumn<TableSetterGetter, CheckBox> average;
+
+    /**
+     *
+     */
     @FXML
     private TableView<TableSetterGetter> tableView;
 
+    /**
+     *
+     */
     ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
 
+    /**
+     *
+     */
     @FXML
     private Button btn_setDefault;
+
+    /**
+     *
+     */
     @FXML
     private Button btn_setAverage;
+
+    /**
+     *
+     */
     @FXML
     private Boolean buttonClickAverage;
+
+    /**
+     *
+     */
     @FXML
     private Boolean buttonClickDefault;
 
     //Variables for user files 
+
+    /**
+     *
+     */
     private File probeFile;
+
+    /**
+     *
+     */
     private File trialFile;
+
+    /**
+     *
+     */
     private Template savedTemplate;
+
+    /**
+     *
+     */
     private ArrayList<Template> read;
 
     // Variable for using other class    
+
+    /**
+     *
+     */
     private LoadAndParse LD;
 
     //Methods for action handling (button click, file drag)
+
+    /**
+     *
+     * @param event
+     */
     @FXML
     private void handleButtonAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -96,6 +182,10 @@ public class FXMLController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     private void handleDragOver(DragEvent event) {
         if (event.getGestureSource() != dragTargetProbe //|| event.getGestureSource() != dragTargetTrial
@@ -106,6 +196,10 @@ public class FXMLController implements Initializable {
         event.consume();
     }
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     public void handleDragDroppedProbe(DragEvent event) {
         Dragboard db = event.getDragboard();
@@ -124,6 +218,10 @@ public class FXMLController implements Initializable {
         event.consume();
     }
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     public void handleDragDroppedTrial(DragEvent event) {
         Dragboard db = event.getDragboard();
@@ -143,6 +241,10 @@ public class FXMLController implements Initializable {
     }
 
     //Functionality for "Clear"-button
+
+    /**
+     *
+     */
     @FXML
     public void clearDraggedFiles() {
         System.out.println("Nappi toimii!");
@@ -155,6 +257,10 @@ public class FXMLController implements Initializable {
         System.out.println(probeFile);
     }
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     public void onButtonClick(ActionEvent event) {
         try {
@@ -171,6 +277,11 @@ public class FXMLController implements Initializable {
     }
 
     //Creates and fills TableView with data from input files. Makes header names editable and unsortable
+
+    /**
+     *
+     * @param e
+     */
     @FXML
     public void showList(ActionEvent e) {
 
@@ -212,6 +323,11 @@ public class FXMLController implements Initializable {
     }
 
     //Edited header ("alias") shows instantly after edit
+
+    /**
+     *
+     * @param CellEditEvent
+     */
     @FXML
     public void onEditChanged(TableColumn.CellEditEvent<TableSetterGetter, String> CellEditEvent) {
         TableSetterGetter tsg = tableView.getSelectionModel().getSelectedItem();
@@ -219,6 +335,11 @@ public class FXMLController implements Initializable {
     }
 
     //Functionality for buttons "Default" and "Average" (Check/Uncheck all checkboxes)
+
+    /**
+     *
+     * @param event
+     */
     @FXML
     public void selectAll(ActionEvent event) {
 
@@ -249,6 +370,10 @@ public class FXMLController implements Initializable {
     }
 
     //Functionality for changing scene from first (StartScreen.fxml) to second (TableScreen.fxml)
+
+    /**
+     *
+     */
     @FXML
     public void Upload() {
         try {
@@ -270,6 +395,9 @@ public class FXMLController implements Initializable {
 
     }
 
+    /**
+     *
+     */
     @FXML
     public void saveTemplate() {
 
@@ -317,6 +445,10 @@ public class FXMLController implements Initializable {
 
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     public void openTemplate() throws IOException {
 
         ObjectInputStream objectIn = null;
@@ -348,6 +480,9 @@ public class FXMLController implements Initializable {
 
     }
 
+    /**
+     *
+     */
     public void generateStatisticsFile() {
 
         /*
@@ -357,6 +492,10 @@ public class FXMLController implements Initializable {
     }
 
     //Building way to save data from TableView
+
+    /**
+     *
+     */
     @FXML
     public void getValues() {
         ArrayList<HeaderInfo> li = new ArrayList();
@@ -377,12 +516,19 @@ public class FXMLController implements Initializable {
         LD.addData(li, hm);
     }
 
+    /**
+     *
+     */
     @FXML
     public void Exit() {
         System.exit(0);
     }
 
     //Content for "Help" button 
+
+    /**
+     *
+     */
     @FXML
     public void Help() {
         Alert alert = new Alert(AlertType.INFORMATION, "Drag and drop your statistics.xlsx file to the left and trials.xlsx to the right,"
@@ -398,6 +544,10 @@ public class FXMLController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param stage
+     */
     void setStageAndSetupListeners(Stage stage) {
         this.primarystage = stage;
         // Set the percentage size of the drag zone

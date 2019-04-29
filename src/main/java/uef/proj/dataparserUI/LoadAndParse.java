@@ -18,15 +18,40 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+/**
+ *
+ * @author UEF Projektityö 2019 - Tony Heikkilä, Ilari Malinen, Mikko Nygård, Toni Takkinen
+ * @version 1.0
+ */
 public class LoadAndParse {
 
     // Create a DataFormatter to format and get each cell's value as String
+
+    /**
+     *
+     */
     private final DataFormatter dataFormatter = new DataFormatter();
+
+    /**
+     *
+     */
     private final String AnimalId = "animalid";
 
+    /**
+     *
+     */
     private Workbook statisticsWb; // DATA
+
+    /**
+     *
+     */
     private Workbook trialListWb; // DATES
 
+    /**
+     *
+     * @param probeFile
+     * @param trialListFile
+     */
     LoadAndParse(File probeFile, File trialListFile) {
         try {
             System.out.println("load&parse tiedosto " + probeFile + " " + trialListFile);
@@ -39,6 +64,11 @@ public class LoadAndParse {
         }
     }
 
+    /**
+     * getAllHeaders returns an ArrayList that contains all headings from the source file.
+     * 
+     * @return ArrayList<String> headers 
+     */
     ArrayList getAllHeaders() {
 
         ArrayList<String> headers = new ArrayList();
@@ -66,6 +96,11 @@ public class LoadAndParse {
         return headers;
     }
 
+    /**
+     * readData reads source file's data and adds that data to HashMap<animalID, HashMap<heading, value>.
+     * @param headingsInfo ArrayList<HeaderInfo> containing the data from headingsInfo.
+     * @return HashMap<animalID, HashMap<heading, value> 
+     */
     public HashMap<Integer, HashMap<String, Double>> readData(ArrayList<HeaderInfo> headingsInfo) {
         // Read the workbook and add necessary data to HashMap according to the headings list
         HashMap<Integer, HashMap<String, Double>> hashmap = new HashMap<>();
@@ -101,13 +136,15 @@ public class LoadAndParse {
 
             }
         }
-
-        System.out.println("lopetus");
         return hashmap;
     }
 
+    /**
+     * Read trialList file containing trials and which day trial was done.
+     * @return HashMap<Integer, Integer> where the first Integer is trialNumber and the second Integer is trialDay
+     */
     HashMap readDateFromTrialList() {
-        // Luetaan trialList tiedosto
+       
         HashMap<Integer, Integer> dates = new HashMap<>();
 
         int idx = 1;
@@ -122,6 +159,12 @@ public class LoadAndParse {
         return dates;
     }
 
+    /**
+     * Creates 500 rows to Excel workbook sheet.
+     * @param sheet Excel workbook sheet
+     * @param amount The amount of rows generated
+     * @return ArrayList<Row> rows
+     */
     private ArrayList<Row> getRows(Sheet sheet, int amount) {
         ArrayList<Row> rows = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
@@ -130,6 +173,11 @@ public class LoadAndParse {
         return rows;
     }
 
+    /**
+     * addData adds data to the new workbook from the source file, calls createXlsx method
+     * @param headingsInfo contains the headings
+     * @param data contains the numeric values
+     */
     public void addData(ArrayList<HeaderInfo> headingsInfo, HashMap<Integer, HashMap<String, Double>> data) {
         Workbook workbook = new XSSFWorkbook(); // new HSSFWorkbook() for generating `.xls` file
         ArrayList<String> headings = new ArrayList();
@@ -236,6 +284,13 @@ public class LoadAndParse {
         createXlsx(workbook);
     }
 
+    /**
+     * findNextDay returns the next day
+     * @param data 
+     * @param prevDay the previous day
+     * @param head
+     * @return
+     */
     private Double findNextDay(HashMap<Integer, HashMap<String, Double>> data, Double prevDay, String head) {
         Double large = 999999.9;
         Double nextDay = large;
@@ -254,15 +309,29 @@ public class LoadAndParse {
         }
     }
 
+    /**
+     * getAllAnimals
+     * @param data HashMap that contains key (animalID) and value (heading, value)
+     * @return LinkedHashSet
+     */
     private Set getAllAnimals(HashMap<Integer, HashMap<String, Double>> data) {
-        Set ret = new LinkedHashSet();
+        Set uniqueAnimals = new LinkedHashSet();
 
         for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
-            ret.add(trialEntry.getValue().get(AnimalId));
+            uniqueAnimals.add(trialEntry.getValue().get(AnimalId));
         }
-        return ret;
+        return uniqueAnimals;
     }
 
+    /**
+     * Finds value ?????
+     * @param data HashMap that contains key (animalID) and value (heading, value)
+     * @param head String value of heading
+     * @param animal the numeric value of animalID
+     * @param day the numeric value of trial day
+     * @param dones ?????????????
+     * @return heading or null
+     */
     private Map.Entry<Integer, HashMap<String, Double>> findValue(HashMap<Integer, HashMap<String, Double>> data, String head, double animal, double day, List dones) {
 
         for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
@@ -275,6 +344,11 @@ public class LoadAndParse {
         return null;
     }
 
+    /**
+     * Group all tests done by unique animal. ???
+     * @param anims
+     * @return HashMap<Double, List<Integer>> containing tests per unique animal.
+     */
     private HashMap<Double, List<Integer>> getAnimDones(Double[] anims) {
         HashMap<Double, List<Integer>> dones = new HashMap();
         for (Double anim : anims) {
@@ -283,12 +357,21 @@ public class LoadAndParse {
         return dones;
     }
 
+    /**
+     * ?????????
+     * @param arrs
+     * @return unique animalIDs
+     */
     private int calculateAllArrs(HashMap<Double, List<Integer>> arrs) {
-        int ret = 0;
-        ret = arrs.entrySet().stream().map((trialEntry) -> trialEntry.getValue().size()).reduce(ret, Integer::sum);
-        return ret;
+        int uniqueAnimals = 0;
+        uniqueAnimals = arrs.entrySet().stream().map((trialEntry) -> trialEntry.getValue().size()).reduce(uniqueAnimals, Integer::sum);
+        return uniqueAnimals;
     }
 
+    /**
+     * Creates Excel file from workbook
+     * @param wb workbook containing the data
+     */
     private void createXlsx(Workbook wb) {
         // Write the output to a file
         FileOutputStream fileOut = null;
@@ -318,6 +401,14 @@ public class LoadAndParse {
         }
     }
 
+    /**
+     *
+     * @param data
+     * @param id
+     * @param day
+     * @param head
+     * @return
+     */
     private Double getAverage(HashMap<Integer, HashMap<String, Double>> data, double id, double day, String head) {
         ArrayList<Double> values = new ArrayList<>();
         for (Map.Entry<Integer, HashMap<String, Double>> trialEntry : data.entrySet()) {
@@ -332,6 +423,11 @@ public class LoadAndParse {
         }
     }
 
+    /**
+     *
+     * @param marks
+     * @return
+     */
     private static double calculateAverage(List<Double> marks) {
         Double sum = 0.0;
 
@@ -342,6 +438,11 @@ public class LoadAndParse {
         return sum;
     }
 
+    /**
+     *
+     * @param err
+     * @param message
+     */
     public static void alertError(Exception err, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message + " (Full stack below...) \n\n" + err.getMessage());
         alert.show();
