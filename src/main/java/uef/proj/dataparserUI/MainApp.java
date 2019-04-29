@@ -8,7 +8,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * @author UEF Projektityö 2019 - Tony Heikkilä, Ilari Malinen, Mikko Nygård, Toni Takkinen
+ * @author UEF Projektityö 2019 - Tony Heikkilä, Ilari Malinen, Mikko Nygård,
+ * Toni Takkinen
  * @version 1.0
  */
 public class MainApp extends Application {
@@ -16,21 +17,17 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("DataParser");
-        
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartScreen.fxml"));
-        
-        Parent root = (Parent)loader.load();
-        
+        FXMLController controller = (FXMLController) loader.getController();
+
+        controller.setStageAndSetupListeners(stage);
+
+        Parent root = (Parent) loader.load();
+
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
-        
-        FXMLController controller = (FXMLController)loader.getController();        
-        
-        
-        controller.setStageAndSetupListeners(stage);
-        
-        
+
         stage.setScene(scene);
         stage.show();
     }

@@ -38,13 +38,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * @author UEF Projektityö 2019 - Tony Heikkilä, Ilari Malinen, Mikko Nygård, Toni Takkinen
+ * @author UEF Projektityö 2019 - Tony Heikkilä, Ilari Malinen, Mikko Nygård,
+ * Toni Takkinen
  * @version 1.0
  */
 public class FXMLController implements Initializable {
 
     //Intitialize first scene (StartScene.fxml)
-
     /**
      *
      */
@@ -76,7 +76,6 @@ public class FXMLController implements Initializable {
     private Stage primarystage;
 
     //Initialize TableView 
-
     /**
      *
      */
@@ -137,7 +136,6 @@ public class FXMLController implements Initializable {
     private Boolean buttonClickDefault;
 
     //Variables for user files 
-
     /**
      *
      */
@@ -154,14 +152,12 @@ public class FXMLController implements Initializable {
     private ArrayList<HeaderInfo> read;
 
     // Variable for using other class    
-
     /**
      *
      */
     private LoadAndParse LD;
 
     //Methods for action handling (button click, file drag)
-
     /**
      *
      * @param event
@@ -234,10 +230,8 @@ public class FXMLController implements Initializable {
         event.consume();
     }
 
-    
-
     /**
-     * Functionality for "Clear"-button. 
+     * Functionality for "Clear"-button.
      */
     @FXML
     public void clearDraggedFiles() {
@@ -249,30 +243,32 @@ public class FXMLController implements Initializable {
 
         System.out.println(probeFile);
     }
-    
 
     /**
-     *Creates and fills TableView with data from input files. Makes header names editable and unsortable
+     * Method creates and fills TableView with data from input files. Makes
+     * header names editable and unsortable
+     *
      * @param e
      */
     @FXML
     public void showList() {
-        
-        System.out.println("Nyt olemme alussa showList-funktiota: " + primarystage);
-        
+
         //Create new instance of LoadAndParse
         LD = new LoadAndParse(probeFile, trialFile);
 
         ArrayList<String> headers;
         headers = LD.getAllHeaders();
 
-        //Create TableView and fill it
+        /**
+         * Create TableView and fill it with data. If template is selected uses
+         * it to fill headers/checkboxes
+         */
         for (int i = 0; i < headers.size(); i++) {
             String nimi = headers.get(i);
-            String alias;            
+            String alias;
             CheckBox ch1;
             CheckBox ch2;
-            if(read != null) {
+            if (read != null) {
                 alias = read.get(i).alias;
                 ch1 = new CheckBox();
                 ch1.setSelected(read.get(i).normal);
@@ -282,13 +278,18 @@ public class FXMLController implements Initializable {
                 alias = "";
                 ch1 = new CheckBox();
                 ch2 = new CheckBox();
-            }            
+            }
             list.add(new TableSetterGetter(nimi, alias, ch1, ch2));
         }
 
-        //TableView headers editable
+        //TableView headers editable and unsortable
         tableView.setItems(list);
         tableView.setEditable(true);
+
+        normal.setSortable(false);
+        name.setSortable(false);
+        alias.setSortable(false);
+        average.setSortable(false);
 
         //Set values to TableView
         normal.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("checkBox"));
@@ -298,19 +299,10 @@ public class FXMLController implements Initializable {
 
         alias.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        //TableView headers unsortable
-        normal.setSortable(false);
-        name.setSortable(false);
-        alias.setSortable(false);
-        average.setSortable(false);
-        
-        
-
     }
 
-    //Edited header ("alias") shows instantly after edit
-
     /**
+     * Edited header ("alias") shows instantly after user edit
      *
      * @param CellEditEvent
      */
@@ -320,10 +312,10 @@ public class FXMLController implements Initializable {
         tsg.setAlias(CellEditEvent.getNewValue());
     }
 
-    
-
     /**
-     * Functionality for buttons "Default" and "Average" (Check/Uncheck all checkboxes)
+     * Functionality for buttons "Default" and "Average" (Check/Uncheck all
+     * checkboxes)
+     *
      * @param event
      */
     @FXML
@@ -355,29 +347,27 @@ public class FXMLController implements Initializable {
         }
     }
 
-    
-
     /**
-     *Functionality for changing scene from first (StartScreen.fxml) to second (TableScreen.fxml)
+     * Functionality for changing scene from first (StartScreen.fxml) to second
+     * (TableScreen.fxml)
      */
     @FXML
     public void Upload() {
         try {
             if (probeFile.exists()) {
-                System.out.println("Nyt olemme alussa Upload-funktiota: " + primarystage);
-                
+
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/TableScreen.fxml"));
                 primarystage.getScene().setRoot((Pane) loader.load());
                 FXMLController controller = (FXMLController) loader.getController();
+
                 controller.probeFile = probeFile;
                 controller.trialFile = trialFile;
-                
+
                 controller.primarystage = primarystage;
                 controller.read = read;
-                
+
                 controller.showList();
-                
-                System.out.println("Nyt olemme lopussa Upload-funktiota: " + primarystage); 
+
             }
 
         } catch (IOException e) {
@@ -386,50 +376,36 @@ public class FXMLController implements Initializable {
         }
 
         probeFile = null;
-        trialFile = null;     
+        trialFile = null;
 
     }
-    
+
     @FXML
-    public void returnScene() {   
-        System.out.println("Nyt olemme alussa returnScene-funktiota: " + primarystage);
-        
-        
+    public void returnScene() {
+
         try {
-            
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartScreen.fxml"));
-                primarystage.getScene().setRoot((Parent) loader.load());
-                FXMLController controller = (FXMLController) loader.getController();                
-                controller.setStageAndSetupListeners(primarystage);
-                controller.probeFile = probeFile;
-                controller.trialFile = trialFile;
-                controller.primarystage = primarystage;
-                
-                controller.successLabel.setText(probeFile.toString() + "\n\nReady to upload");
-                controller.successLabelTrial.setText(trialFile.toString() + "\n\nReady to upload");
-        }
-        
-        catch (IOException e) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartScreen.fxml"));
+            primarystage.getScene().setRoot((Parent) loader.load());
+            FXMLController controller = (FXMLController) loader.getController();
+            controller.setStageAndSetupListeners(primarystage);
+            controller.probeFile = probeFile;
+            controller.trialFile = trialFile;
+            controller.primarystage = primarystage;
+
+            controller.successLabel.setText(probeFile.toString() + "\n\nReady to upload");
+            controller.successLabelTrial.setText(trialFile.toString() + "\n\nReady to upload");
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Ei toimi " + e.getMessage());
         }
-        
-       
-       
-        
-        System.out.println("Nyt olemme lopussa returnScene-funktiota" + primarystage);
-          
-      }
-     
-      
-      
-        
-        
-    
+
+    }
 
     /**
-     *saveTemplate opens files, makes directory if it does not exist and writes template object to that directory. 
-     * 
+     * Opens files, makes directory if it does not exist and writes template
+     * object to that directory.
+     *
      */
     @FXML
     public void saveTemplate() {
@@ -440,7 +416,7 @@ public class FXMLController implements Initializable {
             HeaderInfo template = new HeaderInfo();
             template.heading = x.alias;
             template.alias = x.alias;
-        // Onko nämä oikein? avg ja normal
+            // Onko nämä oikein? avg ja normal
             template.avg = x.cb_average.isSelected();
             template.normal = x.cb_default.isSelected();
             lis.add(template);
@@ -463,7 +439,7 @@ public class FXMLController implements Initializable {
             for (int i = 0; i < lis.size(); i++) {
                 objectOut.writeObject((Object) lis.get(i));
             }
-        } catch (IOException ex) {         
+        } catch (IOException ex) {
             new LoadAndParse(probeFile, trialFile).alertError(ex, "Something went wrong with saving the template...");
         } catch (NullPointerException ex) {
             new LoadAndParse(probeFile, trialFile).alertError(ex, "Did you close without saving template?");
@@ -479,9 +455,9 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     *openTemplate reads DAT file to ArrayList add. 
-     * 
-     * 
+     * Reads .DAT file to ArrayList add.
+     *
+     *
      * @throws IOException
      */
     public void openTemplate() throws IOException {
@@ -495,37 +471,25 @@ public class FXMLController implements Initializable {
         read = new ArrayList();
         Object o = null;
         try {
-        while ((o = objectIn.readObject())!=null) {            
-            
-                
+            while ((o = objectIn.readObject()) != null) {
+
                 System.out.println(o.getClass());
                 read.add((HeaderInfo) o);
-                }
-                //System.out.println(read.get(i).getAlias());
-                // System.out.println(read.get(i).getHeading());
-                //System.out.println(read.get(i).avg);
-            } catch (ClassNotFoundException ex) {             
-                new LoadAndParse(probeFile, trialFile).alertError(ex, "The template file was incorrect probably...");
-            } catch (NullPointerException | EOFException ex) {
-                
             }
-    }
+            //System.out.println(read.get(i).getAlias());
+            // System.out.println(read.get(i).getHeading());
+            //System.out.println(read.get(i).avg);
+        } catch (ClassNotFoundException ex) {
+            new LoadAndParse(probeFile, trialFile).alertError(ex, "The template file was incorrect probably...");
+        } catch (NullPointerException | EOFException ex) {
 
-    /**
-     *generateStatisticsFile generates file with wanted dat file.
-     */
-    public void generateStatisticsFile() {
-
-        /*
-        HashMap<Integer, HashMap<String, Double>> hm = LD.readData(read);
-        LD.addData(read, hm);
-         */
+        }
     }
 
     //Building way to save data from TableView
-
     /**
-     *getValues reads data from tableView to hi and adds that data to LD.
+     * Reads data from tableView to ArrayList and adds that data to LoadAndParse
+     * variable.
      */
     @FXML
     public void getValues() {
@@ -538,9 +502,8 @@ public class FXMLController implements Initializable {
             hi.avg = x.cb_average.isSelected();
             hi.normal = x.cb_default.isSelected();
 
-            //  if (hi.avg || hi.normal) {
             li.add(hi);
-            // }            
+
         }
 
         HashMap<Integer, HashMap<String, Double>> hm = LD.readData(li);
@@ -548,17 +511,15 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     *Exit calls System.exit(0), stops the program.
+     * Exit calls System.exit(0), stops the program.
      */
     @FXML
     public void Exit() {
         System.exit(0);
-    }  
-
-    //Content for "Help" button 
+    }
 
     /**
-     *Help opens help window for user.
+     * Opens help window for user.
      */
     @FXML
     public void Help() {
@@ -586,22 +547,5 @@ public class FXMLController implements Initializable {
         dragTargetProbe.prefHeightProperty().bind(primarystage.heightProperty().multiply(0.3));
         dragTargetTrial.prefWidthProperty().bind(primarystage.widthProperty().multiply(0.3));
         dragTargetTrial.prefHeightProperty().bind(primarystage.heightProperty().multiply(0.3));
-    }
-
-    // Väliaikasesti kommentteihin asiakastapaamisen toiveiden mukaisesti.
-    /*
-    private TextField getNumberField() {
-        final TextField textField = new TextField();
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                    String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    textField.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            }
-        });
-        return textField;
-    }
-     */
+    }    
 }

@@ -62,7 +62,7 @@
         <BorderPane id="bottomPane">
             <left> 
                 <HBox>                
-                <Button text="Help" minHeight="50" minWidth="150" onAction="#Help"/>
+                    <Button text="Help" minHeight="50" minWidth="150" onAction="#Help"/>
                 </HBox>
             </left>
             <right>        
