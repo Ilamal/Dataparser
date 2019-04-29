@@ -41,10 +41,10 @@ public class Template implements Serializable {
 
     /**
      *
-     * @param heading
-     * @param alias
-     * @param normal
-     * @param avg
+     * @param heading String variable for Template object.
+     * @param alias String variable for Template object.
+     * @param normal boolean variable for Template object.
+     * @param avg boolean variable for Template object.
      */
     public Template(String heading, String alias, boolean normal, boolean avg) {
         this.heading = heading;
@@ -55,7 +55,7 @@ public class Template implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns heading
      */
     public String getHeading() {
         return heading;
@@ -63,7 +63,7 @@ public class Template implements Serializable {
 
     /**
      *
-     * @param heading
+     * @param heading heading for Template object.
      */
     public void setHeading(String heading) {
         this.heading = heading;
@@ -71,7 +71,7 @@ public class Template implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns alias.
      */
     public String getAlias() {
         return alias;
@@ -79,7 +79,7 @@ public class Template implements Serializable {
 
     /**
      *
-     * @param alias
+     * @param alias alias for Template.
      */
     public void setAlias(String alias) {
         this.alias = alias;
@@ -87,7 +87,7 @@ public class Template implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns boolean normal.
      */
     public boolean isNormal() {
         return normal;
@@ -95,7 +95,7 @@ public class Template implements Serializable {
 
     /**
      *
-     * @param normal
+     * @param normal boolean value for normal.
      */
     public void setNormal(boolean normal) {
         this.normal = normal;
@@ -103,7 +103,7 @@ public class Template implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns value for avg.
      */
     public boolean isAvg() {
         return avg;
@@ -111,7 +111,7 @@ public class Template implements Serializable {
 
     /**
      *
-     * @param avg
+     * @param avg avg for Template.
      */
     public void setAvg(boolean avg) {
         this.avg = avg;

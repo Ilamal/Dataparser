@@ -240,14 +240,13 @@ public class FXMLController implements Initializable {
         event.consume();
     }
 
-    //Functionality for "Clear"-button
+    
 
     /**
-     *
+     * Functionality for "Clear"-button. 
      */
     @FXML
     public void clearDraggedFiles() {
-        System.out.println("Nappi toimii!");
         probeFile = null;
         trialFile = null;
 
@@ -276,10 +275,10 @@ public class FXMLController implements Initializable {
         }
     }
 
-    //Creates and fills TableView with data from input files. Makes header names editable and unsortable
+    
 
     /**
-     *
+     *Creates and fills TableView with data from input files. Makes header names editable and unsortable
      * @param e
      */
     @FXML
@@ -334,10 +333,10 @@ public class FXMLController implements Initializable {
         tsg.setAlias(CellEditEvent.getNewValue());
     }
 
-    //Functionality for buttons "Default" and "Average" (Check/Uncheck all checkboxes)
+    
 
     /**
-     *
+     * Functionality for buttons "Default" and "Average" (Check/Uncheck all checkboxes)
      * @param event
      */
     @FXML
@@ -369,10 +368,10 @@ public class FXMLController implements Initializable {
         }
     }
 
-    //Functionality for changing scene from first (StartScreen.fxml) to second (TableScreen.fxml)
+    
 
     /**
-     *
+     *Functionality for changing scene from first (StartScreen.fxml) to second (TableScreen.fxml)
      */
     @FXML
     public void Upload() {
@@ -396,7 +395,8 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     *
+     *saveTemplate opens files, makes directory if it does not exist and writes template object to that directory. 
+     * 
      */
     @FXML
     public void saveTemplate() {
@@ -446,7 +446,9 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     *
+     *openTemplate reads dat file to ArrayList add. 
+     * 
+     * 
      * @throws IOException
      */
     public void openTemplate() throws IOException {
@@ -457,7 +459,6 @@ public class FXMLController implements Initializable {
         fileChooser.getExtensionFilters().add(extFilter);
 
         objectIn = new ObjectInputStream(new FileInputStream(fileChooser.showOpenDialog(null).getAbsolutePath()));
-        int i = 0;
         while (true) {
             Object o = null;
 
@@ -467,7 +468,6 @@ public class FXMLController implements Initializable {
                 //System.out.println(read.get(i).getAlias());
                 // System.out.println(read.get(i).getHeading());
                 //System.out.println(read.get(i).avg);
-                i++;
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (NullPointerException ex) {
@@ -481,7 +481,7 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     *
+     *generateStatisticsFile generates file with wanted dat file.
      */
     public void generateStatisticsFile() {
 
@@ -494,7 +494,7 @@ public class FXMLController implements Initializable {
     //Building way to save data from TableView
 
     /**
-     *
+     *getValues reads data from tableView to hi and adds that data to LD.
      */
     @FXML
     public void getValues() {
@@ -517,7 +517,7 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     *
+     *Exit calls System.exit(0), stops the program.
      */
     @FXML
     public void Exit() {
@@ -527,7 +527,7 @@ public class FXMLController implements Initializable {
     //Content for "Help" button 
 
     /**
-     *
+     *Help opens help window for user.
      */
     @FXML
     public void Help() {
