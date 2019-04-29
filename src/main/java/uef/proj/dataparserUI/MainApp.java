@@ -25,7 +25,9 @@ public class MainApp extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
         
-        FXMLController controller = (FXMLController)loader.getController();
+        FXMLController controller = (FXMLController)loader.getController();        
+        
+        
         controller.setStageAndSetupListeners(stage);
         
         

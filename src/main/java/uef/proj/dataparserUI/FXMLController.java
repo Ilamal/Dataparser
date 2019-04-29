@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -368,6 +370,8 @@ public class FXMLController implements Initializable {
                 controller.probeFile = probeFile;
                 controller.trialFile = trialFile;
                 
+                controller.primarystage = primarystage;
+                
                 controller.showList();
                  
                 System.out.println("Nyt olemme lopussa Upload-funktiota: " + primarystage); 
@@ -385,26 +389,29 @@ public class FXMLController implements Initializable {
     
     @FXML
     public void returnScene() {   
+        System.out.println("Nyt olemme alussa returnScene-funktiota: " + primarystage);
         
         
-        
-        
-        /*
-        try {         
-       
-
-        System.out.println("Nyt olemme try loopissa returnScene-funktiota" + primarystage);  
-
-        
-        primarystage.getScene().setRoot((Pane) loader.load());
-        
-        } 
-        catch (IOException e){
+        try {
             
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartScreen.fxml"));
+                primarystage.getScene().setRoot((Parent) loader.load());
+                FXMLController controller = (FXMLController) loader.getController();                
+                controller.setStageAndSetupListeners(primarystage);
+                controller.probeFile = probeFile;
+                controller.trialFile = trialFile;
+                controller.primarystage = primarystage;
+                
+                controller.successLabel.setText(probeFile.toString() + "\n\nReady to upload");
+                controller.successLabelTrial.setText(trialFile.toString() + "\n\nReady to upload");
         }
         
-        */
+        catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Ei toimi " + e.getMessage());
+        }
         
+       
        
         
         System.out.println("Nyt olemme lopussa returnScene-funktiota" + primarystage);
