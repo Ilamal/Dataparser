@@ -205,7 +205,7 @@ public class FXMLController implements Initializable {
         Dragboard db = event.getDragboard();
         boolean success = false;
         if (db.hasFiles()) {
-            successLabel.setText(db.getFiles().toString() + "\nReady to upload");
+            successLabel.setText(db.getFiles().toString() + "\n\nReady to upload");
             successLabel.setWrapText(true);
             successLabel.prefHeight(300);
             probeFile = db.getFiles().get(0);
@@ -227,7 +227,7 @@ public class FXMLController implements Initializable {
         Dragboard db = event.getDragboard();
         boolean success = false;
         if (db.hasFiles()) {
-            successLabelTrial.setText(db.getFiles().toString() + "\nReady to upload");
+            successLabelTrial.setText(db.getFiles().toString() + "\n\nReady to upload");
             successLabelTrial.setWrapText(true);
             successLabelTrial.prefHeight(300);
             trialFile = db.getFiles().get(0);

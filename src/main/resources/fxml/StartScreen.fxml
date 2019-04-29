@@ -35,12 +35,16 @@
                 <VBox fx:id="dragTargetTrial" minHeight="300" minWidth="300"
                       onDragOver="#handleDragOver" onDragDropped="#handleDragDroppedTrial">
                     <children>
-                        <Label minHeight="150" minWidth="69" fx:id="trialLabel" text="Drop trial lists">
+                        <Label minHeight="150"  fx:id="trialLabel" text="Drop trial lists">
                              <font>
                                 <Font size="25.0" />
                              </font>
                         </Label>                
-                        <Label fx:id="successLabelTrial" minHeight="16" minWidth="69" text="" />
+                        <Label fx:id="successLabelTrial" minHeight="16" minWidth="69" text="" >
+                             <font>
+                                <Font name="System Bold" />
+                             </font>
+                        </Label>
                     </children>
                 </VBox>
                 <Button alignment="BOTTOM_LEFT"
