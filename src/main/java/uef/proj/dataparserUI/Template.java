@@ -8,8 +8,9 @@ package uef.proj.dataparserUI;
 import java.io.Serializable;
 
 /**
- *
- * muutettu samanlaiseksi kuin HeaderInfo.java
+ * @author UEF Projektityö 2019 - Tony Heikkilä, Ilari Malinen, Mikko Nygård, Toni Takkinen
+ * @version 1.0
+ * Changed to similar Object to HeaderInfo
  */
 public class Template implements Serializable {
     

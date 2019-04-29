@@ -404,10 +404,10 @@ public class LoadAndParse {
     /**
      *
      * @param data
-     * @param id
-     * @param day
-     * @param head
-     * @return
+     * @param id a number value of animalID
+     * @param day a day of trial
+     * @param head heading information in String
+     * @return calls the method that calculates the average of values
      */
     private Double getAverage(HashMap<Integer, HashMap<String, Double>> data, double id, double day, String head) {
         ArrayList<Double> values = new ArrayList<>();
@@ -426,7 +426,7 @@ public class LoadAndParse {
     /**
      *
      * @param marks
-     * @return
+     * @return the average of given values
      */
     private static double calculateAverage(List<Double> marks) {
         Double sum = 0.0;
@@ -440,8 +440,8 @@ public class LoadAndParse {
 
     /**
      *
-     * @param err
-     * @param message
+     * @param err Exception type
+     * @param message Error Message String
      */
     public static void alertError(Exception err, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message + " (Full stack below...) \n\n" + err.getMessage());

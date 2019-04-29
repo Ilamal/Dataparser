@@ -8,8 +8,8 @@ package uef.proj.dataparserUI;
 import javafx.scene.control.CheckBox;
 
 /**
- *
- * @author mikkonyg
+ * @author UEF Projektityö 2019 - Tony Heikkilä, Ilari Malinen, Mikko Nygård, Toni Takkinen
+ * @version 1.0
  */
 public class TableSetterGetter {  
 
@@ -35,10 +35,10 @@ public class TableSetterGetter {
 
     /**
      *
-     * @param name
-     * @param alias
-     * @param checkBox
-     * @param checkBox2
+     * @param name the heading (generated from the user source file)
+     * @param alias similar to heading, custom heading which user can edit
+     * @param checkBox does user want default values (similar to source file)
+     * @param checkBox2 does user want averages generated from source file data
      */
     public TableSetterGetter(String name,String alias, CheckBox checkBox, CheckBox checkBox2) {
         this.name = name;
@@ -81,7 +81,7 @@ public class TableSetterGetter {
 
     /**
      *
-     * @return
+     * @return String of heading
      */
     public String getName() {
         return name;
@@ -89,7 +89,7 @@ public class TableSetterGetter {
 
     /**
      *
-     * @param name
+     * @param name String value of heading
      */
     public void setName(String name) {
         this.name = name;
@@ -97,7 +97,7 @@ public class TableSetterGetter {
 
     /**
      *
-     * @return
+     * @return the custom heading
      */
     public String getAlias() {
         return alias;
@@ -105,7 +105,7 @@ public class TableSetterGetter {
 
     /**
      *
-     * @param alias
+     * @param alias String value of custom heading
      */
     public void setAlias(String alias) {
         this.alias = alias;
