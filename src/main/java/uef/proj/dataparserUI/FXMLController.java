@@ -16,13 +16,10 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -275,7 +272,7 @@ public class FXMLController implements Initializable {
             String alias;            
             CheckBox ch1;
             CheckBox ch2;
-            if(read.size()>0) {
+            if(read != null) {
                 alias = read.get(i).alias;
                 ch1 = new CheckBox();
                 ch1.setSelected(read.get(i).normal);
@@ -376,9 +373,10 @@ public class FXMLController implements Initializable {
                 controller.trialFile = trialFile;
                 
                 controller.primarystage = primarystage;
+                controller.read = read;
                 
                 controller.showList();
-                controller.read = read;
+                
                 System.out.println("Nyt olemme lopussa Upload-funktiota: " + primarystage); 
             }
 
@@ -481,7 +479,7 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     *openTemplate reads dat file to ArrayList add. 
+     *openTemplate reads DAT file to ArrayList add. 
      * 
      * 
      * @throws IOException
