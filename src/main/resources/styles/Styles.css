@@ -1,5 +1,6 @@
 .button {
     -fx-font-weight: bold;
+    -fx-cursor: hand;
 }
 #dragTargetProbe {
     -fx-border-color: black;
