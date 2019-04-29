@@ -8,61 +8,67 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane id="BorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="585" minWidth="480" xmlns:fx="http://javafx.com/fxml" fx:controller="uef.proj.dataparserUI.FXMLController">   
-    <top>
-        <Label alignment="TOP_CENTER" id="Headline" maxWidth="Infinity" text="XLSX file parser"></Label>
-    </top>
-    <center>
-        <VBox alignment="CENTER" maxWidth="Infinity" spacing="25">
+    <top>        
+        <VBox alignment="CENTER" maxWidth="Infinity" spacing="25">               
             <children>
-                <HBox alignment="BOTTOM_CENTER">
-                <VBox fx:id="dragTargetProbe" minHeight="300" minWidth="300 "
-                      onDragOver="#handleDragOver" onDragDropped="#handleDragDroppedProbe">
-                    <children>                    
-                        <Label minHeight="150" fx:id="probeLabel"  text="Drop statistics file">
-                            <font>
-                                <Font size="25.0" />
-                            </font>
-                        </Label>              
-                        <Label fx:id="successLabel" minHeight="16" minWidth="69" text="">
-                            <font>
-                                <Font name="System Bold" />
-                            </font>
-                        </Label>              
-                    </children>
-                </VBox>
-                <Button alignment="BOTTOM_LEFT"
-                        text="Choose file" onAction="#handleButtonAction" fx:id="button" minHeight="35" />
-                <VBox fx:id="dragTargetTrial" minHeight="300" minWidth="300"
-                      onDragOver="#handleDragOver" onDragDropped="#handleDragDroppedTrial">
-                    <children>
-                        <Label minHeight="150" minWidth="69" fx:id="trialLabel" text="Drop trial lists">
-                             <font>
-                                <Font size="25.0" />
-                             </font>
-                        </Label>                
-                        <Label fx:id="successLabelTrial" minHeight="16" minWidth="69" text="" />
-                    </children>
-                </VBox>
-                <Button alignment="BOTTOM_LEFT"
-                        text="Choose file" onAction="#handleButtonAction" fx:id="trialButton" minHeight="35" />
+                <Label alignment="TOP_CENTER" id="Headline" maxWidth="Infinity" text="XLSX file parser"></Label>
+                <HBox alignment="CENTER">
+                    <VBox fx:id="dragTargetProbe" minHeight="300" minWidth="300 "
+                          onDragOver="#handleDragOver" onDragDropped="#handleDragDroppedProbe">
+                        <children>                    
+                            <Label minHeight="150" fx:id="probeLabel"  text="Drop statistics file">
+                                <font>
+                                    <Font size="25.0" />
+                                </font>
+                            </Label>              
+                            <Label fx:id="successLabel" minHeight="16" minWidth="69" text="">
+                                <font>
+                                    <Font name="System Bold" />
+                                </font>
+                            </Label>              
+                        </children>
+                    </VBox>
+                    <Button text="Choose file" onAction="#handleButtonAction" fx:id="button" minHeight="35" />
+                    <VBox fx:id="dragTargetTrial" minHeight="300" minWidth="300"
+                          onDragOver="#handleDragOver" onDragDropped="#handleDragDroppedTrial">
+                        <children>
+                            <Label minHeight="150"  fx:id="trialLabel" text="Drop trial lists">
+                                <font>
+                                    <Font size="25.0" />
+                                </font>
+                            </Label>                
+                            <Label fx:id="successLabelTrial" minHeight="16" minWidth="69" text="" >
+                                <font>
+                                    <Font name="System Bold" />
+                                </font>
+                            </Label>
+                        </children>
+                    </VBox>
+                    <Button text="Choose file" onAction="#handleButtonAction" fx:id="trialButton" minHeight="35" />
                 </HBox>
-                <HBox alignment="BOTTOM_CENTER" maxWidth="Infinity" spacing="5">                    
-                    <Button fx:id="UploadButton" text="Upload" onAction="#Upload" minHeight="50" minWidth="200"/>                    
-                   <Button fx:id="clearButton" text="Clear" onAction="#clearDraggedFiles" minHeight="50" minWidth="200" />
-                   <Button fx:id="OpenTemplateButton" text="Open Template" onAction="#openTemplate" minHeight="50" minWidth="60"/>
-                    <Button fx:id="GenerateFileButton" text="Generate" onAction="#generateStatisticsFile" minHeight="50" minWidth="60"/>
-                                      
+                <HBox alignment="BOTTOM_CENTER" maxWidth="Infinity">               
+                    <Button fx:id="OpenTemplateButton" text="Open Template" onAction="#openTemplate" minHeight="50" minWidth="200"/>                    
                 </HBox>
                 <Label fx:id="passwordLabel" minHeight="16" minWidth="69" text="" />
             </children>
         </VBox>
+    </top>
+    <center>
+        <HBox alignment="TOP_CENTER" maxWidth="Infinity">
+            <Button fx:id="UploadButton" text="Upload" onAction="#Upload" minHeight="50" minWidth="200"/>            
+        </HBox>     
     </center>
     <bottom>
-        <BorderPane id="upload">
+        <BorderPane id="bottomPane">
+            <left> 
+                <HBox>                
+                <Button text="Help" minHeight="50" minWidth="150" onAction="#Help"/>
+                </HBox>
+            </left>
             <right>        
-                <HBox>
-                    <Button text="Help" minHeight="50" minWidth="150" onAction="#Help"/> 
-                    <Button text="Exit" minHeight="50" minWidth="150" onAction="#Exit"/> 
+                <HBox>                     
+                    <Button fx:id="clearButton" text="Clear" onAction="#clearDraggedFiles" minHeight="50" minWidth="150" />
+                    <Button fx:id="exitButton" text="Exit" onAction="#Exit" minHeight="50" minWidth="150" /> 
                 </HBox>
             </right>
         </BorderPane> 

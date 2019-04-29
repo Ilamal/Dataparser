@@ -205,7 +205,7 @@ public class FXMLController implements Initializable {
         Dragboard db = event.getDragboard();
         boolean success = false;
         if (db.hasFiles()) {
-            successLabel.setText(db.getFiles().toString() + "\nReady to upload");
+            successLabel.setText(db.getFiles().toString() + "\n\nReady to upload");
             successLabel.setWrapText(true);
             successLabel.prefHeight(300);
             probeFile = db.getFiles().get(0);
@@ -227,7 +227,7 @@ public class FXMLController implements Initializable {
         Dragboard db = event.getDragboard();
         boolean success = false;
         if (db.hasFiles()) {
-            successLabelTrial.setText(db.getFiles().toString() + "\nReady to upload");
+            successLabelTrial.setText(db.getFiles().toString() + "\n\nReady to upload");
             successLabelTrial.setWrapText(true);
             successLabelTrial.prefHeight(300);
             trialFile = db.getFiles().get(0);
@@ -451,6 +451,7 @@ public class FXMLController implements Initializable {
      * 
      * @throws IOException
      */
+    @FXML
     public void openTemplate() throws IOException {
 
         ObjectInputStream objectIn = null;
@@ -461,13 +462,14 @@ public class FXMLController implements Initializable {
         objectIn = new ObjectInputStream(new FileInputStream(fileChooser.showOpenDialog(null).getAbsolutePath()));
         while (true) {
             Object o = null;
-
             try {
                 o = objectIn.readObject();
                 read.add((Template) o);
                 //System.out.println(read.get(i).getAlias());
                 // System.out.println(read.get(i).getHeading());
                 //System.out.println(read.get(i).avg);
+                
+                System.out.println("Template load done!");
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (NullPointerException ex) {
