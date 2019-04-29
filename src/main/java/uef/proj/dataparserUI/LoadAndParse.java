@@ -88,7 +88,8 @@ public class LoadAndParse {
                     heading += dataFormatter.formatCellValue(cellData) + "\n";
                 }
             }
-            headers.add(heading);
+            if(heading!="")
+                headers.add(heading);
 
             a++;
         } while (cellData != null);
@@ -160,7 +161,7 @@ public class LoadAndParse {
     }
 
     /**
-     * Creates 500 rows to Excel workbook sheet.
+     * Creates rows to Excel workbook sheet.
      * @param sheet Excel workbook sheet
      * @param amount The amount of rows generated
      * @return ArrayList<Row> rows
@@ -194,7 +195,7 @@ public class LoadAndParse {
 
         Set<Double> getAnims = getAllAnimals(data);
         Double[] allAnims = getAnims.toArray(new Double[0]);
-        ArrayList<Row> rows = getRows(sheet, 500);
+        ArrayList<Row> rows = getRows(sheet, allAnims.length+5);
 
         // Add Headings
         Row topRow = sheet.createRow(0);
@@ -286,7 +287,7 @@ public class LoadAndParse {
 
     /**
      * findNextDay returns the next day
-     * @param data 
+     * @param data whole data from statistics file
      * @param prevDay the previous day
      * @param head
      * @return
@@ -329,7 +330,7 @@ public class LoadAndParse {
      * @param head String value of heading
      * @param animal the numeric value of animalID
      * @param day the numeric value of trial day
-     * @param dones ?????????????
+     * @param dones values not to include in the search
      * @return heading or null
      */
     private Map.Entry<Integer, HashMap<String, Double>> findValue(HashMap<Integer, HashMap<String, Double>> data, String head, double animal, double day, List dones) {

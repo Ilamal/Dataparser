@@ -1,10 +1,12 @@
 package uef.proj.dataparserUI;
 
+import java.io.Serializable;
+
 /**
  * @author UEF Projektityö 2019 - Tony Heikkilä, Ilari Malinen, Mikko Nygård, Toni Takkinen
  * @version 1.0
  */
-public class HeaderInfo {
+public class HeaderInfo implements Serializable {
 
     /**
      *
