@@ -451,6 +451,7 @@ public class FXMLController implements Initializable {
      * 
      * @throws IOException
      */
+    @FXML
     public void openTemplate() throws IOException {
 
         ObjectInputStream objectIn = null;
@@ -461,13 +462,14 @@ public class FXMLController implements Initializable {
         objectIn = new ObjectInputStream(new FileInputStream(fileChooser.showOpenDialog(null).getAbsolutePath()));
         while (true) {
             Object o = null;
-
             try {
                 o = objectIn.readObject();
                 read.add((Template) o);
                 //System.out.println(read.get(i).getAlias());
                 // System.out.println(read.get(i).getHeading());
                 //System.out.println(read.get(i).avg);
+                
+                System.out.println("Template load done!");
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (NullPointerException ex) {
