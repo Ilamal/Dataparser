@@ -264,6 +264,10 @@ public class FXMLController implements Initializable {
     public void clearDraggedFiles() {
         probeFile = null;
         trialFile = null;
+        read = null;
+        
+        successLabelTemplate.setText("");
+        
 
         successLabel.setText("");
         successLabelTrial.setText("");

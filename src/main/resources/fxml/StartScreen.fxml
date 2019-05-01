@@ -57,7 +57,7 @@
                 <Button fx:id="OpenTemplateButton" text="Open Template" onAction="#openTemplate" minHeight="50" minWidth="200"/> 
             </HBox>
             <HBox alignment="TOP_CENTER" maxWidth="Infinity" spacing="5.0">
-                <Label fx:id="successLabelTemplate" >
+                <Label fx:id="successLabelTemplate" text="No template chosen!" >
                     <font>
                         <Font size="20.0" />
                     </font>
