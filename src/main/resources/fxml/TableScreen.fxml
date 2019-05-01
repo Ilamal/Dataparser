@@ -5,17 +5,19 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 
 
 <AnchorPane id="AnchorPane" xmlns:fx="http://javafx.com/fxml" fx:controller="uef.proj.dataparserUI.FXMLController">
     <children> 
         <Button AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" prefHeight="30.0" prefWidth="105.0" text="Return" onAction="#returnScene"/>
-        <Button  fx:id="btn_setDefault"  AnchorPane.topAnchor="5.0" AnchorPane.rightAnchor="149" prefWidth="149.0"  text="All defaults" onAction="#selectAll"/>
-        <Button  fx:id="btn_setAverage" AnchorPane.topAnchor="5.0" AnchorPane.rightAnchor="0.0" prefWidth="149.0" text="All Averages" onAction="#selectAll"  />   
+        <Button  fx:id="btn_setDefault"  AnchorPane.topAnchor="5.0" AnchorPane.rightAnchor="149" prefHeight="30.0" prefWidth="149.0"  text="All defaults" onAction="#selectAll"/>
+        <Button  fx:id="btn_setAverage" AnchorPane.topAnchor="5.0" AnchorPane.rightAnchor="0.0" prefHeight="30.0" prefWidth="149.0" text="All Averages" onAction="#selectAll"  />   
      
 
-        <TableView fx:id="tableView" layoutX="0.00" layoutY="28.0" prefHeight="505.0" prefWidth="720.0">
+        <TableView fx:id="tableView" AnchorPane.topAnchor="30.0" layoutX="0.00" layoutY="28.0" prefHeight="520.0" prefWidth="720.0">
            
             <columns>
                 <TableColumn prefWidth="210.0" text="Heading" fx:id="name" />
@@ -24,9 +26,18 @@
                 <TableColumn prefWidth="149.0" text="Average" fx:id="average" />                      
             </columns>
         </TableView>
+        
+        <Label id="chooseNull" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0" prefWidth="150.0" prefHeight="45.0" 
+               text="${'Input character for empty \n data cell values  (Default is -): '}">
+            <font>
+                <Font size="12.0" />
+            </font>        
+        </Label>       
+        <TextField id="nullCharacterField" fx:id="tf_nullChar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="150.0" prefHeight="70.0"  />
 
-        <Button AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" prefHeight="23" text="Save Template" onAction="#saveTemplate" />
-        <Button AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" prefHeight="35.0" text="Done" onAction="#getValues" />
+
+        <Button AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="105.0" prefWidth="105.0" prefHeight="45.0" text="Save Template" onAction="#saveTemplate" />
+        <Button AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0"  prefWidth="105.0" prefHeight="45.0" text="Done" onAction="#getValues" />
     </children>
 </AnchorPane>
 
