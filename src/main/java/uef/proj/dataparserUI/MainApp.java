@@ -21,8 +21,8 @@ public class MainApp extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartScreen.fxml"));
         Parent root = (Parent) loader.load();
         FXMLController controller = (FXMLController) loader.getController();
-        
-        controller.setStageAndSetupListeners(stage);        
+
+        controller.setStageAndSetupListeners(stage);
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");

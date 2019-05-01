@@ -68,7 +68,12 @@ public class FXMLController implements Initializable {
      */
     @FXML
     private Label successLabelTrial;
-
+    
+    /**
+     * 
+     */
+    @FXML 
+    private Label successLabelTemplate;
     /**
      *
      */
@@ -169,10 +174,12 @@ public class FXMLController implements Initializable {
         fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.setInitialDirectory(new File("."));
         probeFile = fileChooser.showOpenDialog(primarystage);
-        if(probeFile != null) {
+        if (probeFile != null) {
             successLabel.setText(probeFile.toString() + "\nready to upload");
-        }        
+        }
     }
+     
+
     /**
      *
      * @param event
@@ -184,10 +191,11 @@ public class FXMLController implements Initializable {
         fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.setInitialDirectory(new File("."));
         trialFile = fileChooser.showOpenDialog(primarystage);
-        if(trialFile != null) {
+        if (trialFile != null) {
             successLabelTrial.setText(trialFile.toString() + "\nready to upload");
         }
     }
+
     /**
      *
      * @param event
@@ -245,6 +253,7 @@ public class FXMLController implements Initializable {
         System.out.println("drop : " + success);
         event.consume();
     }
+   
 
     /**
      * Functionality for "Clear"-button.
@@ -432,7 +441,7 @@ public class FXMLController implements Initializable {
         for (TableSetterGetter x : tableView.getItems()) {
             HeaderInfo template = new HeaderInfo();
             template.heading = x.alias;
-            template.alias = x.alias;            
+            template.alias = x.alias;
             template.avg = x.cb_average.isSelected();
             template.normal = x.cb_default.isSelected();
             lis.add(template);
@@ -482,14 +491,24 @@ public class FXMLController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DAT files (*.dat)", "*.dat");
         fileChooser.getExtensionFilters().add(extFilter);
-        if(new File("Templates").exists()) {
+        
+      
+        
+       
+        
+        if (new File("Templates").exists()) {
             fileChooser.setInitialDirectory(new File("Templates"));
         } else {
             fileChooser.setInitialDirectory(new File("."));
         }
-        objectIn = new ObjectInputStream(new FileInputStream(fileChooser.showOpenDialog(null).getAbsolutePath()));
+        String path  = fileChooser.showOpenDialog(null).getAbsolutePath();
+        objectIn = new ObjectInputStream(new FileInputStream(path));
+        String tempLabel = path.substring(path.lastIndexOf("\\")+1);
+        
         read = new ArrayList();
+        System.out.println(path);
         Object o = null;
+        successLabelTemplate.setText("Chosen template: " + tempLabel);
         try {
             while ((o = objectIn.readObject()) != null) {
 
@@ -566,5 +585,5 @@ public class FXMLController implements Initializable {
         dragTargetProbe.prefHeightProperty().bind(primarystage.heightProperty().multiply(0.3));
         dragTargetTrial.prefWidthProperty().bind(primarystage.widthProperty().multiply(0.3));
         dragTargetTrial.prefHeightProperty().bind(primarystage.heightProperty().multiply(0.3));
-    }    
+    }
 }

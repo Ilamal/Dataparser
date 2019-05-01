@@ -51,13 +51,25 @@
         </VBox>
     </top>
     <center>
-        <HBox alignment="TOP_CENTER" maxWidth="Infinity" spacing="5.0">
-            <Button fx:id="UploadButton" text="Upload" onAction="#Upload" minHeight="50" minWidth="200"/>   
-            <Button fx:id="OpenTemplateButton" text="Open Template" onAction="#openTemplate" minHeight="50" minWidth="200"/>          
-        </HBox>     
+        <VBox>
+            <HBox alignment="TOP_CENTER" maxWidth="Infinity" spacing="5.0">
+                <Button fx:id="UploadButton" text="Upload" onAction="#Upload" minHeight="50" minWidth="200"/>   
+                <Button fx:id="OpenTemplateButton" text="Open Template" onAction="#openTemplate" minHeight="50" minWidth="200"/> 
+            </HBox>
+            <HBox alignment="TOP_CENTER" maxWidth="Infinity" spacing="5.0">
+                <Label fx:id="successLabelTemplate" >
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>  
+            </HBox>           
+        </VBox>                       
     </center>
     <bottom>
         <BorderPane id="bottomPane">
+            <top>
+                
+            </top>
             <left> 
                 <HBox>                
                     <Button text="Help" minHeight="40" minWidth="130" onAction="#Help"/>
