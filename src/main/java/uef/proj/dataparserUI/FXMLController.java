@@ -44,128 +44,69 @@ import javafx.stage.Stage;
  */
 public class FXMLController implements Initializable {
 
-    //Intitialize first scene (StartScene.fxml)
-    /**
-     *
-     */
+    //Intitialize first scene (StartScene.fxml)  
     @FXML
     private VBox dragTargetProbe;
 
-    /**
-     *
-     */
     @FXML
     private VBox dragTargetTrial;
 
-    /**
-     *
-     */
     @FXML
     private Label successLabel;
 
-    /**
-     *
-     */
     @FXML
     private Label successLabelTrial;
-    
-    /**
-     * 
-     */
-    @FXML 
+
+    @FXML
     private Label successLabelTemplate;
-    /**
-     *
-     */
+
     @FXML
     private Stage primarystage;
 
-    //Initialize TableView 
-    /**
-     *
-     */
+    //Initialize TableView   
     @FXML
     private TableColumn<TableSetterGetter, String> name;
 
-    /**
-     *
-     */
     @FXML
     private TableColumn<TableSetterGetter, String> alias;
 
-    /**
-     *
-     */
     @FXML
     private TableColumn<TableSetterGetter, CheckBox> normal;
 
-    /**
-     *
-     */
     @FXML
     private TableColumn<TableSetterGetter, CheckBox> average;
 
-    /**
-     *
-     */
     @FXML
     private TableView<TableSetterGetter> tableView;
 
-    /**
-     *
-     */
     ObservableList<TableSetterGetter> list = FXCollections.observableArrayList();
 
-    /**
-     *
-     */
     @FXML
     private Button btn_setDefault;
 
-    /**
-     *
-     */
     @FXML
     private Button btn_setAverage;
 
-    /**
-     *
-     */
     @FXML
     private Boolean buttonClickAverage;
 
-    /**
-     *
-     */
     @FXML
     private Boolean buttonClickDefault;
 
     //Variables for user files 
-    /**
-     *
-     */
     private File probeFile;
 
-    /**
-     *
-     */
     private File trialFile;
 
-    /**
-     *
-     */
     private ArrayList<HeaderInfo> read;
 
-    // Variable for using other class    
-    /**
-     *
-     */
+    // Variable for using other class (LoadAndParse.java)   
     private LoadAndParse LD;
 
-    //Methods for action handling (button click, file drag)
     /**
+     * Handles user choosing file with "Choose File"-button (probeFile).
      *
-     * @param event
+     * @param event User clicking "Choose File"
      */
     @FXML
     private void handleChooseFileProbe(ActionEvent event) {
@@ -174,16 +115,16 @@ public class FXMLController implements Initializable {
         fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.setInitialDirectory(new File("."));
         probeFile = fileChooser.showOpenDialog(primarystage);
-        if(probeFile != null) {
+        if (probeFile != null) {
             successLabel.setText(probeFile.toString() + "\nReady to upload");
             successLabel.setWrapText(true);
-        }        
+        }
     }
-     
 
     /**
+     * Handles user choosing file with "Choose File"-button (trialFile).
      *
-     * @param event
+     * @param event User clicking "Choose File"
      */
     @FXML
     private void handleChooseFileTrial(ActionEvent event) {
@@ -192,15 +133,16 @@ public class FXMLController implements Initializable {
         fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.setInitialDirectory(new File("."));
         trialFile = fileChooser.showOpenDialog(primarystage);
-        if(trialFile != null) {
+        if (trialFile != null) {
             successLabelTrial.setText(trialFile.toString() + "\nReady to upload");
             successLabelTrial.setWrapText(true);
         }
     }
 
     /**
+     * Handles user dragging file over the area in first scene.
      *
-     * @param event
+     * @param event User dragging file over the box
      */
     @FXML
     private void handleDragOver(DragEvent event) {
@@ -213,8 +155,9 @@ public class FXMLController implements Initializable {
     }
 
     /**
+     * Handles user dropping dragged probeFile over the area in first scene.
      *
-     * @param event
+     * @param event User drag and drops probeFile
      */
     @FXML
     public void handleDragDroppedProbe(DragEvent event) {
@@ -235,8 +178,9 @@ public class FXMLController implements Initializable {
     }
 
     /**
+     * Handles user dropping dragged trialFile over the area in first scene.
      *
-     * @param event
+     * @param event User drag and drops trialFile
      */
     @FXML
     public void handleDragDroppedTrial(DragEvent event) {
@@ -254,7 +198,6 @@ public class FXMLController implements Initializable {
         event.setDropCompleted(success);
         event.consume();
     }
-   
 
     /**
      * Functionality for "Clear"-button.
@@ -264,9 +207,8 @@ public class FXMLController implements Initializable {
         probeFile = null;
         trialFile = null;
         read = null;
-        
+
         successLabelTemplate.setText("");
-        
 
         successLabel.setText("");
         successLabelTrial.setText("");
@@ -275,10 +217,8 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     * Method creates and fills TableView with data from input files. Makes
-     * header names editable and unsortable
-     *
-     * @param e
+     * Creates and fills TableView with data from input files and makes header
+     * names editable and unsortable.
      */
     @FXML
     public void showList() {
@@ -332,9 +272,9 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     * Edited header ("alias") shows instantly after user edit
+     * User edited header ("alias") shows instantly on TableView after edit.
      *
-     * @param CellEditEvent
+     * @param CellEditEvent Makes user changes to TableView cell permanent
      */
     @FXML
     public void onEditChanged(TableColumn.CellEditEvent<TableSetterGetter, String> CellEditEvent) {
@@ -344,9 +284,10 @@ public class FXMLController implements Initializable {
 
     /**
      * Functionality for buttons "Default" and "Average" (Check/Uncheck all
-     * checkboxes)
+     * checkboxes).
      *
-     * @param event
+     * @param event Event for selecting all default and/or average checkboxes at
+     * once
      */
     @FXML
     public void selectAll(ActionEvent event) {
@@ -410,6 +351,10 @@ public class FXMLController implements Initializable {
 
     }
 
+    /**
+     * Functionality for "Return"-button.
+     *
+     */
     @FXML
     public void returnScene() {
 
@@ -484,27 +429,27 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     * Reads .DAT file to ArrayList add.
+     * Reads user generated .DAT file to ArrayList.
      *
      *
-     * @throws IOException
+     * @throws IOException If there is failure with I/O operation
      */
     public void openTemplate() throws IOException {
 
         ObjectInputStream objectIn = null;
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DAT files (*.dat)", "*.dat");
-        fileChooser.getExtensionFilters().add(extFilter);                       
-        
+        fileChooser.getExtensionFilters().add(extFilter);
+
         if (new File("Templates").exists()) {
             fileChooser.setInitialDirectory(new File("Templates"));
         } else {
             fileChooser.setInitialDirectory(new File("."));
         }
-        String path  = fileChooser.showOpenDialog(null).getAbsolutePath();
+        String path = fileChooser.showOpenDialog(null).getAbsolutePath();
         objectIn = new ObjectInputStream(new FileInputStream(path));
-        String tempLabel = path.substring(path.lastIndexOf("\\")+1);
-        
+        String tempLabel = path.substring(path.lastIndexOf("\\") + 1);
+
         read = new ArrayList();
         Object o = null;
         successLabelTemplate.setText("Chosen template: " + tempLabel);
@@ -519,7 +464,6 @@ public class FXMLController implements Initializable {
         }
     }
 
-    //Building way to save data from TableView
     /**
      * Reads data from tableView to ArrayList and adds that data to LoadAndParse
      * variable.
@@ -544,7 +488,7 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     * Exit calls System.exit(0), stops the program.
+     * Calls System.exit(0) and stops the program.
      */
     @FXML
     public void Exit() {
@@ -570,7 +514,7 @@ public class FXMLController implements Initializable {
 
     /**
      *
-     * @param stage
+     * @param stage Variable for user interface "stage" or "window".
      */
     void setStageAndSetupListeners(Stage stage) {
         this.primarystage = stage;

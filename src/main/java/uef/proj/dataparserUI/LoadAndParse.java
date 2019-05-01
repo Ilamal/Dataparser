@@ -27,30 +27,18 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class LoadAndParse {
 
     // Create a DataFormatter to format and get each cell's value as String
-    /**
-     *
-     */
     private final DataFormatter dataFormatter = new DataFormatter();
 
-    /**
-     *
-     */
     private final String AnimalId = "animalid";
 
-    /**
-     *
-     */
     private Workbook statisticsWb; // DATA
 
-    /**
-     *
-     */
     private Workbook trialListWb; // DATES
 
     /**
      *
-     * @param probeFile
-     * @param trialListFile
+     * @param probeFile Data file from user
+     * @param trialListFile Data file from user
      */
     LoadAndParse(File probeFile, File trialListFile) {
         try {
@@ -65,10 +53,9 @@ public class LoadAndParse {
     }
 
     /**
-     * getAllHeaders returns an ArrayList that contains all headings from the
-     * source file.
+     * Returns an ArrayList that contains all headings from the source file.
      *
-     * @return ArrayList<String> headers
+     * @return {@literal ArrayList<String> } headers
      */
     ArrayList getAllHeaders() {
 
@@ -100,12 +87,13 @@ public class LoadAndParse {
     }
 
     /**
-     * readData reads source file's data and adds that data to HashMap<animalID,
-     * HashMap<heading, value>. @param hea
+     * Reads source file's data and adds that data to {@literal HashMap<animalID,
+     * HashMap<heading, value>}.
      *
-     * dingsInfo ArrayList<HeaderInfo> containing the data from headingsInfo.
+     * @param headingsInfo {@literal ArrayList<HeaderInfo>} containing the data
+     * from headingsInfo.
      *
-     * @return HashMap<animalID, HashMap<heading, value>
+     * @return {@literal HashMap<animalID, HashMap<heading, value>}
      */
     public HashMap<Integer, HashMap<String, Double>> readData(ArrayList<HeaderInfo> headingsInfo) {
         // Read the workbook and add necessary data to HashMap according to the headings list
@@ -148,8 +136,8 @@ public class LoadAndParse {
     /**
      * Read trialList file containing trials and which day trial was done.
      *
-     * @return HashMap<Integer, Integer> where the first Integer is trialNumber
-     * and the second Integer is trialDay
+     * @return {@literal HashMap<Integer, Integer> } where the first Integer is
+     * trialNumber and the second Integer is trialDay
      */
     HashMap readDateFromTrialList() {
 
@@ -172,7 +160,7 @@ public class LoadAndParse {
      *
      * @param sheet Excel workbook sheet
      * @param amount The amount of rows generated
-     * @return ArrayList<Row> rows
+     * @return {@literal ArrayList<Row> } rows
      */
     private ArrayList<Row> getRows(Sheet sheet, int amount) {
         ArrayList<Row> rows = new ArrayList<>();
@@ -183,11 +171,11 @@ public class LoadAndParse {
     }
 
     /**
-     * addData adds data to the new workbook from the source file, calls
-     * createXlsx method
+     * Adds data to the new workbook from the source file and calls createXlsx
+     * method.
      *
-     * @param headingsInfo contains the headings
-     * @param data contains the numeric values
+     * @param headingsInfo Contains the headings
+     * @param data Contains the numeric values
      */
     public void addData(ArrayList<HeaderInfo> headingsInfo, HashMap<Integer, HashMap<String, Double>> data) {
         Workbook workbook = new XSSFWorkbook(); // new HSSFWorkbook() for generating `.xls` file
@@ -296,7 +284,7 @@ public class LoadAndParse {
     }
 
     /**
-     * findNextDay returns the next day
+     * Returns the next day
      *
      * @param data whole data from statistics file
      * @param prevDay the previous day
@@ -322,7 +310,7 @@ public class LoadAndParse {
     }
 
     /**
-     * getAllAnimals
+     *
      *
      * @param data HashMap that contains key (animalID) and value (heading,
      * value)
@@ -338,15 +326,17 @@ public class LoadAndParse {
     }
 
     /**
-     * Finds value from data where header, animal id and date match the parameters and is not contained in the dones list. If non found returns null.
+     * Finds value from data where header, animal id and date match the
+     * parameters and is not contained in the dones list. If non found returns
+     * null.
      *
      * @param data HashMap that contains key (animalID) and value (heading,
      * value)
      * @param head String value of heading
-     * @param animal the numeric value of animalID
-     * @param day the numeric value of trial day
-     * @param dones values not to include in the search
-     * @return heading or null
+     * @param animal Numeric value of animalID
+     * @param day Numeric value of trial day
+     * @param dones Values not to include in the search
+     * @return Heading or null
      */
     private Map.Entry<Integer, HashMap<String, Double>> findValue(HashMap<Integer, HashMap<String, Double>> data, String head, double animal, double day, List dones) {
 
@@ -361,11 +351,12 @@ public class LoadAndParse {
     }
 
     /**
-     * Generate fitting hashmap to use with animal ids to track the done animal trials.
+     * Generate fitting hashmap to use with animal ids to track the done animal
+     * trials.
      *
      * @param anims
-     * @return HashMap<Double, List<Integer>> containing tests per unique
-     * animal.
+     * @return {@literal HashMap<Double, List<Integer>> } containing tests per
+     * unique animal.
      */
     private HashMap<Double, List<Integer>> getAnimDones(Double[] anims) {
         HashMap<Double, List<Integer>> dones = new HashMap();
@@ -388,9 +379,10 @@ public class LoadAndParse {
     }
 
     /**
-     * Creates Excel file from workbook and let's the user select saving location.
+     * Creates Excel file from workbook and let's the user select saving
+     * location.
      *
-     * @param wb workbook containing the data
+     * @param wb Workbook containing the data
      */
     private void createXlsx(Workbook wb) {
         // Write the output to a file
@@ -423,11 +415,12 @@ public class LoadAndParse {
 
     /**
      * Returns Average value of one animals one day tests of a certain heading.
+     *
      * @param data
-     * @param id a number value of animalID
-     * @param day a day of trial
-     * @param head heading information in String
-     * @return calls the method that calculates the average of values
+     * @param id A number value of animalID
+     * @param day A day of trial
+     * @param head Heading information in String
+     * @return Calls the method that calculates the average of values
      */
     private Double getAverage(HashMap<Integer, HashMap<String, Double>> data, double id, double day, String head) {
         ArrayList<Double> values = new ArrayList<>();
@@ -446,7 +439,7 @@ public class LoadAndParse {
     /**
      *
      * @param marks
-     * @return the average of given values
+     * @return Average of given values
      */
     private static double calculateAverage(List<Double> marks) {
         Double sum = 0.0;
@@ -459,7 +452,8 @@ public class LoadAndParse {
     }
 
     /**
-     * Alerts the user with a message box
+     * Alerts the user with a message box.
+     *
      * @param err Exception type
      * @param message Error Message String
      */
