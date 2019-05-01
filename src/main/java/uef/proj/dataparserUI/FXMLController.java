@@ -68,11 +68,11 @@ public class FXMLController implements Initializable {
      */
     @FXML
     private Label successLabelTrial;
-    
+
     /**
-     * 
+     *
      */
-    @FXML 
+    @FXML
     private Label successLabelTemplate;
     /**
      *
@@ -174,12 +174,11 @@ public class FXMLController implements Initializable {
         fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.setInitialDirectory(new File("."));
         probeFile = fileChooser.showOpenDialog(primarystage);
-        if(probeFile != null) {
+        if (probeFile != null) {
             successLabel.setText(probeFile.toString() + "\nReady to upload");
             successLabel.setWrapText(true);
-        }        
+        }
     }
-     
 
     /**
      *
@@ -192,7 +191,7 @@ public class FXMLController implements Initializable {
         fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.setInitialDirectory(new File("."));
         trialFile = fileChooser.showOpenDialog(primarystage);
-        if(trialFile != null) {
+        if (trialFile != null) {
             successLabelTrial.setText(trialFile.toString() + "\nReady to upload");
             successLabelTrial.setWrapText(true);
         }
@@ -254,7 +253,6 @@ public class FXMLController implements Initializable {
         event.setDropCompleted(success);
         event.consume();
     }
-   
 
     /**
      * Functionality for "Clear"-button.
@@ -270,8 +268,6 @@ public class FXMLController implements Initializable {
 
         successLabel.setText("");
         successLabelTrial.setText("");
-
-        System.out.println(probeFile);
     }
 
     /**
@@ -296,14 +292,22 @@ public class FXMLController implements Initializable {
         for (int i = 0; i < headers.size(); i++) {
             String nimi = headers.get(i);
             String alias;
+
             CheckBox ch1;
             CheckBox ch2;
             if (read != null) {
+                if (!nimi.equals(read.get(i).heading)) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Template file did not match the statistics file!\nPlease check pairability. (Clear button resets template)");
+                    alert.show();
+                    returnScene();
+                    return;
+                }
                 alias = read.get(i).alias;
                 ch1 = new CheckBox();
                 ch1.setSelected(read.get(i).normal);
                 ch2 = new CheckBox();
                 ch2.setSelected(read.get(i).avg);
+
             } else {
                 alias = "";
                 ch1 = new CheckBox();
@@ -391,7 +395,8 @@ public class FXMLController implements Initializable {
 
                 controller.probeFile = probeFile;
                 controller.trialFile = trialFile;
-
+                
+                controller.successLabelTemplate = successLabelTemplate;
                 controller.primarystage = primarystage;
                 controller.read = read;
 
@@ -422,12 +427,15 @@ public class FXMLController implements Initializable {
             controller.probeFile = probeFile;
             controller.trialFile = trialFile;
             controller.primarystage = primarystage;
-
+            controller.read = read;
+            controller.successLabelTemplate.setText(successLabelTemplate.getText());
             controller.successLabel.setText(probeFile.toString() + "\n\nReady to upload");
+            controller.successLabel.setWrapText(true);
             controller.successLabelTrial.setText(trialFile.toString() + "\n\nReady to upload");
+            controller.successLabelTrial.setWrapText(true);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Ei toimi " + e.getMessage());
+            System.out.println(e.getMessage());
         }
 
     }
@@ -444,7 +452,7 @@ public class FXMLController implements Initializable {
         //Add the data from table
         for (TableSetterGetter x : tableView.getItems()) {
             HeaderInfo template = new HeaderInfo();
-            template.heading = x.alias;
+            template.heading = x.name;
             template.alias = x.alias;
             template.avg = x.cb_average.isSelected();
             template.normal = x.cb_default.isSelected();
@@ -494,17 +502,17 @@ public class FXMLController implements Initializable {
         ObjectInputStream objectIn = null;
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DAT files (*.dat)", "*.dat");
-        fileChooser.getExtensionFilters().add(extFilter);                       
-        
+        fileChooser.getExtensionFilters().add(extFilter);
+
         if (new File("Templates").exists()) {
             fileChooser.setInitialDirectory(new File("Templates"));
         } else {
             fileChooser.setInitialDirectory(new File("."));
         }
-        String path  = fileChooser.showOpenDialog(null).getAbsolutePath();
+        String path = fileChooser.showOpenDialog(null).getAbsolutePath();
         objectIn = new ObjectInputStream(new FileInputStream(path));
-        String tempLabel = path.substring(path.lastIndexOf("\\")+1);
-        
+        String tempLabel = path.substring(path.lastIndexOf("\\") + 1);
+
         read = new ArrayList();
         Object o = null;
         successLabelTemplate.setText("Chosen template: " + tempLabel);
@@ -530,7 +538,7 @@ public class FXMLController implements Initializable {
 
         for (TableSetterGetter x : tableView.getItems()) {
             HeaderInfo hi = new HeaderInfo();
-            hi.heading = x.name;
+            hi.heading = x.getName();
             hi.alias = x.alias; // Ei käytössä
             hi.avg = x.cb_average.isSelected();
             hi.normal = x.cb_default.isSelected();
