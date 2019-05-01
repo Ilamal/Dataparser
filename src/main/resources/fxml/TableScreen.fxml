@@ -17,7 +17,7 @@
         <Button  fx:id="btn_setAverage" AnchorPane.topAnchor="5.0" AnchorPane.rightAnchor="0.0" prefHeight="30.0" prefWidth="149.0" text="All Averages" onAction="#selectAll"  />   
      
 
-        <TableView fx:id="tableView" AnchorPane.topAnchor="30.0" layoutX="0.00" layoutY="28.0" prefHeight="520.0" prefWidth="720.0">
+        <TableView fx:id="tableView" AnchorPane.topAnchor="30.0" layoutX="0.00" layoutY="28.0" prefHeight="510.0" prefWidth="720.0">
            
             <columns>
                 <TableColumn prefWidth="210.0" text="Heading" fx:id="name" />

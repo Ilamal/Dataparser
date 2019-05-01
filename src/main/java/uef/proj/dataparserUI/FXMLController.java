@@ -432,8 +432,7 @@ public class FXMLController implements Initializable {
         for (TableSetterGetter x : tableView.getItems()) {
             HeaderInfo template = new HeaderInfo();
             template.heading = x.alias;
-            template.alias = x.alias;
-            // Onko nämä oikein? avg ja normal
+            template.alias = x.alias;            
             template.avg = x.cb_average.isSelected();
             template.normal = x.cb_default.isSelected();
             lis.add(template);
