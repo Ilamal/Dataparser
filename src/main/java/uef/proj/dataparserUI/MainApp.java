@@ -19,11 +19,12 @@ public class MainApp extends Application {
         stage.setTitle("DataParser");
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StartScreen.fxml"));
+        Parent root = (Parent) loader.load();
         FXMLController controller = (FXMLController) loader.getController();
-
+        
         controller.setStageAndSetupListeners(stage);
 
-        Parent root = (Parent) loader.load();
+        
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
