@@ -252,7 +252,6 @@ public class FXMLController implements Initializable {
         /* let the source know whether the string was successfully 
                  * transferred and used */
         event.setDropCompleted(success);
-        System.out.println("drop : " + success);
         event.consume();
     }
    
@@ -354,7 +353,6 @@ public class FXMLController implements Initializable {
 
         if (event.getSource() == btn_setDefault && buttonClickDefault == false) {
             for (TableSetterGetter x : tableView.getItems()) {
-                System.out.println("");
                 x.cb_default.setSelected(true);
                 buttonClickDefault = true;
             }
@@ -496,11 +494,7 @@ public class FXMLController implements Initializable {
         ObjectInputStream objectIn = null;
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DAT files (*.dat)", "*.dat");
-        fileChooser.getExtensionFilters().add(extFilter);
-        
-      
-        
-       
+        fileChooser.getExtensionFilters().add(extFilter);                       
         
         if (new File("Templates").exists()) {
             fileChooser.setInitialDirectory(new File("Templates"));
@@ -512,18 +506,12 @@ public class FXMLController implements Initializable {
         String tempLabel = path.substring(path.lastIndexOf("\\")+1);
         
         read = new ArrayList();
-        System.out.println(path);
         Object o = null;
         successLabelTemplate.setText("Chosen template: " + tempLabel);
         try {
             while ((o = objectIn.readObject()) != null) {
-
-                System.out.println(o.getClass());
                 read.add((HeaderInfo) o);
             }
-            //System.out.println(read.get(i).getAlias());
-            // System.out.println(read.get(i).getHeading());
-            //System.out.println(read.get(i).avg);
         } catch (ClassNotFoundException ex) {
             new LoadAndParse(probeFile, trialFile).alertError(ex, "The template file was incorrect probably...");
         } catch (NullPointerException | EOFException ex) {
