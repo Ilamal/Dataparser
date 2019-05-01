@@ -20,8 +20,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
- * @author UEF Projektityö 2019 - Tony Heikkilä, Ilari Malinen, Mikko Nygård,
- * Toni Takkinen
+ * @author UEF Projektityö 2019 - Tony Heikkilä, Ilari Malinen, Mikko Nygård, Toni Takkinen
+ * Ilamal, mikkonyg, Tonhei, Tontak
  * @version 1.0
  */
 public class LoadAndParse {

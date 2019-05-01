@@ -274,7 +274,6 @@ public class FXMLController implements Initializable {
      * Method creates and fills TableView with data from input files. Makes
      * header names editable and unsortable
      *
-     * @param e
      */
     @FXML
     public void showList() {
