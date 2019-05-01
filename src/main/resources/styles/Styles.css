@@ -1,6 +1,16 @@
 .button {
     -fx-font-weight: bold;
+    -fx-font-color: white;
     -fx-cursor: hand;
+}
+#UploadButton, #OpenTemplateButton {
+    -fx-font-size: 20;
+}
+#UploadButton:hover, #OpenTemplateButton:hover {
+    -fx-background-color: 
+    #6200EE,
+        linear-gradient(rgb(250,253,254),rgb(250,253,254)),
+        linear-gradient(rgb(234, 246, 253) 0%, rgb(217, 240, 252) 49%, rgb(190, 230, 253) 50%, rgb(167, 217, 245) 100%);
 }
 #dragTargetProbe {
     -fx-border-color: black;
@@ -20,38 +30,6 @@
 #passwordLabel {
     -fx-font-size: 24;
 }
-#upload {
-    -fx-background-color: whitesmoke;
-}
-/*
- * Copyright (c) 2014, Matthias Meidinger
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies,
- * either expressed or implied, of the FreeBSD Project.
- */
-
 .root{
     -fx-text-base-color: black;
     -fx-text-fill: -fx-text-base-color;

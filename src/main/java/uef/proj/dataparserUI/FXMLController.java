@@ -163,15 +163,31 @@ public class FXMLController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleButtonAction(ActionEvent event) {
+    private void handleChooseFileProbe(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLSX files (*.xlsx)", "*.xlsx");
         fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialDirectory(new File("."));
         probeFile = fileChooser.showOpenDialog(primarystage);
-        successLabel.setText(probeFile.toString() + "\nready to upload");
-
+        if(probeFile != null) {
+            successLabel.setText(probeFile.toString() + "\nready to upload");
+        }        
     }
-
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    private void handleChooseFileTrial(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XLSX files (*.xlsx)", "*.xlsx");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialDirectory(new File("."));
+        trialFile = fileChooser.showOpenDialog(primarystage);
+        if(trialFile != null) {
+            successLabelTrial.setText(trialFile.toString() + "\nready to upload");
+        }
+    }
     /**
      *
      * @param event
@@ -354,7 +370,7 @@ public class FXMLController implements Initializable {
     @FXML
     public void Upload() {
         try {
-            if (probeFile.exists()) {
+            if (probeFile != null && probeFile.exists() && trialFile != null && trialFile.exists()) {
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/TableScreen.fxml"));
                 primarystage.getScene().setRoot((Pane) loader.load());
@@ -368,11 +384,12 @@ public class FXMLController implements Initializable {
 
                 controller.showList();
 
+            } else {
+                Help();
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Ei toimi " + e.getMessage());
+            new LoadAndParse(probeFile, trialFile).alertError(e, "Something went wrong with uploading the files...");
         }
 
         probeFile = null;
@@ -466,7 +483,11 @@ public class FXMLController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DAT files (*.dat)", "*.dat");
         fileChooser.getExtensionFilters().add(extFilter);
-
+        if(new File("Templates").exists()) {
+            fileChooser.setInitialDirectory(new File("Templates"));
+        } else {
+            fileChooser.setInitialDirectory(new File("."));
+        }
         objectIn = new ObjectInputStream(new FileInputStream(fileChooser.showOpenDialog(null).getAbsolutePath()));
         read = new ArrayList();
         Object o = null;
@@ -533,7 +554,6 @@ public class FXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         buttonClickAverage = false;
         buttonClickDefault = false;
-
     }
 
     /**
