@@ -338,7 +338,7 @@ public class LoadAndParse {
     }
 
     /**
-     * Finds value ?????
+     * Finds value from data where header, animal id and date match the parameters and is not contained in the dones list. If non found returns null.
      *
      * @param data HashMap that contains key (animalID) and value (heading,
      * value)
@@ -361,7 +361,7 @@ public class LoadAndParse {
     }
 
     /**
-     * Group all tests done by unique animal. ???
+     * Generate fitting hashmap to use with animal ids to track the done animal trials.
      *
      * @param anims
      * @return HashMap<Double, List<Integer>> containing tests per unique
@@ -376,7 +376,7 @@ public class LoadAndParse {
     }
 
     /**
-     * ?????????
+     * Calculates the amount of elements in hashmap of lists.
      *
      * @param arrs
      * @return unique animalIDs
@@ -388,7 +388,7 @@ public class LoadAndParse {
     }
 
     /**
-     * Creates Excel file from workbook
+     * Creates Excel file from workbook and let's the user select saving location.
      *
      * @param wb workbook containing the data
      */
@@ -422,7 +422,7 @@ public class LoadAndParse {
     }
 
     /**
-     *
+     * Returns Average value of one animals one day tests of a certain heading.
      * @param data
      * @param id a number value of animalID
      * @param day a day of trial
@@ -459,7 +459,7 @@ public class LoadAndParse {
     }
 
     /**
-     *
+     * Alerts the user with a message box
      * @param err Exception type
      * @param message Error Message String
      */
