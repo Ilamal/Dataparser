@@ -174,9 +174,10 @@ public class FXMLController implements Initializable {
         fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.setInitialDirectory(new File("."));
         probeFile = fileChooser.showOpenDialog(primarystage);
-        if (probeFile != null) {
-            successLabel.setText(probeFile.toString() + "\nready to upload");
-        }
+        if(probeFile != null) {
+            successLabel.setText(probeFile.toString() + "\nReady to upload");
+            successLabel.setWrapText(true);
+        }        
     }
      
 
@@ -191,8 +192,9 @@ public class FXMLController implements Initializable {
         fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.setInitialDirectory(new File("."));
         trialFile = fileChooser.showOpenDialog(primarystage);
-        if (trialFile != null) {
-            successLabelTrial.setText(trialFile.toString() + "\nready to upload");
+        if(trialFile != null) {
+            successLabelTrial.setText(trialFile.toString() + "\nReady to upload");
+            successLabelTrial.setWrapText(true);
         }
     }
 
