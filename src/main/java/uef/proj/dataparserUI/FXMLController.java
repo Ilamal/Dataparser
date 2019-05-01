@@ -563,9 +563,19 @@ public class FXMLController implements Initializable {
      */
     @FXML
     public void Help() {
-        Alert alert = new Alert(AlertType.INFORMATION, "Drag and drop your statistics.xlsx file to the left and trials.xlsx to the right,"
-                + "then press upload to start parsing the files. Choose the data you want and give those namings of your liking."
-                + "The application will give you a brand new xlsx file.");
+        Alert alert = new Alert(AlertType.INFORMATION, "Drag and drop your .xlsx file containing the statistics data "
+                + "to the left and .xlsx containing the trial list to the right,"
+                + " then press Upload to start parsing the files.  "
+                + "\n\nTo return to the first screen, press Return. To undo selection of given files, press Clear."
+                + "\n\nHeadings are parsed from the given files. "
+                + " Doubleclicking Alias box lets you edit the heading names to the generated file. Aliases are headings that show on the generated file."
+                + " Remember to press Enter after you have written a new alias (saves the alias to the box)."
+                + "\n\nChecking the Default checkbox generates data for each unique day+trial."
+                + " Checking the Average checkbox gives day-specific averages for each animal."
+                + " Clicking All defaults and All Averages help you (un)check all checkboxes in a column."
+                + "\n\nSave Template lets you save a new template to your selected folder. Templates are found in program folder by default."
+                + "\nYou can open your existing templates by pressing the Open Template button in starting screen. "
+                + "\n\nPressing Generate button will generate a brand new statistics .xlsx file.");
         alert.show();
     }
 
