@@ -212,8 +212,6 @@ public class FXMLController implements Initializable {
 
         successLabel.setText("");
         successLabelTrial.setText("");
-
-        System.out.println(probeFile);
     }
 
     /**
@@ -236,14 +234,22 @@ public class FXMLController implements Initializable {
         for (int i = 0; i < headers.size(); i++) {
             String nimi = headers.get(i);
             String alias;
+
             CheckBox ch1;
             CheckBox ch2;
             if (read != null) {
+                if (!nimi.equals(read.get(i).heading)) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Template file did not match the statistics file!\nPlease check pairability. (Clear button resets template)");
+                    alert.show();
+                    returnScene();
+                    return;
+                }
                 alias = read.get(i).alias;
                 ch1 = new CheckBox();
                 ch1.setSelected(read.get(i).normal);
                 ch2 = new CheckBox();
                 ch2.setSelected(read.get(i).avg);
+
             } else {
                 alias = "";
                 ch1 = new CheckBox();
@@ -332,7 +338,8 @@ public class FXMLController implements Initializable {
 
                 controller.probeFile = probeFile;
                 controller.trialFile = trialFile;
-
+                
+                controller.successLabelTemplate = successLabelTemplate;
                 controller.primarystage = primarystage;
                 controller.read = read;
 
@@ -367,12 +374,15 @@ public class FXMLController implements Initializable {
             controller.probeFile = probeFile;
             controller.trialFile = trialFile;
             controller.primarystage = primarystage;
-
+            controller.read = read;
+            controller.successLabelTemplate.setText(successLabelTemplate.getText());
             controller.successLabel.setText(probeFile.toString() + "\n\nReady to upload");
+            controller.successLabel.setWrapText(true);
             controller.successLabelTrial.setText(trialFile.toString() + "\n\nReady to upload");
+            controller.successLabelTrial.setWrapText(true);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Ei toimi " + e.getMessage());
+            System.out.println(e.getMessage());
         }
 
     }
@@ -389,7 +399,7 @@ public class FXMLController implements Initializable {
         //Add the data from table
         for (TableSetterGetter x : tableView.getItems()) {
             HeaderInfo template = new HeaderInfo();
-            template.heading = x.alias;
+            template.heading = x.name;
             template.alias = x.alias;
             template.avg = x.cb_average.isSelected();
             template.normal = x.cb_default.isSelected();
@@ -474,7 +484,7 @@ public class FXMLController implements Initializable {
 
         for (TableSetterGetter x : tableView.getItems()) {
             HeaderInfo hi = new HeaderInfo();
-            hi.heading = x.name;
+            hi.heading = x.getName();
             hi.alias = x.alias; // Ei käytössä
             hi.avg = x.cb_average.isSelected();
             hi.normal = x.cb_default.isSelected();
@@ -500,9 +510,19 @@ public class FXMLController implements Initializable {
      */
     @FXML
     public void Help() {
-        Alert alert = new Alert(AlertType.INFORMATION, "Drag and drop your statistics.xlsx file to the left and trials.xlsx to the right,"
-                + "then press upload to start parsing the files. Choose the data you want and give those namings of your liking."
-                + "The application will give you a brand new xlsx file.");
+        Alert alert = new Alert(AlertType.INFORMATION, "Drag and drop your .xlsx file containing the statistics data "
+                + "to the left and .xlsx containing the trial list to the right,"
+                + " then press Upload to start parsing the files.  "
+                + "\n\nTo return to the first screen, press Return. To undo selection of given files, press Clear."
+                + "\n\nHeadings are parsed from the given files. "
+                + " Doubleclicking Alias box lets you edit the heading names to the generated file. Aliases are headings that show on the generated file."
+                + " Remember to press Enter after you have written a new alias (saves the alias to the box)."
+                + "\n\nChecking the Default checkbox generates data for each unique day+trial."
+                + " Checking the Average checkbox gives day-specific averages for each animal."
+                + " Clicking All defaults and All Averages help you (un)check all checkboxes in a column."
+                + "\n\nSave Template lets you save a new template to your selected folder. Templates are found in program folder by default."
+                + "\nYou can open your existing templates by pressing the Open Template button in starting screen. "
+                + "\n\nPressing Generate button will generate a brand new statistics .xlsx file.");
         alert.show();
     }
 
