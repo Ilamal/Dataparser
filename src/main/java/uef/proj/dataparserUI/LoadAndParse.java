@@ -17,6 +17,7 @@ import javafx.stage.FileChooser;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+ import org.apache.poi.ss.usermodel.DataFormat;
 
 /**
  *
@@ -190,7 +191,7 @@ public class LoadAndParse {
         headingsInfo = temp;
         // Create a Sheet
         Sheet sheet = workbook.createSheet("Sheet1");
-
+        
         Set<Double> getAnims = getAllAnimals(data);
         Double[] allAnims = getAnims.toArray(new Double[0]);
         ArrayList<Row> rows = getRows(sheet, allAnims.length + 5);
@@ -223,6 +224,11 @@ public class LoadAndParse {
                         rowIdx = 1;
                         if (day == null) // All end
                         {
+                            // Clear last row
+                            for(int i = 0; i <= allAnims.length; i++) {
+                                rows.get(i).createCell(colIdx);
+                            }
+                            topRow.createCell(colIdx);
                             break;
                         }
                     } else {
@@ -243,8 +249,8 @@ public class LoadAndParse {
                             Double dataEntry = trial.getValue().get(head);
                             dones.get(anim).add(trial.getKey());
                             Cell cell = row.createCell(colIdx);
-                            if (dataEntry != null) {
-                                cell.setCellValue(dataEntry.toString());
+                            if (dataEntry != null) {                                
+                                writeNumCell(dataEntry, cell, workbook);
                             } else {
                                 cell.setCellValue("-");
                             }
@@ -267,8 +273,8 @@ public class LoadAndParse {
                         Cell cell = row.createCell(colIdx);
                         if (dataEntry == null) {
                             cell.setCellValue("-");
-                        } else {
-                            cell.setCellValue(dataEntry.toString());
+                        } else {                            
+                            writeNumCell(dataEntry, cell, workbook);
                         }
                         rowIdx++;
                     }
@@ -280,9 +286,27 @@ public class LoadAndParse {
             }
 
         }
+        // Auto size columns
+        for (int i = 0; i < sheet.getRow(0).getPhysicalNumberOfCells(); i++) {
+            sheet.autoSizeColumn(i);
+        }
         createXlsx(workbook);
     }
-
+    /**
+     * Writes the given value to the cell in a decimal format
+     * 
+     * @Param value Double to be inserted into the cell
+     * @Param cell the cell to insert the value in
+     * @Param workbook workbook containing the cell to generate styles
+     */
+    private void writeNumCell(Double value, Cell cell, Workbook workbook) {
+        DataFormat format = workbook.createDataFormat();
+        CellStyle style = workbook.createCellStyle();
+        style.setDataFormat(format.getFormat("0.00############"));
+        cell.setCellStyle(style);
+        cell.setCellType(CellType.NUMERIC);
+        cell.setCellValue(value);
+    }
     /**
      * Returns the next day
      *
@@ -407,6 +431,9 @@ public class LoadAndParse {
                 // Closing the stream and workbook                
                 fileOut.close();
                 wb.close();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "File succesfully created on your chosen location!");
+                alert.setTitle("Success");
+                alert.show();
             } catch (IOException | NullPointerException ex) {
                 Logger.getLogger(LoadAndParse.class.getName()).log(Level.SEVERE, null, ex);
             }
