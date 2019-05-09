@@ -94,7 +94,7 @@ lap.addData(headers, hm);
 * **Tony Heikkilä** -  [Ladiladi](https://github.com/ladiladi)
 * **Toni Takkinen** -  [Tonitak](https://github.com/tonitak)
 
-Made as an group project at [University of Eastern Finland](https://uef.fi) Computer Science field.
+Made as a group project at [University of Eastern Finland](https://uef.fi) Computer Science field.
 
 ## License
 
